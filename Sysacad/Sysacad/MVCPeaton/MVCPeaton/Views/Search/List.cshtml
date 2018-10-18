@@ -1,0 +1,119 @@
+﻿@model MVCPeaton.Models.ViewModels.SearchVM
+
+@{
+    ViewBag.Title = "List";
+}
+
+<h2>List</h2>
+<div>
+    @using (Html.BeginForm("Resultado", "Search", FormMethod.Get, new { id = "frmsearch", name = "frmsearch" }))
+    {
+        @Html.TextBox("busqueda")
+        <input id="btnBuscar" type="submit" value="Buscar" class="btn btn-info" />
+    }
+</div>
+
+<div class="col-lg-12">
+    <h1>
+        Publicaciones
+    </h1>
+</div>
+@foreach (var item in Model.Publications)
+{
+    <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">
+                    @item.title
+                </h3>
+            </div>
+            <div class="panel-body text-center">
+                <img height="100" width="100" id="imgpublication-@item.idpublication">
+            </div>
+            <div class="panel-footer">
+                <p> @item.tags </p>
+            </div>
+        </div>
+    </div>
+}
+
+<div class="col-lg-12">
+    <h1>
+        Negocios
+    </h1>
+</div>
+@foreach (var item in Model.Businesses)
+{
+    <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">
+                    @item.name
+                </h3>
+            </div>
+            <div class="panel-body">
+                @item.address
+            </div>
+            <div class="panel-footer">
+                <p> @item.tags </p>
+            </div>
+        </div>
+    </div>
+}
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            $("#btnBuscar").on("click", function (e) {
+                if ($("#busqueda").val() == "")
+                    e.preventDefault();
+            });
+        });
+    </script>
+
+<script>
+            $(document).ready(function () {
+                var publications = @Html.Raw(Json.Encode(@Model.Publications));
+
+                $.each(publications, function (key, value) {
+                    var id = value.idpublication;
+                    var qualiter = {
+                        Fitmode: 2,
+                        Height: 150,
+                        Widht:150,
+                        Quality:100
+                    };
+
+                    var requestData = {
+                        localFilePath: JSON.parse(JSON.stringify(value.photo).replace(/\\""/g, '')),
+                        //"sYry+kKq4RzgVpp#mlnwvFuz17aZhDkt4y8X8xQ6wC+iRjmKKwPtGbApi2XLIXx9cxjJgblMBV0PZLV4JOof1gOZRZACo8zR9ROqGUirLU9+V96olnlCyyJiSTh#p4XqXcjlgZ8eXS11e1BORfavlHJClPohZAsShuf5VBFuP18=",
+                        qual:qualiter
+                    };
+
+                    $.ajax({
+                        type: "POST",
+                        url: '/File/DownloadPublicPhoto',
+                        data: JSON.stringify(requestData),
+                        dataType: 'json',
+                        contentType: 'application/json; charset=utf-8',
+                        success: function (response) {
+                            $.each(response, function (key, value) {
+                                $("#imgpublication-" + id).attr("class", 'img-rounded imagen' + key);
+                                $("#imgpublication-" + id).attr("src", 'data:image/png;base64,' + response.Result);
+                                //$(imagen).prependTo('.display-field');
+                            });
+
+                        },
+                        error: function (error) {
+
+                        }
+                    });
+
+                    function base64encode(binary) {
+                        return btoa(unescape(encodeURIComponent(binary)));
+                    }
+                });
+            });
+
+</script>
+}

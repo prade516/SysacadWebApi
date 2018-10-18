@@ -1,0 +1,111 @@
+﻿@model IEnumerable<MVCPeaton.Models.ViewModels.BankVM>
+
+@{
+    Layout = null;
+}
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/bootstrap")
+@Scripts.Render("~/bundles/jqueryval")
+<!DOCTYPE html>
+
+<html>
+<head>
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+
+</head>
+<body>
+    <br />
+    @using (Html.BeginForm("Index", "Bank", FormMethod.Post, new { id = "frmfilter", name = "frmfilter" }))
+    {
+        @Html.TextBox("name")
+        <input type="submit" value="Search" />
+    }
+    <table class="table">
+        <tr>    
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Logo)
+            </th>
+            <th>
+                Asociar
+            </th>
+        </tr>
+    
+    @foreach (var item in Model) {
+        <tr>         
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td class="display-field">
+                <img height="100" width="100" id="img-@item.Id">
+            </td>
+            <td>
+                @Html.CheckBox("Id",false, new { value = item.Id})
+            </td>
+            @*<td>
+                @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+                @Html.ActionLink("Details", "Details", new { id=item.Id }) |
+                @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+            </td>*@
+        </tr>
+    }
+    
+    </table>
+    @*<p>
+        @Html.ActionLink("Create New", "Create")
+    </p>*@
+
+
+<script>
+    $(document).ready(function () {
+        debugger;
+            var bancos = @Html.Raw(Json.Encode(@Model));
+            console.log(bancos.Logo);
+        //var bancoreplace=
+            $.each(bancos, function (key, value) {
+                var id = value.Id;
+                var qualiter = {
+                Fitmode:2,
+                Height: 150,
+                Widht:150,
+                Quality:100
+                };
+
+                var requestData = {
+                    localFilePath: JSON.parse(JSON.stringify(value.Logo).replace(/\\""/g, '')),
+                    //"sYry+kKq4RzgVpp#mlnwvFuz17aZhDkt4y8X8xQ6wC+iRjmKKwPtGbApi2XLIXx9cxjJgblMBV0PZLV4JOof1gOZRZACo8zR9ROqGUirLU9+V96olnlCyyJiSTh#p4XqXcjlgZ8eXS11e1BORfavlHJClPohZAsShuf5VBFuP18=",
+                    qual:qualiter
+                };
+
+            $.ajax({
+                type: "POST",
+                url: '/File/DownloadPublicPhoto',
+                data: JSON.stringify(requestData),
+                dataType: 'json',
+                contentType: 'application/json; charset=utf-8',
+                success: function (response) {
+                    $.each(response, function (key, value) {
+                        $("#img-").attr("class", 'imagen' + key);
+                        $("#img-").attr("src", 'data:image/png;base64,' + response.Result);
+                        //$(imagen).prependTo('.display-field');
+                    });
+
+                },
+                error: function (error) {
+                    alert("errror");
+                }
+            });
+
+            function base64encode(binary) {
+                return btoa(unescape(encodeURIComponent(binary)));
+            }
+        });
+    });
+
+    </script>
+</body>
+</html>

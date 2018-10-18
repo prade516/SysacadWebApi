@@ -1,0 +1,57 @@
+﻿@model MVCSysacad.Models.ViewModel.PersonaVM
+@{
+    Layout = "";
+}
+
+@using (Html.BeginForm("Logear", "Login", FormMethod.Post, new { id = "frmpageadd", name = "frmpageadd", enctype = "multipart/form-data", @class = "formadd" }))
+{    
+    @Html.AntiForgeryToken()
+    <div style="position:absolute;left:50%;top:50%;
+                            width: 400px;
+                            height: 250px;
+                            margin-left: -200px;
+                            margin-top: -140px;
+                            font-size: 18px;
+                            border:2px solid cornflowerblue;
+                            border-radius:5px">
+
+        <h3 class="panel panel-primary text-center top" style="background-color:cornflowerblue">
+            Bienvenido a Sysacad
+        </h3>        
+        <div class="alert-info text-center">
+            @ViewBag.message
+        </div>
+        <br />
+        <div class="col-md-12">
+            <div class="col-md-2">
+                <h4>
+                    Usuario
+                </h4>
+            </div>
+            <div class="col-md-2" style="left:40px;">
+                @Html.EditorFor(model => model.usuariossingle.nombre_usuario, new { htmlAttributes = new { @class = "form-control", style = "width:250px" } })             
+            </div>
+        </div>
+        <br />
+        <br />
+        <div class="col-md-12">
+            <div class="col-md-2">
+                <h4>
+                    Contraseña
+                </h4>
+            </div>
+            <div class="col-md-2" style="left:40px;">
+                @Html.EditorFor(model => model.usuariossingle.clave, new { htmlAttributes = new { @class = "form-control",style= "width:250px" } })               
+            </div>          
+        </div>
+        <br />
+        <div class="form-group">
+            <div class="col-md-offset-9 col-md-10">
+                <input type="submit" value="Entrar" class="btn btn-primary" />
+            </div>
+        </div>
+    </div>
+}
+
+<link href="~/Content/bootstrap.css" rel="stylesheet" />
+

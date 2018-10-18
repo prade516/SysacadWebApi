@@ -1,0 +1,41 @@
+﻿@model List<MVCPeaton.Models.ViewModels.AuthorVM>
+@{
+    ViewBag.Title = "List";
+    
+}
+@Html.ActionLink("Nuevo", "AddForm")
+<h2>List</h2>
+<tr>
+    <td>
+        ID
+    </td>
+    <td>
+        Nombre
+    </td>
+    <td>
+        Modificar
+    </td>
+    <td>
+        Eliminar
+    </td>
+</tr>
+
+@foreach (var item in Model)
+{
+    <br />
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Id)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+            @Html.ActionLink("Modificar","UpdateForm", new { id= item.Id })
+        </td>
+        <td>
+            @Html.ActionLink("Eliminar", "DeleteForm",new { id = item.Id })
+        </td>
+    </tr>
+}
+

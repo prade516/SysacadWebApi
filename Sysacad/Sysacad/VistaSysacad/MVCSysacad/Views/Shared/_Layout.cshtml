@@ -1,0 +1,140 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - Sysacad</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body>    
+    <div class="panel label-primary navbar-fixed-top" style="background-color:cornflowerblue">    
+        <div class="alert-info text-center">
+            Nombre : @Session["name"]
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="text-center">
+                        @if ((Int32)(@Session["sessionString"]) == 1)
+                        {
+                            <div class="btn-group col-md-offset-2">
+                                <button class="btn dropdown-toggle" onclick="location.href='@Url.Action("Index", "Home")'" data-toggle="dropdown" style="background-color:cornflowerblue" data-hover="dropdown">Sysacad</button>
+                            </div>
+                            <div class="btn-group">
+                                <button class="btn dropdown-toggle" data-toggle="dropdown" style="background-color:cornflowerblue" data-hover="dropdown">Correlatividad</button>
+                                <ul class="dropdown-menu">
+                                    <li><a href="#">Para Rendir</a></li>
+                                    <li class="divider"></li>
+                                    <li><a href="#">Para Curssar</a></li>
+                                </ul>
+                            </div>
+                            <div class="btn-group">
+                                <button class="btn dropdown-toggle" data-toggle="dropdown" style="background-color:cornflowerblue" data-hover="dropdown">Historial</button>
+                                <ul class="dropdown-menu">
+                                    <li><a href="#">Estado Academico</a></li>
+                                    <li class="divider"></li>
+                                    <li><a href="#">Cursado</a></li>
+                                    <li class="divider"></li>
+                                    <li><a href="#">Notas de parciales</a></li>
+                                    <li class="divider"></li>
+                                    <li><a href="#"> Encuestas</a></li>
+                                </ul>
+                            </div>
+                            <div class="btn-group">
+                                <button class="btn dropdown-toggle" data-toggle="dropdown" style="background-color:cornflowerblue" data-hover="dropdown">Materia y Equivalencia</button>
+                                <ul class="dropdown-menu">
+                                    <li><a href="#">Agregar Materia</a></li>
+                                    <li class="divider"></li>
+                                    <li><a href="#">Equivalencia para Cursar</a></li>
+                                    <li class="divider"></li>
+                                    <li><a href="#">Equivalencia para Rendir</a></li>
+                                </ul>
+                            </div>
+                            <div class="btn-group">
+                                <button class="btn dropdown-toggle" data-toggle="dropdown" style="background-color:cornflowerblue" data-hover="dropdown">Inscribir A</button>
+                                <ul class="dropdown-menu">
+                                    <li><a href="#">Cursar</a></li>
+                                    <li class="divider"></li>
+                                    <li><a href="#">Rendir</a></li>
+                                </ul>
+                            </div>
+                            <div class="btn-group">
+                                <button class="btn dropdown-toggle" data-toggle="dropdown" style="background-color:cornflowerblue" data-hover="dropdown">Alta Persona</button>
+                                <ul class="dropdown-menu">
+                                    <li><a href="@Url.Action("Index","Persona")">Administrador</a></li>
+                                    <li class="divider"></li>
+                                    <li><a href="@Url.Action("Docente","Persona")">Docente</a></li>
+                                    <li class="divider"></li>
+                                    <li><a href="@Url.Action("Alumno","Persona")">Alumno</a></li>
+                                </ul>
+                            </div>
+                            <div class="btn-group">
+                                <button class="btn  dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" style="background-color:cornflowerblue">Alta Carrera</button>
+                                <ul class="dropdown-menu" style="width:30px">
+                                    <li><a href="@Url.Action("Index","Modulo")">Modulo</a></li>
+                                    <li class="divider"></li>
+                                    <li><a href="@Url.Action("Index","Plan")">Plan</a></li>
+                                    <li class="divider"></li>
+                                    <li><a href="#">Comision</a></li>
+                                    <li class="divider"></li>
+                                    <li><a href="#">Curso</a></li>
+                                    <li class="divider"></li>
+                                    <li><a href="@Url.Action("Index","Especialidad")">Especialidad</a></li>
+                                </ul>
+                            </div>}
+                        else if ((Int32)(@Session["sessionString"]) == 2)
+                        {
+                            <div class="btn-group col-md-offset-6">
+                                <button class="btn dropdown-toggle" onclick="location.href='@Url.Action("Index", "Home")'" data-toggle="dropdown" style="background-color:cornflowerblue" data-hover="dropdown">Sysacad</button>
+                            </div>
+                            <div class="btn-group col-md-pull-12">
+                                <button class="btn dropdown-toggle" data-toggle="dropdown" style="background-color:cornflowerblue" data-hover="dropdown">Ver Estado De Alumno</button>
+                                <ul class="dropdown-menu">
+                                    <li><a href="#">Para Cursar</a></li>
+                                    <li class="divider"></li>
+                                    <li><a href="#">Para Rendir</a></li>
+                                </ul>
+                            </div>
+                            <div class="btn-group">
+                                <button class="btn dropdown-toggle" data-toggle="dropdown" style="background-color:cornflowerblue" data-hover="dropdown">Mi Curso</button>
+                                <ul class="dropdown-menu">
+                                    <li><a href="#">Mis Curso</a></li>
+                                </ul>
+                            </div>
+                            <div class="btn-group">
+                                <button class="btn dropdown-toggle" data-toggle="dropdown" style="background-color:cornflowerblue" data-hover="dropdown">Nota</button>
+                                <ul class="dropdown-menu">
+                                    <li><a href="#">Parcial</a></li>
+                                    <li class="divider"></li>
+                                    <li><a href="#">Examen</a></li>                                    
+                                </ul>
+                            </div>                            
+                           }
+                        else
+                        {
+
+                        }
+                        <div class="btn-group">
+                            <button class="btn dropdown-toggle" onclick="location.href='@Url.Action("LogOut", "Login")'" data-toggle="dropdown" style="background-color:cornflowerblue;width:1px" data-hover="dropdown">Cerrar Sesion</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>        
+    </div>    
+    <br />
+    <div class="container body-content">
+        @RenderBody()
+        @*<hr />*@
+        <footer>
+            @*<p>&copy; @DateTime.Now.Year - Mi aplicación ASP.NET</p>*@
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

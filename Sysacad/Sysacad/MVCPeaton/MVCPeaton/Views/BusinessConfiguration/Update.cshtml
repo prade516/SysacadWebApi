@@ -1,0 +1,300 @@
+﻿@model MVCPeaton.Models.ViewModels.BusinessConfigurationVM
+
+@{
+    Layout = null;
+    ViewBag.Title = "Configuracion de empresa";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <script src="~/Scripts/modernizr-2.6.2.js"></script>
+    <script src="~/Scripts/jquery-3.1.1.min.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/Scripts/strength.min.js"></script>
+    <script src="/Scripts/respond.js"></script>
+    <script src="~/Scripts/businessconfigurationScript.js"></script>
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/site.css" rel="stylesheet" />
+    <script src="/Scripts/bootstrap.js"></script>
+    <script src="/Scripts/respond.js"></script>
+    <title>Update</title>
+</head>
+<body>
+    @using (Html.BeginForm("Update", "BusinessConfiguration", FormMethod.Post, new { id = "frmpageupdate", name = "frmpageupdate", enctype = "multipart/form-data", @class = "frmpageupdate" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(model => model.Id)
+        @Html.EditorFor(m => m.profilephoto)
+        @Html.ValidationMessageFor(model => model.profilephoto)
+
+        <input type="hidden" value="@Model.EmployeeAccounts.Count" id="countAcc" />
+        <input type="hidden" value="@Model.Branches.Count" id="countBranch" />
+        <input type="hidden" value="@Model.Id" id="idScript" />
+        <input type="hidden" value="@Model.profilephoto" id="photoScript" />
+        <input type="hidden" value="update" id="view" />
+        <input type="hidden" value="@Model.BusinessConfigurationTags.Count" id="countTags" />
+
+        <div class="form-horizontal">
+            <h4>BusinessConfigurationVM</h4>
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="col-md-4" style="float:left; align-items:center; text-align: center">
+                @Html.Label("Datos generales")
+                @*<div class="form-group">
+                        @Html.LabelFor(model => model.MyLink, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.MyLink, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.MyLink, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.UpdateLink, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.UpdateLink, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.UpdateLink, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.DeleteLink, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.DeleteLink, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.DeleteLink, "", new { @class = "text-danger" })
+                        </div>
+                    </div>*@
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.slogan, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.slogan, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.slogan, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                @*<div class="form-group">
+                        @Html.LabelFor(model => model.profilephoto, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.profilephoto, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.profilephoto, "", new { @class = "text-danger" })
+                        </div>
+                    </div>*@
+
+                <div class="form-group">
+                    @Html.Label("", "Foto", new { @class = "col-md-2 control-label" })
+                    <div class="col-md-10">
+                        <img src="" id="Photo" width="150" height="150">
+                        <label for="FileUpload" class="btn btn-primary btn-block btn-outlined" style="width:150px">Seleccionar Foto</label>
+                        <input type="file" id="FileUpload" accept="image/*" style="display: none" class="label-file" />
+                        @Html.ValidationMessageFor(model => model.profilephoto)
+                    </div>
+                </div>
+
+                @if (Model.businesstype == "Empresa")
+                {
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.quanityemployees, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.quanityemployees, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.quanityemployees, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                }
+
+                @*<div class="form-group">
+                        @Html.LabelFor(model => model.iditem, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.iditem, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.iditem, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.idbusiness, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.idbusiness, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.idbusiness, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.MyEmployeeAccountsLink, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.MyEmployeeAccountsLink, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.MyEmployeeAccountsLink, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.MyBranchesLink, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.MyBranchesLink, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.MyBranchesLink, "", new { @class = "text-danger" })
+                        </div>
+                    </div>*@
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Items, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DropDownListFor(model => model.iditem, new SelectList(Model.Items, "ID", "Name", Model.iditem), new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.iditem, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <!-- Button trigger modal -->
+                <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+                    Set etiquetas
+                </button>
+                <!-- Button trigger modal -->
+
+                <br />
+                <br />
+
+            </div>
+
+            <!-- Cuentas -->
+            <div class="col-md-4" style="float:left; align-items:center; text-align: center" id="divacc">
+                <input type="button" id="createAcc" value="Crear nueva cuenta" />
+                <br />
+                <br />
+                <!-- Campos Cuentas -->
+                @for (int i = 0; i < Model.EmployeeAccounts.Count; i++)
+                {
+                    <div id="divToDeleteAcc_@i" style="background:green">
+                        @Html.HiddenFor(model => model.EmployeeAccounts[i].idemployeeaccount)
+                        @Html.Label("Cuenta empleado " + (i + 1) + ": ")
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.EmployeeAccounts[i].username, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.EmployeeAccounts[i].username, new { htmlAttributes = new { @class = "form-control", @id = "username" + i } })
+                                @Html.ValidationMessageFor(model => model.EmployeeAccounts[i].username, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.EmployeeAccounts[i].password, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.EmployeeAccounts[i].password, new { htmlAttributes = new { @class = "form-control", @id = "password" + i } })
+                                @Html.ValidationMessageFor(model => model.EmployeeAccounts[i].password, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.EmployeeAccounts[i].confirm, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.EmployeeAccounts[i].confirm, new { htmlAttributes = new { @class = "form-control", @id = "confirm" + i } })
+                                @Html.ValidationMessageFor(model => model.EmployeeAccounts[i].confirm, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        @Html.EditorFor(model => model.EmployeeAccounts[i].state, new { htmlAttributes = new { @hidden = "hidden", @id = "stateAcc_" + i } })
+
+                        <div class="form-group">
+                            <div class="col-md-10">
+                                <input type="button" id="deleteAcc_@i" value="Eliminar esta cuenta" />
+                                <input type="button" id="undeleteAcc_@i" value="Recuperar esta cuenta" disabled="disabled" hidden="hidden" />
+                            </div>
+                        </div>
+                    </div>
+                }
+                <!-- Campos Cuentas -->
+            </div>
+            <!-- Cuentas -->
+            <!-- Sucursales -->
+            <div class="col-md-4" style="float:left; align-items:center; text-align: center" id="divbranch">
+                <input type="button" id="createBranch" value="Crear nueva sucursal" />
+                <br />
+                <br />
+                <!-- Campos Sucursales -->
+                @for (int i = 0; i < Model.Branches.Count; i++)
+                {
+                    <div id="divToDeleteBranch_@i" style="background:green">
+                        @Html.HiddenFor(model => model.Branches[i].idbranche)
+                        @Html.Label("Sucursal " + (i + 1) + ": ")
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Branches[i].address, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.Branches[i].address, new { htmlAttributes = new { @class = "form-control", @id = "address" + i } })
+                                @Html.ValidationMessageFor(model => model.Branches[i].address, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Branches[i].addressnumber, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.Branches[i].addressnumber, new { htmlAttributes = new { @class = "form-control", @id = "addressnumber" + i } })
+                                @Html.ValidationMessageFor(model => model.Branches[i].addressnumber, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Branches[i].name, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.Branches[i].name, new { htmlAttributes = new { @class = "form-control", @id = "name" + i } })
+                                @Html.ValidationMessageFor(model => model.Branches[i].name, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        @Html.EditorFor(model => model.Branches[i].state, new { htmlAttributes = new { @hidden = "hidden", @id = "stateBranch_" + i } })
+
+                        <div class="form-group">
+                            <div class="col-md-10">
+                                <input type="button" id="deleteBranch_@i" value="Eliminar esta sucursal" />
+                                <input type="button" id="undeleteBranch_@i" value="Recuperar esta sucursal" disabled="disabled" hidden="hidden" />
+                            </div>
+                        </div>
+                    </div>
+                }
+                <!-- Campos Sucursales -->
+            </div>
+            <!-- Sucursales -->
+            <!-- Button update -->
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Update" class="btn btn-default" />
+                </div>
+            </div>
+            <!-- Button update -->
+            <!-- Modal -->
+            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="myModalLabel">Etiquetas</h4>
+                        </div>
+                        <div class="modal-body col-md-12 pre-scrollable">
+                            @{
+                                for (int i = 0; i < Model.BusinessConfigurationTags.Count; i++)
+                                {
+                                    <div class="form-group">
+                                        @Html.HiddenFor(Model => Model.BusinessConfigurationTags[i].idbusinessconfigurationtag)
+                                        @Html.HiddenFor(Model => Model.BusinessConfigurationTags[i].idtag)
+                                        <div class="col-md-10">
+                                            @Html.DisplayFor(Model => Model.BusinessConfigurationTags[i].Tag.name)
+                                        </div>
+                                        <div class="col-md-2">
+                                            @Html.EditorFor(Model => Model.BusinessConfigurationTags[i].ischecked)
+                                        </div>
+                                    </div>
+                                    <br />
+                                }
+                            }
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary" data-dismiss="modal" id="saveChangeTags">Save changes</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Modal -->
+        </div>
+                                }
+</body>
+</html>

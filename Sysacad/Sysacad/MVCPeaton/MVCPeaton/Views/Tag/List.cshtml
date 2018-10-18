@@ -1,0 +1,82 @@
+﻿@model IEnumerable<MVCPeaton.Models.ViewModels.TagVM>
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <script src="~/Scripts/jquery-3.1.1.min.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <title>List</title>
+</head>
+<body>
+    <p>
+        @Html.ActionLink("Create New", "AddForm")
+    </p>
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.MyLink)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UpdateLink)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DeleteLink)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.state)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.idtagcategory)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MyTagCategoryLink)
+            </th>
+            <th></th>
+        </tr>
+    
+    @foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.MyLink)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UpdateLink)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DeleteLink)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.state)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.idtagcategory)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MyTagCategoryLink)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "UpdateForm", new { id=item.Id }) |
+                @*@Html.ActionLink("Details", "Details", new { id=item.Id }) |*@
+                @Html.ActionLink("Delete", "DeleteForm", new { id=item.Id })
+            </td>
+        </tr>
+    }
+    
+    </table>
+</body>
+</html>

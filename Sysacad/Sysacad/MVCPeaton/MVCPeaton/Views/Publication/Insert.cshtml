@@ -1,0 +1,221 @@
+﻿@model MVCPeaton.Models.ViewModels.PublicationVM
+
+@using (Html.BeginForm("Add", "Publication", FormMethod.Post, new { id = "frmpageadd", name = "frmpageadd", enctype = "multipart/form-data", @class = "formadd" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(m => m.photo)
+    @Html.ValidationMessageFor(model => model.photo)
+
+    <div class="form-horizontal">
+        <h4>PublicationVM</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.title, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.title, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.title, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.description, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.description, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.description, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.termscondition, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.termscondition, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.termscondition, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.maxquantity, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.maxquantity, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.maxquantity, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.visiblecondition, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.visiblecondition, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.visiblecondition, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("", "Foto", new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                <img src="" id="Photo" width="150" height="150">
+                <label for="FileUpload" class="btn btn-primary btn-block btn-outlined" style="width:150px">Seleccionar Foto</label>
+                <input type="file" id="FileUpload" accept="image/*" style="display: none" class="label-file" />
+                @Html.ValidationMessageFor(model => model.photo)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.publicationcategories, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.idpublicationcategory, new SelectList(Model.publicationcategories, "ID", "Name", Model.idpublicationcategory), new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.idpublicationcategory, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <!-- Button trigger modal -->
+        <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+            Set etiquetas
+        </button>
+
+        <br />
+        <br />
+
+
+        <!-- Modal -->
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel">Etiquetas</h4>
+                    </div>
+                    <div class="modal-body col-md-12 pre-scrollable">
+                        @{
+                            for (int i = 0; i < Model.tags.Count; i++)
+                            {
+                                <div class="form-group">
+                                    @Html.HiddenFor(Model => Model.tags[i].idbusinessconfigurationtag)
+                                    @Html.HiddenFor(Model => Model.tags[i].idtag)
+                                    <div class="col-md-10">
+                                        @Html.DisplayFor(Model => Model.tags[i].name)
+                                    </div>
+                                    <div class="col-md-2">
+                                        @Html.EditorFor(Model => Model.tags[i].ischecked)
+                                    </div>
+                                </div>
+                                    <br />
+                            }
+                        }
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-dismiss="modal" id="saveChangeTags">Save changes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br />
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+                            }
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            //Photo
+            $("#FileUpload").on("change", function (event) {
+                readURL(this);
+            });
+
+            function EnDisSubmit(event) {
+
+            };
+
+            function ExecuteUpload() {
+                var formData = new FormData();
+                var totalFiles = document.getElementById("FileUpload").files.length;
+                for (var i = 0; i < totalFiles; i++) {
+                    var file = document.getElementById("FileUpload").files[i];
+                    formData.append("FileUpload", file);
+                }
+                $.ajax({
+                    type: "POST",
+                    url: '/File/UploadPublicPhoto',
+                    data: formData,
+                    dataType: 'json',
+                    contentType: false,
+                    processData: false,
+                    success: function (response) {
+                        $("#photo").val(response.Path);
+                        EnDisSubmit();
+                    },
+                    error: function (error) {
+                        $("#photo").val("");
+                        EnDisSubmit();
+                    }
+                });
+            };
+
+            function readURL(fileInput) {
+
+                var files = fileInput.files;
+                for (var i = 0; i < files.length; i++) {
+                    var file = files[i];
+                    var validExtensions = ['jpg', 'jpeg', 'png', 'gif'];
+                    var fileName = file.name;
+                    var fileNameExt = fileName.substr(fileName.lastIndexOf('.') + 1);
+                    if ($.inArray(fileNameExt, validExtensions) == -1) {
+
+                        alert("Tipo de archivo inválido");
+                        ClearFile();
+                        EnDisSubmit();
+                        event.stopPropagation();
+                        event.preventDefault();
+                        return false;
+                    }
+                    else if (file.size / 1024 / 1024 > 5) {
+                        alert("No puede subir una imagen mayor a 5 Mb");
+                        ClearFile();
+                        EnDisSubmit();
+                        event.stopPropagation();
+                        event.preventDefault();
+                        return false;
+                    }
+                    var img = document.getElementById("Photo");
+                    img.file = file;
+                    var reader = new FileReader();
+                    reader.onload = (function (aImg) {
+                        return function (e) {
+                            aImg.src = e.target.result;
+                        };
+                    })(img);
+                    reader.readAsDataURL(file);
+                    ExecuteUpload();
+                }
+
+            }
+
+            function ClearFile() {
+                document.getElementById("Photo").src = "";
+                document.getElementById("FileUpload").files = null;
+                document.getElementById("FileUpload").value = "";
+                $("#FileUpload").val("");
+                $('#file').replaceWith($('#file').clone());
+                $("#photo").val("");
+            }
+
+            function clearFileInput(ctrl) {
+                try {
+                    ctrl.value = null;
+                }
+                catch (ex) {
+
+                }
+                if (ctrl.value) {
+                    ctrl.parentNode.replaceChild(ctrl.cloneNode(true), ctrl);
+                }
+            }
+        });
+    </script>
+}

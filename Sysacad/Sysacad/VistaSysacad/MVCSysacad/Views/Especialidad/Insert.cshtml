@@ -1,0 +1,39 @@
+﻿@model MVCSysacad.Models.ViewModel.EspecialidadVM
+
+@{
+    ViewBag.Title = "Insert";
+}
+@using (Html.BeginForm("Add", "Especialidad", FormMethod.Post, new { id = "frmpageadd", name = "frmpageadd", enctype = "multipart/form-data", @class = "formadd" })) 
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal col-md-12">
+        <h4 class="text-center label-primary" style="border-radius:10px;height:35px;font-size:28px">
+            Agregar Especialidad
+        </h4>
+        @*<hr />*@
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="form-group col-md-offset-4">
+            @Html.LabelFor(model => model.desc_especialidad, htmlAttributes: new { @class = "control-label col-md-2 col-md-offset-3" })
+            <div class="col-md-offset-4">
+                @Html.EditorFor(model => model.desc_especialidad, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.desc_especialidad, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-8 col-md-10">
+                <input type="submit" value="Agregar" class="btn btn-primary" />
+            </div>
+        </div>
+    </div>
+}
+
+<div class="btn btn-warning">
+    @Html.ActionLink("Volver a la Lista", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

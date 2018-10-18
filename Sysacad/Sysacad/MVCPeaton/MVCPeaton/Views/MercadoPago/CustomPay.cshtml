@@ -1,0 +1,45 @@
+﻿@{
+    Layout = null;
+}
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/bootstrap")
+@Scripts.Render("~/bundles/jqueryval")
+
+@{
+    mercadopago.MP mp = new mercadopago.MP("TEST-6535939912151997-041715-145fad1e31f748516f6537f5290c7116__LD_LC__-252266576");
+    mp.sandboxMode(true);
+    string data = MVCPeaton.MercadoModels.Builder.CustomsBuilders.Manager.ManagerCustomPacks.GetInstance().GetBasicPack("test@test.com", 200,
+        "967143c3f2419b7a09b12fe388112139", "desc1", 12, "master", "first", "last", "2015-06-02T12:58:41.425-04:00", "11",
+        "4444-4444", "pepe", 22, "5700");
+    System.Collections.Hashtable payment = mp.post("/v1/payments", data);
+
+
+
+
+    String b = "8";
+    //Console.WriteLine (card.ToString());
+
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="https://secure.mlstatic.com/sdk/javascript/v1/mercadopago.js"></script>
+    <script type="text/javascript" src="https://www.mercadopago.com/org-img/jsapi/mptools/buttons/render.js"></script>
+    <title>Subscribe</title>
+</head>
+<body>
+
+
+</body>
+</html>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+//var re = $("#pepe").val();
+            //$(location).attr('href', re)
+        });
+
+
+
+</script>   

@@ -1,0 +1,54 @@
+﻿@{
+    Layout = null;
+}
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/bootstrap")
+@Scripts.Render("~/bundles/jqueryval")
+<html>
+<head>
+    <title>Download Example</title>
+    
+    <script>
+    $(document).ready(function () {
+        $("#Download").click(function () {
+           
+            var qualiter = {
+                Fitmode: 2,
+                Height: 20,
+                Widht:30,
+                Quality:100
+                };
+
+            var requestData = {
+                localFilePath: "sYry+kKq4RzgVpp#mlnwvFuz17aZhDkt4y8X8xQ6wC+iRjmKKwPtGbApi2XLIXx9cxjJgblMBV0PZLV4JOof1gOZRZACo8zR9ROqGUirLU9+V96olnlCyyJiSTh#p4XqE+nWGwEax8DaULh4oG9ZRF4r5hWKzaWUBlkqWjgYVBU=",
+                qual:qualiter
+
+                };
+            $.ajax({
+                type: "POST",
+                url: '/File/DownloadPublicPhoto',
+                data: JSON.stringify(requestData),
+                dataType: 'json',
+                contentType: 'application/json; charset=utf-8',
+                success: function (response) {
+                    debugger;
+                     alert('succes!!');
+                     $("#image").attr('src', 'data:image/jpeg;base64,' + response.Result);
+                },
+                error: function (error) {
+                    alert("errror");
+                }
+            });
+        });
+        function base64encode(binary) {
+            return btoa(unescape(encodeURIComponent(binary)));
+        }
+    });
+
+    </script>
+</head>
+<body>
+    <input type="button" id="Download" value="Download" />
+    <img height="100" width="100" id="image">
+</body>
+</html>

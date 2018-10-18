@@ -1,0 +1,64 @@
+﻿@model IEnumerable<MVCSysacad.Models.ViewModel.PersonaVM>
+<center>
+    <h4 class="btn-primary col-md-offset-9" style="border-radius:10px;height:35px;font-size:20px;width:260px">
+        @Html.ActionLink("Agregar Administrador", "InsertForm", new { id = 1}, htmlAttributes: new {@style = "color:white"})
+    </h4>
+</center>
+<table class="table">
+    <tr class="label-primary">       
+        <th>
+            @Html.DisplayNameFor(model => model.nombre)
+        </th>
+        <th>
+            <center>
+                @Html.DisplayNameFor(model => model.apellido)
+            </center>
+        </th>
+        <th>
+            <center>
+                @Html.DisplayNameFor(model => model.direccion)
+            </center>
+        </th>
+        <th>
+            <center>
+                @Html.DisplayNameFor(model => model.telefono)
+            </center>
+        </th>       
+        <th>
+            <center>      
+                Accion
+            </center>
+        </th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>       
+        <td>
+            @Html.DisplayFor(modelItem => item.nombre)
+        </td>
+        <td>
+            <center>
+                @Html.DisplayFor(modelItem => item.apellido)
+            </center>
+        </td>
+        <td>
+            <center>
+                @Html.DisplayFor(modelItem => item.direccion)
+            </center>
+        </td>
+        <td>
+            <center>
+                @Html.DisplayFor(modelItem => item.telefono)
+            </center>
+        </td>        
+        <td>
+            <center>
+                @Html.ActionLink("Modificar", "FormUpdate", new { id = item.id_persona}) |
+                @*@Html.ActionLink("Detalle", "Details", new { id = item.Id }) |*@
+                @Html.ActionLink("Eliminar", "DeleteAll", new { id = item.id_persona , tipo=item.tipo_persona})
+            </center>
+        </td>
+    </tr>
+}
+
+</table>

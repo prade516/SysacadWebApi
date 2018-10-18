@@ -1,0 +1,58 @@
+﻿@model IEnumerable<MVCSysacad.Models.ViewModel.ModuloVM>
+<center>
+    <h4 class="btn-primary col-md-offset-9" style="border-radius:10px;height:35px;font-size:26px;width:260px">
+        @Html.ActionLink("Agregar Modulo", "InsertForm", "", htmlAttributes: new
+{ @*@class = "col-md-offset-8",*@ @style = "color:white"
+})
+    </h4>
+
+</center>
+
+<table class="table">
+    <tr class="label-primary">      
+        <th>
+            @Html.DisplayNameFor(model => model.id_modulo)
+        </th>
+        <th>
+            <center>
+                @Html.DisplayNameFor(model => model.desc_modulo)
+            </center>      
+        </th>
+        <th>
+            <center>
+                @Html.DisplayNameFor(model => model.ejecuta)
+            </center>     
+        </th>
+      
+        <th>
+            <center>
+                @Html.DisplayName("Accion")
+            </center>
+        </th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>      
+        <td>
+         @Html.DisplayFor(modelItem => item.id_modulo)
+        </td>
+        <td>
+            <center>
+                @Html.DisplayFor(modelItem => item.desc_modulo)
+            </center>
+        </td>
+        <td>
+            <center>
+                @Html.DisplayFor(modelItem => item.ejecuta)
+            </center>
+        </td>
+        <td>
+            <center>
+                @Html.ActionLink("Modificar", "FormUpdate", new { id = item.id_modulo }) |
+                @Html.ActionLink("Eliminar", "DeleteForm", new { id = item.id_modulo })
+            </center>      
+        </td>
+    </tr>
+}
+
+</table>

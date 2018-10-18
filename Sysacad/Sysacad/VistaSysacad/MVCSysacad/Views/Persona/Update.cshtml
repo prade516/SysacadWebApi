@@ -1,0 +1,281 @@
+﻿@model MVCSysacad.Models.ViewModel.PersonaVM
+
+
+@using (Html.BeginForm("Update", "Persona", FormMethod.Post, new { id = "frmpageadd", name = "frmpageadd", enctype = "multipart/form-data", @class = "formadd" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.Id)
+    @Html.HiddenFor(model => model.id_persona)
+    @Html.HiddenFor(model => model.id_plan)
+    @Html.HiddenFor(model => model.estado)
+    @Html.HiddenFor(model => model.legajo)
+    @Html.HiddenFor(model => model.tipo_persona)
+    @Html.HiddenFor(model => model.usuariossingle.id_persona)
+    @Html.HiddenFor(model => model.usuariossingle.id_usuario)
+    @Html.HiddenFor(model => model.usuariossingle.clave)
+    @Html.HiddenFor(model => model.usuariossingle.estado)
+    @Html.HiddenFor(model => model.usuariossingle.habilitado)
+    @Html.HiddenFor(model => model.usuariossingle.cambia_clave)
+    @Html.HiddenFor(model => model.usuariossingle.modulo_usuariosingle.estado)
+    @Html.HiddenFor(model => model.usuariossingle.modulo_usuariosingle.id_modulo)
+    @Html.HiddenFor(model => model.usuariossingle.modulo_usuariosingle.id_usuario)
+    @Html.HiddenFor(model => model.usuariossingle.modulo_usuariosingle.id_modulo_usuario)
+
+
+    <div class="form-horizontal">
+        <div class="col-md-12">           
+            <div class="panel-group label-primary">
+                <center style="font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;font-size:26px">
+                    Actualizar Administrador
+                </center>
+            </div>
+            <br /><br />    
+            <div class="col-md-7">
+                <div class="panel-group label-primary">
+                    <center style="font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;font-size:20px">
+                        Datos Administrador
+                    </center>
+                </div>
+                <br />
+                <center>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.nombre, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.nombre, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.nombre, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.apellido, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.apellido, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.apellido, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.direccion, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.direccion, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.direccion, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.telefono, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.telefono, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.telefono, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.fecha_nac, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.fecha_nac, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.fecha_nac, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    @if (Model.tipo_persona!=1)
+                    {
+                        <div class="form-group">
+                            @Html.Label("Plan", htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.DropDownListFor(model => model.id_plan, new SelectList(Model.plan, "id_plan", "desc_plan", Model.id_plan), new { @class = "form-control" })
+                                @*@Html.ValidationMessageFor(model => model.name, "", new { @class = "text-danger" })*@
+                            </div>
+                        </div> 
+                    }
+                  
+                </center>                
+            </div>
+
+            <div class="col-md-5">
+                <div class="panel-group label-primary">
+                    <center style="font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;font-size:20px">
+                        Usuario
+                    </center>
+                </div>
+                <br />
+                <center>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.usuariossingle.nombre_usuario, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.usuariossingle.nombre_usuario, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.usuariossingle.nombre_usuario, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    @*<div class="form-group">
+                        @Html.LabelFor(model => model.usuariossingle.clave, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.usuariossingle.clave, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                            @Html.ValidationMessageFor(model => model.usuariossingle.clave, "", new { @class = "text-danger" })
+                        </div>
+                    </div>*@
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.usuariossingle.email, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.usuariossingle.email, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.usuariossingle.email, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </center>               
+            </div>
+             <div class="col-md-5">
+                 <div class="panel-group label-primary">
+                     <center style="font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;font-size:20px">
+                         Modulo Usuario
+                     </center>
+                 </div>
+                 <br />
+                 <center>
+                     <div class="form-group">
+                         @Html.Label("Modulo", htmlAttributes: new { @class = "control-label col-md-2" })
+                         <div class="col-md-10">
+                             @Html.DropDownListFor(model => model.usuariossingle.modulo_usuariosingle.id_modulo, new SelectList(Model.modulo, "id_modulo", "desc_modulo", Model.modulo.FirstOrDefault().id_modulo), new { @class = "form-control" })
+                             @*@Html.ValidationMessageFor(model => model.name, "", new { @class = "text-danger" })*@
+                         </div>
+                     </div>
+
+                     <div class="form-group">
+                         @Html.Label("Alta", htmlAttributes: new { @class = "control-label col-md-2" })
+                         <div class="col-md-10">
+                             @Html.CheckBoxFor(model => model.usuariossingle.modulo_usuariosingle.alta@*, new { @class = "form-control" }*@)
+                         </div>
+                     </div>
+                     <div class="form-group">
+                         @Html.Label("Modifica", htmlAttributes: new { @class = "control-label col-md-2" })
+                         <div class="col-md-10">
+                             @Html.CheckBoxFor(model => model.usuariossingle.modulo_usuariosingle.modificacion@*, new { @class = "form-control" }*@)
+                         </div>
+                     </div>
+                     <div class="form-group">
+                         @Html.Label("Baja", htmlAttributes: new { @class = "control-label col-md-2" })
+                         <div class="col-md-10">
+                             @Html.CheckBoxFor(model => model.usuariossingle.modulo_usuariosingle.baja@*, new { @class = "form-control" }*@)
+                         </div>
+                     </div>
+                     <div class="form-group">
+                         @Html.Label("Consulta", htmlAttributes: new { @class = "control-label col-md-2" })
+                         <div class="col-md-10">
+                             @Html.CheckBoxFor(model => model.usuariossingle.modulo_usuariosingle.consulta@*, new { @class = "form-control" }*@)
+                         </div>
+                     </div>
+                 </center>
+             </div>   
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-11">
+            <input type="button" id="btnupdate" value="Actualizar" class="btn btn-primary" />
+        </div>
+    </div>
+}
+
+<div class="btn btn-warning">
+    @Html.ActionLink("Volver a la Lista", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+<script>
+        $(document).ready(function () {
+            $("#btnupdate").on("click", function (event) {
+                if (validate() == false)
+                {
+                    event.preventDefault();
+                }
+                else
+                {
+                    $("#tipo_persona").val(1);               
+                    $("#frmpageadd").submit();
+                }
+            });
+
+            function validate() {
+                debugger;
+                var nombre = $("#nombre").val().length;
+                var apellido = $("#apellido").val().length;
+                var fecha_nac = $("#fecha_nac").val();
+                var fechn_ne = fecha_nac.replace("0", "");
+                var fechn_rene = fechn_ne.replace("0", "");
+                var fechcon = fechn_rene.split(" ")[0];
+                var facha_hoy = new Date().toLocaleString();
+                var fechconfacha_hoy = facha_hoy.split(" ")[0];
+                var telefono = $("#telefono").val()
+
+                var usuario = $("#usuariossingle_nombre_usuario").val().length;
+                var correo = $("#usuariossingle_email").val();
+
+                var emailRegex = /^[-\w.%+]{1,64}@@(?:[A-Z0-9-]{1,63}\.){1,125}[A-Z]{2,63}$/i
+
+                var alta = document.getElementById("usuariossingle_modulo_usuariosingle_alta").checked;
+                var baja = document.getElementById("usuariossingle_modulo_usuariosingle_baja").checked;
+                var modificar = document.getElementById("usuariossingle_modulo_usuariosingle_modificacion").checked;
+                var consulta = document.getElementById("usuariossingle_modulo_usuariosingle_consulta").checked;
+
+                if (nombre == 0) {
+                    alert("Debe ingresar el nombre");
+                    return false;
+                }
+                if (apellido == 0) {
+                    alert("Debe ingresar el apellido");
+                    return false;
+                }
+                debugger;
+                var patron = /^\d*$/;
+                if (telefono.search(patron)) {
+                    alert("Debe ingresar un numero de telefono valido");
+                    $("#telefono").val("");
+                    return false;
+                }
+
+                if (usuario == 0) {
+                    alert("Debe ingresar el nombre usuario");
+                    return false;
+                }
+               
+                if (correo =="") {
+                    alert("Debe ingresar el correo");
+                    return false;
+                }
+
+                debugger;
+                if (!emailRegex.test(correo)) {
+                    alert("Debe ingresar un correo correcto,con ese formato : fghi@gmail.com");
+                    return false;
+                }
+                if (fecha_nac == "01/01/0001 0:00:00") {
+                    alert("Debe ingresar la fecha de nacimiento");
+                    return false;
+                }
+
+                if (validate_fechaMayorQue(fechcon,fechconfacha_hoy)==true) {
+                    alert("La fecha de nacimiento debe ser menor que hoy");
+                    return false;
+                }
+                if (!alta && !baja && !consulta && ! modificar) {
+                    alert("Debe dar permiso por lo menos a uno");
+                    return false;
+                }
+                return true;
+            }
+
+            function validate_fechaMayorQue(fechaInicial, fechaFinal) {
+                valuesStart = fechaInicial.split("/");
+                valuesEnd = fechaFinal.split("/");
+
+                // Verificamos que la fecha no sea posterior a la actual
+                var dateStart = new Date(valuesStart[2], (valuesStart[1] - 1), valuesStart[0]);
+                var dateEnd = new Date(valuesEnd[2], (valuesEnd[1] - 1), valuesEnd[0]);
+                if (dateStart >= dateEnd) {
+                    return true;
+                }
+
+                return false;
+            }
+        });
+</script>
+}

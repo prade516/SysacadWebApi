@@ -1,0 +1,89 @@
+﻿@{
+    Layout = null;
+}
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/bootstrap")
+@Scripts.Render("~/bundles/jqueryval")
+
+@{
+    //TT
+    mercadopago.MP mp = new mercadopago.MP("6535939912151997", "eUqndYAbHsYK36FFAzeplrlO9YTd47ZJ");
+
+    //mercadopago.MP mp = new mercadopago.MP("8511651942961923", "8oCnDoWcv32nED11OzKGZ7TifWUKJ506");
+    //mercadopago.MP mp = new mercadopago.MP("TEST-a55f61a9-ef4c-4f1a-b102-96ee6e033fa7");
+    mp.sandboxMode(true);
+
+    String preapprovalData = "{" +
+"\"payer_email\": \"juangroia_892@hotmail.com\"," +
+"\"back_url\": \"http://www.my-site.com\"," +
+"\"reason\": \"Monthly subscription to premium package\"," +
+"\"external_reference\": \"SARRAZA\"," +
+"\"auto_recurring\": {" +
+"\"frequency\": 1," +
+"\"frequency_type\": \"months\"," +
+"\"transaction_amount\": 60," +
+"\"currency_id\": \"ARS\"," +
+//"\"start_date\": \"2014-12-10T14:58:11.778-03:00\"," +
+//"\"end_date\": \"2015-06-10T14:58:11.778-03:00\"" +
+"}" +
+"}";
+    //String preapprovalData = "";
+
+    System.Collections.Hashtable preapproval = mp.createPreapprovalPayment(preapprovalData);
+    System.Collections.Hashtable htt = (System.Collections.Hashtable)preapproval["response"];
+    Response.Write("<input type=\"text\" + \" value=" + htt["sandbox_init_point"] + " id =\"pepe\" name=\"MP - Checkout\" class=\"blue-rn-m\">");
+
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="https://secure.mlstatic.com/sdk/javascript/v1/mercadopago.js"></script>
+    <script type="text/javascript" src="https://www.mercadopago.com/org-img/jsapi/mptools/buttons/render.js"></script>
+    <title>Subscribe</title>
+</head>
+<body>
+    <a href="subscription_link" name="MP-Checkout" class="blue-rn-m">Subscribe</a>
+    @*<a mp-mode="dftl" href="http://mpago.la/bRpO" name="MP-payButton" class='blue-ar-l-rn-none'>Suscribirme</a>
+    <script type="text/javascript">
+    (function() {
+        function $MPC_load() {
+            window.$MPC_loaded !== true && (function() {
+                var s = document.createElement("script");
+                s.type = "text/javascript";
+                s.async = true;
+                s.src = document.location.protocol + "//secure.mlstatic.com/mptools/render.js";
+                var x = document.getElementsByTagName('script')[0];
+                x.parentNode.insertBefore(s, x);
+                window.$MPC_loaded = true;
+            })();
+        }
+        window.$MPC_loaded !== true ? (window.attachEvent ? window.attachEvent('onload', $MPC_load) : window.addEventListener('load', $MPC_load, false)) : null;
+    })();
+    </script>*@
+
+</body>
+</html>
+
+<script type="text/javascript">
+        $(document).ready(function () {
+
+
+        //    Mercadopago.setPublishableKey("TEST-a55f61a9-ef4c-4f1a-b102-96ee6e033fa7");
+
+        //  Mercadopago.getInstallments({
+        //        "payment_method_id": "visa",
+        //        "amount": 100
+        //}, function (status, response) {
+        //    debugger;
+        //        console.log(response);
+        //    });
+
+
+        //window.location.href = resp;
+            var re = $("#pepe").val();
+            $(location).attr('href', re)
+        });
+
+
+
+</script>

@@ -1,0 +1,55 @@
+﻿@model IEnumerable<MVCSysacad.Models.ViewModel.PlanVM>
+<center>
+    <h4 class="btn-primary col-md-offset-9" style="border-radius:10px;height:35px;font-size:26px;width:260px">
+        @Html.ActionLink("Agregar Plan", "InsertForm", "", htmlAttributes: new
+   { @*@class = "col-md-offset-8",*@ @style = "color:white"
+   })
+    </h4>
+</center>  
+<table class="table">
+    <tr class="label-primary">       
+        <th>
+            @Html.DisplayNameFor(model => model.id_plan)
+        </th>
+        <th>
+            <center>
+                @Html.DisplayNameFor(model => model.desc_plan)
+            </center>
+        </th>
+        <th>
+            <center>
+                @Html.Label("Especialidad")
+            </center>
+        </th>
+        <th>
+            <center>
+                @Html.Label("Accion")
+            </center>
+        </th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>       
+        <td>
+            @Html.DisplayFor(modelItem => item.id_plan)           
+        </td>
+        <td>
+            <center>
+                @Html.DisplayFor(modelItem => item.desc_plan)
+            </center>
+        </td>
+        <td>
+            <center>
+                @Html.DisplayFor(modelItem => item.name)
+            </center>
+        </td>
+        <td>
+            <center>
+                @Html.ActionLink("Modificar", "FormUpdate", new { id = item.id_plan }) |
+                @Html.ActionLink("Eliminar", "DeleteForm", new { id = item.id_plan })
+            </center>           
+        </td>
+    </tr>
+}
+
+</table>

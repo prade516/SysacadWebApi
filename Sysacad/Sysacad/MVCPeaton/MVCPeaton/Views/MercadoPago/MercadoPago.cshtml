@@ -1,0 +1,69 @@
+﻿@{
+    Layout = null;
+}
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/bootstrap")
+@Scripts.Render("~/bundles/jqueryval")
+@{
+    mercadopago.MP mp = new mercadopago.MP("6535939912151997", "eUqndYAbHsYK36FFAzeplrlO9YTd47ZJ");
+    //mercadopago.MP mp = new mercadopago.MP("8511651942961923", "8oCnDoWcv32nED11OzKGZ7TifWUKJ506");
+    //mercadopago.MP mp = new mercadopago.MP("TEST-8511651942961923-040513-e7af1f891e8bc13bf83d41ec4f29ce0a__LB_LD__-25061445");
+    mp.sandboxMode(true);
+    string b=mp.getAccessToken();
+
+    //String preferenceData = MVCPeaton.MercadoModels.ManagerPacks.GetInstance().GetBroncePack();
+    String preferenceData = MVCPeaton.MercadoModels.ManagerPacks.GetInstance().GetBroncePack("Mi nombre", "asarza@ewqewq.com", "Apellido",
+"Mendoza", 3442,
+"2000","DNI", "34420023", "341", "6366639");
+
+    //    String preferenceData = "{\"items\":" +
+    //"[{" +
+    //"\"title\":\"Multicolor kite\"," +
+    //"\"quantity\":1," +
+    //"\"currency_id\":\"ARS\"," +
+    //"\"unit_price\":10.0" +
+    //"}]" +
+    //"}";
+
+    string resp = "";
+    System.Collections.Hashtable preference = mp.createPreference(preferenceData);
+    if ((int)preference["status"] == 200 || (int)preference["status"] == 201)
+    {
+        System.Collections.Hashtable response = (System.Collections.Hashtable)preference["response"];
+        resp = response["sandbox_init_point"].ToString();
+    }
+    Response.Write("<input type=\"text\" + \" value="+resp+" id =\"pepe\">");
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="https://secure.mlstatic.com/sdk/javascript/v1/mercadopago.js"></script>
+    
+    <title>Pay</title>
+</head>
+<body>
+    
+    
+</body>
+</html>
+<script type="text/javascript">
+        $(document).ready(function () {
+            
+            
+        //    Mercadopago.setPublishableKey("TEST-a55f61a9-ef4c-4f1a-b102-96ee6e033fa7");
+
+        //  Mercadopago.getInstallments({
+        //        "payment_method_id": "visa",
+        //        "amount": 100
+        //}, function (status, response) {
+        //    debugger;
+        //        console.log(response);
+        //    });
+
+
+        //window.location.href = resp;
+            var re = $("#pepe").val();
+            $(location).attr('href', re)
+    });
+
+</script>

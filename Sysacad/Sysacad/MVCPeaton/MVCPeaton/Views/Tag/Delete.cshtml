@@ -1,0 +1,71 @@
+﻿@model MVCPeaton.Models.ViewModels.TagVM
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <script src="~/Scripts/jquery-3.1.1.min.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <title>Delete</title>
+</head>
+<body>
+    <h3>Are you sure you want to delete this?</h3>
+    @using (Html.BeginForm("Delete", "Tag", FormMethod.Post, new { id = "frmpagedelete", name = "frmpagedelete", enctype = "multipart/form-data", @class = "formupdate" }))
+    {
+        <h4>TagVM</h4>
+        <hr />
+        @Html.AntiForgeryToken()
+            <fieldset>
+                <div class="editor-field">
+                    @Html.HiddenFor(model => model.Id)
+                </div>
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.name)
+                    @Html.TextBoxFor(model => model.name, new { @readonly = "readonly" })
+                    @Html.ValidationMessageFor(model => model.name)
+                </div>
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.idtagcategory)
+                    @Html.TextBoxFor(model => model.idtagcategory, new { @readonly = "readonly" })
+                    @Html.ValidationMessageFor(model => model.idtagcategory)
+                </div>
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.state)
+                    @Html.TextBoxFor(model => model.state, new { @readonly = "readonly" })
+                    @Html.ValidationMessageFor(model => model.state)
+                </div>
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.MyLink)
+                    @Html.TextBoxFor(model => model.MyLink, new { @readonly = "readonly" })
+                    @Html.ValidationMessageFor(model => model.MyLink)
+                </div>
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.MyTagCategoryLink)
+                    @Html.TextBoxFor(model => model.MyTagCategoryLink, new { @readonly = "readonly" })
+                    @Html.ValidationMessageFor(model => model.MyTagCategoryLink)
+                </div>
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.UpdateLink)
+                    @Html.TextBoxFor(model => model.UpdateLink, new { @readonly = "readonly" })
+                    @Html.ValidationMessageFor(model => model.UpdateLink)
+                </div>
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.DeleteLink)
+                    @Html.TextBoxFor(model => model.DeleteLink, new { @readonly = "readonly" })
+                    @Html.ValidationMessageFor(model => model.DeleteLink)
+                </div>
+                <div>
+                    <input type="submit" value="Delete" />
+                </div>
+            </fieldset>
+    }
+</body>
+</html>

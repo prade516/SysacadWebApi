@@ -1,0 +1,42 @@
+﻿@model IEnumerable<MVCSysacad.Models.ViewModel.EspecialidadVM>
+
+<h4 class="btn-primary col-md-offset-9" style="border-radius:10px;height:35px;font-size:26px;width:260px">
+    @Html.ActionLink("Agregar Especialidad", "InsertForm","", htmlAttributes: new { @*@class = "col-md-offset-8",*@ @style ="color:white" })
+</h4>
+    <table class="table">
+        <tr class="label-primary">
+            <th>
+                @Html.DisplayNameFor(model => model.id_especialidad)
+            </th>
+            <th>
+                <center>
+                    @Html.DisplayNameFor(model => model.desc_especialidad)
+                </center>
+            </th>
+            <th class="text-center">
+                Acion
+            </th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.id_especialidad)
+                </td>
+                <td>
+                    <center>
+                        @Html.DisplayFor(modelItem => item.desc_especialidad)
+                    </center>
+               
+                </td>
+                <td>
+                    <center>
+                        @Html.ActionLink("Modificar", "FormUpdate", new { id = item.id_especialidad }) |
+                        @Html.ActionLink("Eliminar", "DeleteForm", new { id = item.id_especialidad })
+                    </center>                 
+                </td>
+            </tr>
+        }
+
+    </table>
