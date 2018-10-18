@@ -31,15 +31,12 @@ namespace WebApi.Controllers
 			var dtos = from especialidad in query
 					   select new EspecialidadDTO()
 					   {
-						   id_especialidad = especialidad.idespecialidad,
+						   id_especialidad = especialidad.id_especialidad,
 						   desc_especialidad = especialidad.desc_especialidad,
 						   estado = especialidad.estado
 					   };
 
-			//HybridDictionary myfilters = new HybridDictionary();
-			//myfilters.Add("state", state);
-			//EspecialidadDTOCollection dt = new EspecialidadDTOCollection(dtos.ToList(),
-			//  FilterHelper.GenerateFilter(myfilters, top, orderby, ascending), page, count, top);
+			
 
 			return dtos.ToList();
 		}
@@ -48,7 +45,7 @@ namespace WebApi.Controllers
 			var query = _services.GetById(id);
 			EspecialidadDTO dtos = new EspecialidadDTO() 
 					   {
-						   id_especialidad = query.idespecialidad,
+						   id_especialidad = query.id_especialidad,
 						   desc_especialidad = query.desc_especialidad,
 						   estado = query.estado
 					   };
@@ -75,7 +72,7 @@ namespace WebApi.Controllers
 			{
 				return BadRequest(ModelState);
 			}
-			especialidad.idespecialidad = id;
+			especialidad.id_especialidad = id;
 			string username = User.Identity.Name;
 			_services.Update(id, especialidad);
 			return Ok();

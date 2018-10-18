@@ -16,7 +16,8 @@ namespace WebApi.Models.Factory
 				_factory = new FactoryPersonaDTO();
 			return _factory;
 		}
-		#region Business
+
+		#region DTO
 		public PersonaDTO CreateDTO(PersonaBE be)
 		{
 			PersonaDTO dto;

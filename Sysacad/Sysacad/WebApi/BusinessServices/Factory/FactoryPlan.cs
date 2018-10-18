@@ -17,6 +17,7 @@ namespace BusinessServices.Factory
 				_factory = new FactoryPlan();
 			return _factory;
 		}
+
 		#region Business
 		public PlanBE CreateBusiness(planes entity)
 		{
@@ -25,15 +26,7 @@ namespace BusinessServices.Factory
 				id_plan = entity.id_plan,
 				desc_plan = entity.desc_plan,
 				estado = entity.estado
-			};
-			be.Planespecialidad = new List<PlanEspecialidadBE>();
-			if (entity.Planespecialidad != null)
-			{
-				foreach (var item in entity.Planespecialidad)
-				{
-					be.Planespecialidad.Add(CreateBusinessPlanEspecialidad(item));
-				}
-			}
+			};			
 			return be;
 		}
 		public PlanEspecialidadBE CreateBusinessPlanEspecialidad(planespecialidades entity)
@@ -47,13 +40,14 @@ namespace BusinessServices.Factory
 					idplan = entity.idplan,
 					idespecialidad = entity.idespecialidad,
 					estado=entity.estado,
-					Especialidad = FactoryEspecialidad.EspecialidadEntityTOBe(entity.Especialidad)
+					Especialidad = entity != null? FactoryEspecialidad.CreateBusiness(entity.Especialidad):null
 				 };
 				return be;
 			}
 			return be = new PlanEspecialidadBE();
 		}
 		#endregion
+
 		#region Entity
 		public planes CreateEntity(PlanBE be)
 		{
@@ -62,34 +56,10 @@ namespace BusinessServices.Factory
 				id_plan = be.id_plan,
 				desc_plan = be.desc_plan,
 				estado = be.estado
-			};
-			entity.Planespecialidad = new List<planespecialidades>();
-			if (be.Planespecialidad != null)
-			{
-				foreach (var item in be.Planespecialidad)
-				{
-					entity.Planespecialidad.Add(CreateEntityPlanEspecialidad(item));
-				}
-			}
+			};			
 			return entity;
 		}
-		public planespecialidades CreateEntityPlanEspecialidad(PlanEspecialidadBE  be)
-		{
-			planespecialidades entity;
-			if (be!=null)
-			{
-				 entity = new planespecialidades()
-				{
-					idplanespecialidad = be.idplanespecialidad,
-					idplan = be.idplan,
-					idespecialidad = be.idespecialidad,
-					estado=be.estado,
-					Especialidad = null
-				};
-				return entity;
-			}
-			return entity = new planespecialidades();
-		}
+		
 		#endregion
 	}
 }

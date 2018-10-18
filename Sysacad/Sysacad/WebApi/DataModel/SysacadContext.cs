@@ -16,7 +16,6 @@
 
 		public DbSet<especialidades> especialidades { get; set; }
 		public DbSet<planes> planes { get; set; }
-		public DbSet<planespecialidades> planespecialidad { get; set; }
 		public DbSet<modulos_usuarios> modulos_usuarios { get; set; }
 		public DbSet<modulos> modulos { get; set; }
 		public DbSet<personas> personas { get; set; }

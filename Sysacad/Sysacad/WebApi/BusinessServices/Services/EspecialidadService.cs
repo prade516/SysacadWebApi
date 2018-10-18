@@ -30,7 +30,7 @@ namespace BusinessServices.Services
 			{
 				if (Be != null)
 				{
-					DataModel.especialidades entity = Factory.FactoryEspecialidad.EspecialidadEntity(Be);
+					DataModel.especialidades entity = Factory.FactoryEspecialidad.CreateEntity(Be);
 					_puente.EspecialidadRepository.Insert(entity);
 					_puente.Commit();
 
@@ -75,7 +75,7 @@ namespace BusinessServices.Services
 			try
 			{
 				Expression<Func<especialidades, Boolean>> predicate = x => x.estado == estado;
-				IQueryable<DataModel.especialidades> especialidadentity = _puente.EspecialidadRepository.GetAllByFilters(predicate, null);
+				IQueryable<especialidades> especialidadentity = _puente.EspecialidadRepository.GetAllByFilters(predicate, null);
 				count = especialidadentity.Count();
 				var skipAmount = 0;
 
@@ -90,7 +90,7 @@ namespace BusinessServices.Services
 				List<EspecialidadBE> especialidad = new List<EspecialidadBE>();
 				foreach (var item in especialidadentity)
 				{
-					especialidad.Add(Factory.FactoryEspecialidad.EspecialidadEntityTOBe(item));
+					especialidad.Add(Factory.FactoryEspecialidad.CreateBusiness(item));
 				}
 				return especialidad;
 			}
@@ -107,7 +107,7 @@ namespace BusinessServices.Services
 				var especialidadentity = _puente.EspecialidadRepository.GetOneByFilters(predicate, null);
 				if (especialidadentity != null)
 				{
-					return Factory.FactoryEspecialidad.EspecialidadEntityTOBe(especialidadentity);
+					return Factory.FactoryEspecialidad.CreateBusiness(especialidadentity);
 				}
 				else
 					throw new ApiBusinessException(1012, "No se encuentra disponible esa especialidad", System.Net.HttpStatusCode.NotFound, "Http");
@@ -126,7 +126,7 @@ namespace BusinessServices.Services
 
 				if (Be != null)
 				{
-					var especialidadentity = Factory.FactoryEspecialidad.EspecialidadEntity(Be);
+					var especialidadentity = Factory.FactoryEspecialidad.CreateEntity(Be);
 					_puente.EspecialidadRepository.Update(especialidadentity, new List<string>() { "desc_especialidad" });
 					_puente.Commit();
 

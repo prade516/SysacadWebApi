@@ -88,7 +88,7 @@ namespace BusinessServices.Services
 			try
 			{
 				Expression<Func<personas, Boolean>> predicate = x => (x.estado == state||state==0) && (x.id_persona==idconectado|| idconectado==0) && (x.tipo_persona==tipo_persona || tipo_persona==0);
-				IQueryable<DataModel.personas> entity = _puente.PersonaRepository.GetAllByFilters(predicate, new string[] { "Usuarios.modulo_usuario" });
+				IQueryable<DataModel.personas> entity = _puente.PersonaRepository.GetAllByFilters(predicate, null /*new string[] { "Usuarios.modulo_usuario" }*/);
 				count = entity.Count();
 				var skipAmount = 0;
 

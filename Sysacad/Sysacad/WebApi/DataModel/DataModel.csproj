@@ -53,6 +53,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="alumnos_inscripciones.cs" />
+    <Compile Include="BaseDM.cs" />
     <Compile Include="comisiones.cs" />
     <Compile Include="cursos.cs" />
     <Compile Include="docentes_cursos.cs" />
@@ -68,7 +69,6 @@
     <Compile Include="Interface\IModulo_Usuario_repository.cs" />
     <Compile Include="Interface\IPersonaRepository.cs" />
     <Compile Include="Interface\IPlanComisionesRepository.cs" />
-    <Compile Include="Interface\IPlanEspecialidadRepository.cs" />
     <Compile Include="Interface\IPlanMateriaRepository.cs" />
     <Compile Include="Interface\IPlanRepository.cs" />
     <Compile Include="Interface\ISyssacadGenericRepository.cs" />
@@ -92,7 +92,6 @@
     <Compile Include="Repository\Modulo_Usuario_repository.cs" />
     <Compile Include="Repository\PersonaRepository.cs" />
     <Compile Include="Repository\PlanComisionRepository.cs" />
-    <Compile Include="Repository\PlanEspecialidadRepository.cs" />
     <Compile Include="Repository\PlanMateriaRepository.cs" />
     <Compile Include="Repository\PlanRepository.cs" />
     <Compile Include="Repository\UsuarioRepository.cs" />

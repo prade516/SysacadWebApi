@@ -20,7 +20,7 @@ namespace WebApi.Models.Factory
 		{
 			EspecialidadDTO dto = new EspecialidadDTO()
 			{
-				id_especialidad=be.idespecialidad,
+				id_especialidad=be.id_especialidad,
 				desc_especialidad=be.desc_especialidad,
 				estado=be.estado
 			};

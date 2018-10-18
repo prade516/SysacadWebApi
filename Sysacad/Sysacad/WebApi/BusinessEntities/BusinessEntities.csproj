@@ -45,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Alumnos_InscripcionBE.cs" />
+    <Compile Include="BaseBE.cs" />
     <Compile Include="ComisionBE.cs" />
     <Compile Include="CursoBE.cs" />
     <Compile Include="Docente_CursoBE.cs" />

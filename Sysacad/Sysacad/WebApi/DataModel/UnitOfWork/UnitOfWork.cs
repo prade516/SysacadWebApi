@@ -21,6 +21,7 @@ namespace DataModel.UnitOfWork
 		private SysacadContext context = null;
 		private bool disposed = false;
 		#endregion
+
 		#region Constructor
 		public UnitOfWork()
 		{
@@ -38,6 +39,7 @@ namespace DataModel.UnitOfWork
 		}
 
 		#endregion
+
 		#region Commit
 		public void Commit()
 		{
@@ -45,6 +47,7 @@ namespace DataModel.UnitOfWork
 			context.SaveChanges();
 		}
 		#endregion
+
 		#region Dispose
 		protected virtual void Dispose(bool disposed)
 		{
@@ -63,11 +66,12 @@ namespace DataModel.UnitOfWork
 			GC.SuppressFinalize(this);
 		}
 		#endregion
+
 		#region Relation Repository
 		#region Members
 		private Interface.IEspecialidadRepository _especialidadrepository;
 		private Interface.IPlanRepository _planrepository;
-		private Interface.IPlanEspecialidadRepository _planespecialidadrepository;
+		//private Interface.IPlanEspecialidadRepository _planespecialidadrepository;
 		private Interface.IModulo_Usuario_repository _modulo_Usuario_repository;
 		private Interface.IModuloRepository _moduloRepository;
 		private Interface.IPersonaRepository _personaRepository;
@@ -116,22 +120,22 @@ namespace DataModel.UnitOfWork
 			}
 		}
 
-		public IPlanEspecialidadRepository Planespecialidadrepository
-		{
-			get
-			{
-				if (_planespecialidadrepository == null)
-				{
-					return _planespecialidadrepository = new PlanEspecialidadRepository(context);
-				}
-				return _planespecialidadrepository;
-			}
+		//public IPlanEspecialidadRepository Planespecialidadrepository
+		//{
+		//	get
+		//	{
+		//		if (_planespecialidadrepository == null)
+		//		{
+		//			return _planespecialidadrepository = new PlanEspecialidadRepository(context);
+		//		}
+		//		return _planespecialidadrepository;
+		//	}
 
-			set
-			{
-				_planespecialidadrepository = value;
-			}
-		}
+		//	set
+		//	{
+		//		_planespecialidadrepository = value;
+		//	}
+		//}
 
 		public IModulo_Usuario_repository Modulo_Usuario_repository
 		{

@@ -16,7 +16,8 @@ namespace WebApi.Models.Factory
 				_factory = new FactoryUsuarioDTO();
 			return _factory;
 		}
-		#region Business
+
+		#region DTO
 		public UsuarioDTO CreateDTO(UsuarioBE be)
 		{
 			UsuarioDTO dto;

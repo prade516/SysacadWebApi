@@ -26,6 +26,7 @@
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <Use64BitIISExpress />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -164,6 +165,8 @@
     <Reference Include="System.Runtime.InteropServices.RuntimeInformation, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Runtime.InteropServices.RuntimeInformation.4.3.0\lib\net45\System.Runtime.InteropServices.RuntimeInformation.dll</HintPath>
     </Reference>
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Security.Cryptography.Algorithms, Version=4.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Security.Cryptography.Algorithms.4.3.0\lib\net461\System.Security.Cryptography.Algorithms.dll</HintPath>
     </Reference>
@@ -309,14 +312,12 @@
     <Compile Include="Models\DTOCollection\Alumnos_InscripcionDTOCollection.cs" />
     <Compile Include="Models\DTOCollection\CursoDTOCollection.cs" />
     <Compile Include="Models\DTOCollection\Docente_CursoDTOCollection.cs" />
-    <Compile Include="Models\DTOCollection\EspecialidadDTOCollection.cs" />
     <Compile Include="Models\DTOCollection\MateriaDTOCollection.cs" />
     <Compile Include="Models\DTOCollection\ModuloDTOCOllection.cs" />
-    <Compile Include="Models\DTOCollection\PersonaDTOCollection.cs" />
     <Compile Include="Models\DTOCollection\PlanComisionDTOCollection.cs" />
-    <Compile Include="Models\DTOCollection\PlanDTOCOllection.cs" />
     <Compile Include="Models\DTOCollection\PlanMateriaDTOCollection.cs" />
     <Compile Include="Models\DTOs\Alumnos_InscripcionDTO.cs" />
+    <Compile Include="Models\DTOs\BaseDto.cs" />
     <Compile Include="Models\DTOs\ComisionDTO.cs" />
     <Compile Include="Models\DTOs\CursoDTO.cs" />
     <Compile Include="Models\DTOs\Docente_CursoDTO.cs" />
