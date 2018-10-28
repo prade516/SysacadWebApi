@@ -53,7 +53,7 @@ namespace BusinessServices.Services
 			var flag = false;
 			try
 			{
-				Expression<Func<planes, Boolean>> predicate = x => x.estado == (Int32)StateEnum.Alta && x.id_plan==Id;
+				Expression<Func<DataModel.planes, Boolean>> predicate = x => x.estado == (Int32)StateEnum.Alta && x.id_plan==Id;
 				var plan = _puente.Planrepository.GetOneByFilters(predicate, null /*new string[] { "Planespecialidad" }*/);
 				if (plan == null)
 					throw new ApiBusinessException(1012, "No se pudo Dar de baja a ese plan", System.Net.HttpStatusCode.NotFound, "Http");
@@ -76,8 +76,8 @@ namespace BusinessServices.Services
 		{
 			try
 			{
-				Expression<Func<planes, Boolean>> predicate = x => x.estado == state;
-				IQueryable<DataModel.planes> entity = _puente.Planrepository.GetAllByFilters(predicate,null /*new string [] { "Planespecialidad.especialidad" }*/);
+				Expression<Func<DataModel.planes, Boolean>> predicate = x => x.estado == state && x.desc_plan != "none";
+				IQueryable<DataModel.planes> entity = _puente.Planrepository.GetAllByFilters(predicate, new string[] { "especialidades" });
 				count = entity.Count();
 				var skipAmount = 0;
 
@@ -106,8 +106,11 @@ namespace BusinessServices.Services
 		{
 			try
 			{
-				Expression<Func<planes, Boolean>> predicate = x => x.estado == (Int32)StateEnum.Alta && x.id_plan == Id;
-				var entity = _puente.Planrepository.GetOneByFilters(predicate, new string[] { "Planespecialidad.especialidad" });
+                if (Id == 0)
+                    throw new ApiBusinessException(1012, "No se encuentra disponible el plan", System.Net.HttpStatusCode.NotFound, "Http");
+
+                Expression<Func<DataModel.planes, Boolean>> predicate = x => x.estado == (Int32)StateEnum.Alta && x.id_plan == Id;
+				var entity = _puente.Planrepository.GetOneByFilters(predicate, new string[] { "especialidades" });
 				if (entity != null)
 				{
 					return Factory.FactoryPlan.GetInstance().CreateBusiness(entity);

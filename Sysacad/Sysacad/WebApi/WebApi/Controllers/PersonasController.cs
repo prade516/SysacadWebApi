@@ -1,5 +1,6 @@
 ﻿using BusinessEntities;
 using BusinessServices.Interface;
+using SolveApi.Error;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -39,28 +40,57 @@ namespace WebApi.Controllers
 		}
 		public async Task<IHttpActionResult> PostPersona(PersonaBE be)
 		{
-			if (!ModelState.IsValid)
-			{
-				return BadRequest(ModelState);
-			}
-			_services.Create(be);
-			return Created(new Uri(Url.Link("DefaultApi", new { Id = be })), be);
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+                _services.Create(be);
+                return Created(new Uri(Url.Link("DefaultApi", new { Id = be.id_persona })), be);
+            }
+            catch (Exception ex)
+            {
+                var except = (ApiBusinessException)HandlerErrorExceptions.GetInstance().RunCustomExceptions(ex);
+                var resp = BadRequest(Convert.ToString(except.ErrorDescription));
+                return resp;               
+            }
+			
 		}
 		public async Task<IHttpActionResult> PutPersona(Int32 id, PersonaBE be)
 		{
-			if (!ModelState.IsValid)
-			{
-				return BadRequest(ModelState);
-			}
-			be.id_persona = id;
-			string username = User.Identity.Name;
-			_services.Update(id, be);
-			return Ok();
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+                be.id_persona = id;
+                string username = User.Identity.Name;
+                _services.Update(id, be);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                var except = (ApiBusinessException)HandlerErrorExceptions.GetInstance().RunCustomExceptions(ex);
+                var resp = BadRequest(Convert.ToString(except.ErrorDescription));
+                return resp;
+            } 
 		}
 		public async Task<IHttpActionResult> DeletePersona(int id)
-		{
-			this._services.Delete(id);
-			return Ok();
+        {
+            try
+            {
+                this._services.Delete(id);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                var except = (ApiBusinessException)HandlerErrorExceptions.GetInstance().RunCustomExceptions(ex);
+                var resp = BadRequest(Convert.ToString(except.ErrorDescription));
+                return resp;
+            }
+            
 		}
 	}
 }

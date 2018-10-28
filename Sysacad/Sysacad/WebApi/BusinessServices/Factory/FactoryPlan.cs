@@ -19,41 +19,26 @@ namespace BusinessServices.Factory
 		}
 
 		#region Business
-		public PlanBE CreateBusiness(planes entity)
+		public PlanBE CreateBusiness(DataModel.planes entity)
 		{
 			PlanBE be = new PlanBE()
 			{
 				id_plan = entity.id_plan,
+                id_especialidad = entity.id_especialidad,
 				desc_plan = entity.desc_plan,
 				estado = entity.estado
 			};			
 			return be;
-		}
-		public PlanEspecialidadBE CreateBusinessPlanEspecialidad(planespecialidades entity)
-		{
-			PlanEspecialidadBE be;
-			if (entity != null)
-			{
-				 be = new PlanEspecialidadBE()
-				 {
-					idplanespecialidad = entity.idplanespecialidad,
-					idplan = entity.idplan,
-					idespecialidad = entity.idespecialidad,
-					estado=entity.estado,
-					Especialidad = entity != null? FactoryEspecialidad.CreateBusiness(entity.Especialidad):null
-				 };
-				return be;
-			}
-			return be = new PlanEspecialidadBE();
-		}
+		}		
 		#endregion
 
 		#region Entity
-		public planes CreateEntity(PlanBE be)
+		public DataModel.planes CreateEntity(PlanBE be)
 		{
-			planes entity = new planes()
+            DataModel.planes entity = new DataModel.planes()
 			{
 				id_plan = be.id_plan,
+                id_especialidad = be.id_especialidad,
 				desc_plan = be.desc_plan,
 				estado = be.estado
 			};			

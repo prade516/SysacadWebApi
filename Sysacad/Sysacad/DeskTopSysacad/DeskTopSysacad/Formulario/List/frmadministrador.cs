@@ -22,7 +22,7 @@ namespace DeskTopSysacad.Formulario.List
 		public frmadministrador()
 		{
 			InitializeComponent();
-			this.Text = "Lista Adminstrador";			
+			this.Text = "Lista Administrador";			
 		}
 		private void LoadForm()
 		{

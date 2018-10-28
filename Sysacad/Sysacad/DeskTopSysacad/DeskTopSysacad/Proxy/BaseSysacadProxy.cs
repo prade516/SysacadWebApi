@@ -19,8 +19,10 @@ namespace DeskTopSysacad.Proxy
 		public readonly static string baseUrl = "http://localhost:40784";
 		private static IHalJsonParser parser;
 		private static IHalHttpClientFactory factory;
-		//private string myurl;
-		public string Myurl
+        String resp = "";
+
+        //private string myurl;
+        public string Myurl
 		{
 			get
 			{
@@ -65,6 +67,7 @@ namespace DeskTopSysacad.Proxy
 
 		protected abstract string MyRelationEmbeeded();
 		protected abstract string MySpecificUrl();
+
 		public  dto Get(Int32 id, string cookievalue = "")
 		{
 			var resultado = "";
@@ -99,36 +102,40 @@ namespace DeskTopSysacad.Proxy
 			return especialidad.ToList();			
 		}
 
-		public virtual void Create(dto model, string cookievalue = "")
+		public virtual String Create(dto model, string cookievalue = "")
 		{
-			using (var client = Factory.CreateClient())
-			{
-				client.HttpClient.DefaultRequestHeaders.Clear();
-				client.HttpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-				client.HttpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/hal+json"));
-				if (!String.IsNullOrEmpty(cookievalue))
-					client.HttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", cookievalue);
-				string postBody = JsonConvert.SerializeObject(model);
-				Task taskDownload = client.HttpClient.PostAsync((Myurl), new StringContent(postBody, Encoding.UTF8, "application/json"))
-					.ContinueWith(task =>
-					{
-						if (task.Status == TaskStatus.RanToCompletion)
-						{
-							var response = task.Result;
-
-							if (response.IsSuccessStatusCode)
-								return;
-							else
-								JsonHalExceptionClientHandler.HandleError(response);
-						}
-					});
-				taskDownload.Wait();
-
-			}
+            try
+            {
+                using (var client = Factory.CreateClient())
+                {
+                    client.HttpClient.DefaultRequestHeaders.Clear();
+                    client.HttpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                    client.HttpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/hal+json"));
+                    if (!String.IsNullOrEmpty(cookievalue))
+                        client.HttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", cookievalue);
+                    string postBody = JsonConvert.SerializeObject(model);
+                    var response = client.HttpClient.PostAsync((Myurl), new StringContent(postBody, Encoding.UTF8, "application/json")).Result;
+                    if (response.IsSuccessStatusCode)
+                    {
+                        resp = "Ok";
+                        return resp;
+                    }
+                    else {
+                        JsonError ap = JsonConvert.DeserializeObject<JsonError>(response.Content.ReadAsStringAsync().Result);
+                        resp = ap.Message;
+                        return resp;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+			
 
 		}
 
-		public virtual void Update(dto model, string cookievalue = "")
+		public virtual String Update(dto model, string cookievalue = "")
 		{
 			using (var client = Factory.CreateClient())
 			{
@@ -139,26 +146,24 @@ namespace DeskTopSysacad.Proxy
 					client.HttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", cookievalue);
 
 				string postBody = JsonConvert.SerializeObject(model);
-				Task taskDownload = client.HttpClient.PutAsync((Myurl + "/" + model.Id), new StringContent(postBody, Encoding.UTF8, "application/json"))
-					.ContinueWith(task =>
-					{
-						if (task.Status == TaskStatus.RanToCompletion)
-						{
-							var response = task.Result;
 
-							if (response.IsSuccessStatusCode)
-								return;
-							else
-								JsonHalExceptionClientHandler.HandleError(response);
-						}
-					});
-				taskDownload.Wait();
-
-			}
+                var response = client.HttpClient.PutAsync((Myurl + "/" + model.Id), new StringContent(postBody, Encoding.UTF8, "application/json")).Result;
+                if (response.IsSuccessStatusCode)
+                {
+                    resp = "Ok";
+                    return resp;
+                }
+                else
+                {
+                    JsonError ap = JsonConvert.DeserializeObject<JsonError>(response.Content.ReadAsStringAsync().Result);
+                    resp = ap.Message;
+                    return resp;
+                }     
+            }
 
 		}
 
-		public virtual void Delete(dto model, string cookievalue = "")
+		public virtual String Delete(dto model, string cookievalue = "")
 		{
 			using (var client = Factory.CreateClient())
 			{
@@ -168,22 +173,20 @@ namespace DeskTopSysacad.Proxy
 				if (!String.IsNullOrEmpty(cookievalue))
 					client.HttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", cookievalue);
 				string postBody = JsonConvert.SerializeObject(model);
-				Task taskDownload = client.HttpClient.DeleteAsync((Myurl + "/" + model.Id))
-					.ContinueWith(task =>
-					{
-						if (task.Status == TaskStatus.RanToCompletion)
-						{
-							var response = task.Result;
+                var response = client.HttpClient.DeleteAsync((Myurl + "/" + model.Id)).Result;
+                if (response.IsSuccessStatusCode)
+                {
+                    resp = "Ok";
+                    return resp;
+                }
+                else
+                {
+                    JsonError ap = JsonConvert.DeserializeObject<JsonError>(response.Content.ReadAsStringAsync().Result);
+                    resp = ap.Message;
+                    return resp;
+                }             
 
-							if (response.IsSuccessStatusCode)
-								return;
-							else
-								JsonHalExceptionClientHandler.HandleError(response);
-						}
-					});
-				taskDownload.Wait();
-
-			}
+            }
 
 		}
 	}

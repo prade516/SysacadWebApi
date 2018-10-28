@@ -1,28 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace DataModel
 {
-	public class materias
-	{
-		private Int32 _id_materia;
-		private String _desc_materia;
-		private Int32 _hs_semanales;
-		private Int32 _hs_totales;
-		private Int32 _estado;
+    using System;
+    using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
+    using System.Data.Entity.Spatial;
 
-		private List<planmaterias> _planmateria;
+    public class materias:BaseDM
+    {
+        #region Properties
+        [Key]
+        public int id_materia { get; set; }
+        public int id_plan { get; set; }
+        public string desc_materia { get; set; }
+        public int hs_semanales { get; set; }
+        public int hs_totales { get; set; }
+        #endregion
 
-		[Key]
-		public int id_materia { get => _id_materia; set => _id_materia = value; }
-		public string desc_materia { get => _desc_materia; set => _desc_materia = value; }
-		public int hs_semanales { get => _hs_semanales; set => _hs_semanales = value; }
-		public int hs_totales { get => _hs_totales; set => _hs_totales = value; }
-		public int estado { get => _estado; set => _estado = value; }
-		public List<planmaterias> Planmateria { get => _planmateria; set => _planmateria = value; }
-	}
+        #region Relation
+        [ForeignKey("id_plan")]
+        public planes planes { get; set; }
+        #endregion
+
+        #region List
+        public List<cursos> cursos { get; set; }
+        #endregion
+    }
 }

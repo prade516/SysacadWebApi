@@ -44,7 +44,7 @@ namespace DeskTopSysacad.Formulario.Single
 				txtIdplan.ReadOnly = true;
 				button1.Text = "Modificar";
 				button2.Text = "Cancelar";
-				FillComboESpecialidad(dto.id_plan);
+				FillComboESpecialidad(dto.id_especialidad);
 
 				txtIdplan.Text = dto.id_plan.ToString();
 				txtdescplan.Text = dto.desc_plan;
@@ -83,16 +83,8 @@ namespace DeskTopSysacad.Formulario.Single
 					{
 						id_plan = 0,
 						desc_plan = txtdescplan.Text,
-						Estado = (Int32)EstadoPersona.Alta,
-						Planespecialidad = new List<PlanEspecialidadDTO>()
-						{
-							new PlanEspecialidadDTO()
-							{
-								idespecialidad=Convert.ToInt32(cbBespecialidad.SelectedValue),
-								estado=(Int32)EstadoPersona.Alta,
-
-							},
-						},
+                        id_especialidad = Convert.ToInt32(cbBespecialidad.SelectedValue),
+                        estado = (Int32)EstadoPersona.Alta						
 					};
 					Myproxy().Create(dtoinsert);
 					this.Close();
@@ -115,56 +107,29 @@ namespace DeskTopSysacad.Formulario.Single
 				else
 				{
 					var idplanespecialidad = 0;
-					foreach (var item in dtoaction.Planespecialidad)
-					{
-						idplanespecialidad = item.idplanespecialidad;
-					}
+					
 					PlanDTO dtoupdate = new PlanDTO()
 					{
 						id_plan = Convert.ToInt32(txtIdplan.Text),
 						Id= Convert.ToInt32(txtIdplan.Text),
 						desc_plan = txtdescplan.Text,
-						Estado = (Int32)EstadoPersona.Alta,
-						Planespecialidad = new List<PlanEspecialidadDTO>()
-						{
-							new PlanEspecialidadDTO()
-							{
-								idplanespecialidad=idplanespecialidad,
-								idplan=Convert.ToInt32(txtIdplan.Text),
-								idespecialidad=Convert.ToInt32(cbBespecialidad.SelectedValue),
-								estado=(Int32)EstadoPersona.Alta,
-
-							},
-						},
+						estado = (Int32)EstadoPersona.Alta,
+                        id_especialidad = Convert.ToInt32(cbBespecialidad.SelectedValue),
 					};
 					Myproxy().Update(dtoupdate);
 					this.Close();
 				}
 			}
 			else if (Operation == "D")
-			{
-				var idplanespecialidad = 0;
-				foreach (var item in dtoaction.Planespecialidad)
-				{
-					idplanespecialidad = item.idplanespecialidad;
-				}
+			{		
 				PlanDTO dtodelate = new PlanDTO()
 				{
 					id_plan = Convert.ToInt32(txtIdplan.Text),
 					Id = Convert.ToInt32(txtIdplan.Text),
 					desc_plan = txtdescplan.Text,
-					Estado = (Int32)EstadoPersona.Alta,
-					Planespecialidad = new List<PlanEspecialidadDTO>()
-						{
-							new PlanEspecialidadDTO()
-							{
-								idplanespecialidad=idplanespecialidad,
-								idplan=Convert.ToInt32(txtIdplan.Text),
-								idespecialidad=Convert.ToInt32(cbBespecialidad.SelectedValue),
-								estado=(Int32)EstadoPersona.Baja,
-							},
-						},
-				};
+					estado = (Int32)EstadoPersona.Alta,
+                    id_especialidad = Convert.ToInt32(cbBespecialidad.SelectedValue),
+                };
 				Myproxy().Delete(dtodelate);
 				this.Close();
 			}
@@ -187,7 +152,8 @@ namespace DeskTopSysacad.Formulario.Single
 							Especialidad = especialidad.desc_especialidad
 						}).ToList();
 
-			cbBespecialidad.DataSource = list.FindAll(x=>x.Codigo==codigo||codigo==0);
+            var xp = list.FindAll(x => x.Codigo == codigo || codigo == 0);
+            cbBespecialidad.DataSource = list.FindAll(x=>x.Codigo==codigo||codigo==0);
 			cbBespecialidad.DisplayMember = "Especialidad";
 			cbBespecialidad.ValueMember = "Codigo";
 		}

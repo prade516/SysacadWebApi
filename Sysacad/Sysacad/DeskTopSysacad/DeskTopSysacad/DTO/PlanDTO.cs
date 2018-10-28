@@ -8,17 +8,21 @@ namespace DeskTopSysacad.DTO
 {
 	public class PlanDTO : BaseSysacadDTO
 	{
-		private Int32 _idplan;
-		private String _plan;
-		private Int32 _estado;
+        #region Properties
 
-		private List<EspecialidadDTO> _especialidad;
-		private List<PlanEspecialidadDTO> _planespecialidad;
+        public int id_plan { get; set; }
+        public int id_especialidad { get; set; }
+        public string desc_plan { get; set; }
+        #endregion
 
-		public int id_plan { get => _idplan; set => _idplan = value; }
-		public String desc_plan { get => _plan; set => _plan = value; }
-		public int Estado { get => _estado; set => _estado = value; }
-		public List<EspecialidadDTO> Especialidad { get => _especialidad; set => _especialidad = value; }
-		public List<PlanEspecialidadDTO> Planespecialidad { get => _planespecialidad; set => _planespecialidad = value; }
-	}
+        #region Relation
+        public EspecialidadDTO especialidades { get; set; }
+        #endregion
+
+        #region List
+        public List<ComisionDTO> comisiones { get; set; }
+        public List<MateriaDTO> materias { get; set; }
+        public List<PersonaDTO> personas { get; set; }
+        #endregion
+    }
 }

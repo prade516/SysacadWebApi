@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DeskTopSysacad.ErrorValidacion;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
@@ -245,6 +246,7 @@ namespace DeskTopSysacad.Seguridad
 
         public static bool esDescripcionValida(string des)
         {
+            des = Message.GetInstance().ValidarAccento(des);
             if (!String.IsNullOrEmpty(des.Trim()))
             {
                 for (int k = 0; k < des.Length; ++k)

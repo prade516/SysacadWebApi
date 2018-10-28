@@ -313,7 +313,6 @@
     <Compile Include="Models\DTOCollection\CursoDTOCollection.cs" />
     <Compile Include="Models\DTOCollection\Docente_CursoDTOCollection.cs" />
     <Compile Include="Models\DTOCollection\MateriaDTOCollection.cs" />
-    <Compile Include="Models\DTOCollection\ModuloDTOCOllection.cs" />
     <Compile Include="Models\DTOCollection\PlanComisionDTOCollection.cs" />
     <Compile Include="Models\DTOCollection\PlanMateriaDTOCollection.cs" />
     <Compile Include="Models\DTOs\Alumnos_InscripcionDTO.cs" />
@@ -338,6 +337,7 @@
     <Compile Include="Models\Factory\FactoryEspecialidadDTO.cs" />
     <Compile Include="Models\Factory\FactoryMateriaDTO.cs" />
     <Compile Include="Models\Factory\FactoryModuloDTO.cs" />
+    <Compile Include="Models\Factory\FactoryModulo_UsuarioDTO.cs" />
     <Compile Include="Models\Factory\FactoryPersonaDTO.cs" />
     <Compile Include="Models\Factory\FactoryPlanDTO.cs" />
     <Compile Include="Models\Factory\FactoryUsuarioDTO.cs" />

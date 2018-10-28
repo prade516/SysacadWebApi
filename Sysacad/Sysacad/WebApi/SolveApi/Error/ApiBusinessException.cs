@@ -11,7 +11,9 @@ namespace SolveApi.Error
 		public int ErrorCode { get; set; }
 		[DataMember]
 		public string ErrorDescription { get; set; }
-		[DataMember]
+        //[DataMember]
+        //public string Message { get; set; }
+        [DataMember]
 		public HttpStatusCode HttpStatus { get; set; }
 
 		string reasonPhrase;
@@ -44,7 +46,8 @@ namespace SolveApi.Error
 		{
 			ErrorCode = errorCode;
 			ErrorDescription = errorDescription;
-			HttpStatus = httpStatus;
+            //Message = errorDescription;
+            HttpStatus = httpStatus;
 			ReferenceLink = referenceLink;
 		}
 		#endregion

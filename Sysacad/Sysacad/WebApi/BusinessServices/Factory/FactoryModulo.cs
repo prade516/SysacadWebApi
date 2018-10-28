@@ -17,8 +17,9 @@ namespace BusinessServices.Factory
 				_factory = new FactoryModulo();
 			return _factory;
 		}
+
 		#region Business
-		public ModuloBE CreateBusiness(modulos entity)
+		public ModuloBE CreateBusiness(DataModel.modulos entity)
 		{
 			ModuloBE be;
 			if (entity!=null)
@@ -31,47 +32,26 @@ namespace BusinessServices.Factory
 					estado=entity.estado
 				};
 				be.modulo_usuario = new List<Modulos_UsuarioBE>();
-				if (entity.modulo_usuario!=null)
+				if (entity.modulos_usuarios!=null)
 				{
-					foreach (var item in entity.modulo_usuario)
+					foreach (var item in entity.modulos_usuarios)
 					{
-						be.modulo_usuario.Add(CreateModUsuarioBusiness(item));
+						be.modulo_usuario.Add(FactoryModulo_Usuario.GetInstance().CreateBusiness(item));
 					}
 				}
 				return be;
 			}
 			return be = new ModuloBE();
-		}
-		public Modulos_UsuarioBE CreateModUsuarioBusiness(modulos_usuarios entity)
-		{
-			Modulos_UsuarioBE be;
-			if (entity!=null)
-			{
-				be = new Modulos_UsuarioBE()
-				{
-					id_modulo_usuario = entity.id_modulo_usuario,
-					id_modulo = entity.id_modulo,
-					id_usuario = entity.id_usuario,
-					alta = entity.alta,
-					modificacion = entity.modificacion,
-					consulta = entity.consulta,
-					baja = entity.baja,
-					estado = entity.estado,
-					modulo = null,
-					usuario=null
-				};
-				return be;
-			}
-			return be = new Modulos_UsuarioBE();
-		}
+		}		
 		#endregion
+
 		#region Entity
-		public modulos CreateEntity(ModuloBE be)
+		public DataModel.modulos CreateEntity(ModuloBE be)
 		{
-			modulos entity;
+            DataModel.modulos entity;
 			if (be != null)
 			{
-				entity = new modulos()
+				entity = new DataModel.modulos()
 				{
 					id_modulo = be.id_modulo,
 					desc_modulo = be.desc_modulo,
@@ -80,7 +60,7 @@ namespace BusinessServices.Factory
 				};				
 				return entity;
 			}
-			return entity = new modulos();
+			return entity = new DataModel.modulos();
 		}
 		
 		#endregion

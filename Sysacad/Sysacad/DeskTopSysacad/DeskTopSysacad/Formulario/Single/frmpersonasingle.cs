@@ -1,5 +1,6 @@
 ﻿using DeskTopSysacad.DTO;
 using DeskTopSysacad.EnumeradorPublic;
+using DeskTopSysacad.Exceptions;
 using DeskTopSysacad.Proxy;
 using System;
 using System.Collections.Generic;
@@ -18,10 +19,11 @@ namespace DeskTopSysacad.Formulario.Single
 	{
 		PersonaDTO dtoaction = new PersonaDTO();
 		String Operation;
-		Int32 ultimolegajo = 0;
+		//Int32 ultimolegajo = 0;
 		String role;
 		Int32 Tipo;
-		public BaseSysacadProxy<PersonaDTO> Myproxy()
+        String resp = "";
+        public BaseSysacadProxy<PersonaDTO> Myproxy()
 		{
 			return new PersonaProxy();
 		}
@@ -37,13 +39,20 @@ namespace DeskTopSysacad.Formulario.Single
 			if (Role== "Administrador")
 			{
 				cbplan.Visible = false;
-				Tipo = (Int32)EnumeradorPublic.Role.Administrador;
+                var leg = Guid.NewGuid().ToString();
+
+                Tipo = (Int32)EnumeradorPublic.Role.Administrador;
 				label8.Visible = false;
+                cbplan.Enabled = true;
 			}
 			else if (Role=="Docente")
 			{
 				Tipo = (Int32)EnumeradorPublic.Role.Docente;
-			}
+                label8.Visible = false;
+                cbplan.Enabled = false;
+                //if (dto.id_plan != 0)
+                  cbplan.Text = MyproxyPlan().Get(20).desc_plan;
+            }
 			else if (Role == "Alumno")
 			{
 				Tipo = (Int32)EnumeradorPublic.Role.Alumno;
@@ -53,11 +62,8 @@ namespace DeskTopSysacad.Formulario.Single
 				this.Text = Titulo;
 				button1.Text = "Agregar";
 				button2.Text = "Cancelar";
-				ultimolegajo = GetLastLegajo() + 2;
-				txtlegajo.Text = ultimolegajo.ToString();
-				Guid g = Guid.NewGuid();
-				txtclave.Text = g.ToString("N").Substring(0,8);
-				FillComboPlan();
+                if (Tipo != 1 && Tipo != 2)
+                    FillComboPlan();
 				FillComboModulo();				
 			}
 			else if (OP == "M")
@@ -77,11 +83,11 @@ namespace DeskTopSysacad.Formulario.Single
 				txtlegajo.ReadOnly = true;
 
 				txtidusuario.Text = dto.Usuarios.FirstOrDefault().id_usuario.ToString();
-				txtusuario.Text = dto.Usuarios.FirstOrDefault().nombre_usuario;
-				txtclave.Text = dto.Usuarios.FirstOrDefault().clave;
+				//txtusuario.Text = dto.Usuarios.FirstOrDefault().nombre_usuario;
+				//txtclave.Text = dto.Usuarios.FirstOrDefault().clave;
 				txtcorreo.Text = dto.Usuarios.FirstOrDefault().email;
 				chckhabilitado.Checked = dto.Usuarios.FirstOrDefault().habilitado;
-				txtclave.ReadOnly = true;
+				//txtclave.ReadOnly = true;
 
 				txtidmodulousuario.Text = dto.Usuarios.FirstOrDefault().modulo_usuario.FirstOrDefault().id_modulo_usuario.ToString();
 				chckalta.Checked = dto.Usuarios.FirstOrDefault().modulo_usuario.FirstOrDefault().alta;
@@ -89,9 +95,10 @@ namespace DeskTopSysacad.Formulario.Single
 				chckbaja.Checked = dto.Usuarios.FirstOrDefault().modulo_usuario.FirstOrDefault().baja;
 				chckconsulta.Checked = dto.Usuarios.FirstOrDefault().modulo_usuario.FirstOrDefault().consulta;
 
-				FillComboPlan(dto.id_plan);
-				FillComboModulo(dto.Usuarios.FirstOrDefault().modulo_usuario.FirstOrDefault().id_modulo);
-			}
+                if (Tipo != 1 || Tipo != 2)
+                    FillComboPlan(dto.id_plan);
+                FillComboModulo(dto.Usuarios.FirstOrDefault().modulo_usuario.FirstOrDefault().id_modulo);
+            }
 			else if (OP == "D")
 			{
 				this.Text = Titulo;
@@ -112,10 +119,10 @@ namespace DeskTopSysacad.Formulario.Single
 
 				txtidusuario.Text = dto.Usuarios.FirstOrDefault().id_usuario.ToString();
 				txtnombre.Text = dto.Usuarios.FirstOrDefault().nombre_usuario;
-				txtclave.Text = dto.Usuarios.FirstOrDefault().clave;
+				//txtclave.Text = dto.Usuarios.FirstOrDefault().clave;
 				txtcorreo.Text = dto.Usuarios.FirstOrDefault().email;
 				chckconsulta.Checked = dto.Usuarios.FirstOrDefault().habilitado;
-				txtclave.ReadOnly = true;
+				//txtclave.ReadOnly = true;
 
 				txtidmodulousuario.Text = dto.Usuarios.FirstOrDefault().modulo_usuario.FirstOrDefault().id_modulo_usuario.ToString();
 				chckalta.Checked = dto.Usuarios.FirstOrDefault().modulo_usuario.FirstOrDefault().alta;
@@ -254,286 +261,291 @@ namespace DeskTopSysacad.Formulario.Single
 			DateTime fechaDeNacimiento = new DateTime();
 			fechaDeNacimiento = dtfecha_nac.Value;
 			Int32 edad = (DateTime.Now.Subtract(fechaDeNacimiento).Days / 365);
-
-			if (txtapellido.Text == String.Empty)
-			{
-				MessageBox.Show("Debe ingresar el apellido", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-				txtapellido.Text = String.Empty;
-				txtapellido.Focus();
-			}
-			else if (!Seguridad.Validaciones.esNombreValido(txtapellido.Text))
-			{
-				MessageBox.Show("Debe ingresar el apellido,'Letra'", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-				txtapellido.Text = String.Empty;
-				txtapellido.Focus();
-			}
-			else if (txtnombre.Text == String.Empty)
-			{
-				MessageBox.Show("Debe ingresar el nombre", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-				txtnombre.Text = String.Empty;
-				txtnombre.Focus();
-			}
-			else if (!Seguridad.Validaciones.esNombreValido(txtnombre.Text))
-			{
-				MessageBox.Show("Debe ingresar el nombre,'Letra'", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-				txtnombre.Text = String.Empty;
-				txtnombre.Focus();
-			}
-			else if (!Seguridad.Validaciones.esTelefonoValido(txttelefono.Text))
-			{
-				MessageBox.Show("Debe ingresar un numero telefono valido", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-				txttelefono.Text = String.Empty;
-				txttelefono.Focus();
-			}
-			else if (edad < 16)
-			{
-				MessageBox.Show("Debe ser mayor que  16 años", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-			}
-			else if (txtcorreo.Text == String.Empty)
-			{
-				MessageBox.Show("Debe ingresar un correo valido", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-				txtcorreo.Text = String.Empty;
-				txtcorreo.Focus();
-			}
-			else if (!Seguridad.Validaciones.esEmailValido(txtcorreo.Text))
-			{
-				MessageBox.Show("Debe ingresar coreo valido con formato<xxx@gmail.com>", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-				txtcorreo.Text = String.Empty;
-				txtcorreo.Focus();
-			}			
-			else if (chckhabilitado.Checked == false)
-			{
-				MessageBox.Show("Debe habilitar el usuario", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-			}
-			else if (!chckalta.Checked && !chckbaja.Checked && !chckconsulta.Checked)
-			{
-				MessageBox.Show("Debe dar permiso por lo menos a uno", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-			}
-			else
-			{
-				Int32 idplanfinal = 0;
-				if (role== "Administrador")
-				{
-					idplanfinal = 1;
-				}				
-				else
-				{
-					idplanfinal = Convert.ToInt32(cbplan.SelectedValue);
-				}
-				PersonaDTO dtoinsert = new PersonaDTO()
-				{
-					id_plan = idplanfinal,
-					nombre = txtnombre.Text,
-					apellido = txtapellido.Text,
-					direccion = txtdireccion.Text,
-					telefono = txttelefono.Text,
-					fecha_nac = dtfecha_nac.Value,
-					legajo = Convert.ToInt32(txtlegajo.Text),
-					tipo_persona = Tipo,
-					estado = (Int32)EstadoPersona.Alta
-				};
-				dtoinsert.Usuarios = new List<UsuarioDTO>()
-					{
-						new UsuarioDTO()
-						{
-							nombre_usuario=txtusuario.Text,
-							clave=txtclave.Text,
-							habilitado=chckhabilitado.Checked,
-							email=txtcorreo.Text,
-							cambia_clave=false,
-							estado=(Int32)EstadoPersona.Alta,
-							modulo_usuario = new List<Modulos_UsuarioDTO>()
-							{
-								new Modulos_UsuarioDTO()
-								{
-									id_modulo= Convert.ToInt32(cbmodulo.SelectedValue),
-									alta=chckalta.Checked,
-									modificacion=chckmodificacion.Checked,
-									baja=chckbaja.Checked,
-									consulta=chckconsulta.Checked,
-									estado=(Int32)EstadoPersona.Alta,
-								}
-							}
-						},
-					};
-				Myproxy().Create(dtoinsert);
-				UsuarioContrasña();
-				this.Close();
-			}
+            resp = "";
+            try
+            {
+                if (txtapellido.Text == String.Empty)
+                {
+                    ErrorValidacion.Message.GetInstance().MensajeAdvertencia("Debe ingresar el apellido");
+                    txtapellido.Text = String.Empty;
+                    txtapellido.Focus();
+                }
+                else if (!Seguridad.Validaciones.esNombreValido(txtapellido.Text))
+                {
+                    ErrorValidacion.Message.GetInstance().MensajeAdvertencia("Debe ingresar el apellido,'Letra'");
+                    txtapellido.Text = String.Empty;
+                    txtapellido.Focus();
+                }
+                else if (txtnombre.Text == String.Empty)
+                {
+                    ErrorValidacion.Message.GetInstance().MensajeAdvertencia("Debe ingresar el nombre");
+                    txtnombre.Text = String.Empty;
+                    txtnombre.Focus();
+                }
+                else if (!Seguridad.Validaciones.esNombreValido(txtnombre.Text))
+                {
+                    ErrorValidacion.Message.GetInstance().MensajeAdvertencia("Debe ingresar el nombre,'Letra'");
+                    txtnombre.Text = String.Empty;
+                    txtnombre.Focus();
+                }
+                else if (!Seguridad.Validaciones.esTelefonoValido(txttelefono.Text))
+                {
+                    ErrorValidacion.Message.GetInstance().MensajeAdvertencia("Debe ingresar un numero telefono valido");
+                    txttelefono.Text = String.Empty;
+                    txttelefono.Focus();
+                }
+                else if (edad < 16)
+                {
+                    ErrorValidacion.Message.GetInstance().MensajeAdvertencia("Debe ser mayor que  16 años");
+                }
+                else if (txtcorreo.Text == String.Empty)
+                {
+                    ErrorValidacion.Message.GetInstance().MensajeAdvertencia("Debe ingresar un correo valido");
+                    txtcorreo.Text = String.Empty;
+                    txtcorreo.Focus();
+                }
+                else if (!Seguridad.Validaciones.esEmailValido(txtcorreo.Text))
+                {
+                    ErrorValidacion.Message.GetInstance().MensajeAdvertencia("Debe ingresar coreo valido con formato<xxx@gmail.com>");
+                    txtcorreo.Text = String.Empty;
+                    txtcorreo.Focus();
+                }
+                else if (chckhabilitado.Checked == false)
+                {
+                    ErrorValidacion.Message.GetInstance().MensajeAdvertencia("Debe habilitar el usuario");
+                }
+                else if (!chckalta.Checked && !chckbaja.Checked && !chckconsulta.Checked)
+                {
+                    ErrorValidacion.Message.GetInstance().MensajeAdvertencia("Debe dar permiso por lo menos a uno");
+                }
+                else
+                {
+                    Int32 idplanfinal = 0;
+                    if (role == "Administrador")
+                    {
+                        idplanfinal = 1;
+                    }
+                    else
+                    {
+                        idplanfinal = Convert.ToInt32(cbplan.SelectedValue);
+                    }
+                    PersonaDTO dtoinsert = new PersonaDTO()
+                    {
+                        id_plan = idplanfinal,
+                        nombre = txtnombre.Text,
+                        apellido = txtapellido.Text,
+                        direccion = txtdireccion.Text,
+                        telefono = txttelefono.Text,
+                        fecha_nac = dtfecha_nac.Value,
+                        //legajo = Convert.ToInt32(txtlegajo.Text),
+                        tipo_persona = Tipo,
+                        estado = (Int32)EstadoPersona.Alta
+                    };
+                    dtoinsert.Usuarios = new List<UsuarioDTO>()
+                    {
+                        new UsuarioDTO()
+                        {
+                            clave= Guid.NewGuid().ToString("N").Substring(0, 8),
+                            habilitado=chckhabilitado.Checked,
+                            email=txtcorreo.Text,
+                            cambia_clave=false,
+                            estado=(Int32)EstadoPersona.Alta,
+                            modulo_usuario = new List<Modulos_UsuarioDTO>()
+                            {
+                                new Modulos_UsuarioDTO()
+                                {
+                                    id_modulo= Convert.ToInt32(cbmodulo.SelectedValue),
+                                    alta=chckalta.Checked,
+                                    modificacion=chckmodificacion.Checked,
+                                    baja=chckbaja.Checked,
+                                    consulta=chckconsulta.Checked,
+                                    estado=(Int32)EstadoPersona.Alta,
+                                }
+                            }
+                        },
+                    };
+                    resp = Myproxy().Create(dtoinsert);
+                     if (resp.Equals("Ok"))
+                     {
+                        UsuarioContrasña();
+                        this.Close();
+                     }
+                    else
+                    {
+                        ErrorValidacion.Message.GetInstance().MensajeError(resp);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ErrorValidacion.Message.GetInstance().MensajeError(ex.Message);
+            }
+			
 		}
 
 		private void UpdatePersona()
 		{
+            resp = "";
+            try
+            {
 
-			if (txtapellido.Text == String.Empty)
-			{
-				MessageBox.Show("Debe ingresar el apellido", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-				txtapellido.Text = String.Empty;
-				txtapellido.Focus();
-			}
-			else if (!Seguridad.Validaciones.esNombreValido(txtapellido.Text))
-			{
-				MessageBox.Show("Debe ingresar el apellido,'Letra'", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-				txtapellido.Text = String.Empty;
-				txtapellido.Focus();
-			}
-			else if (txtnombre.Text == String.Empty)
-			{
-				MessageBox.Show("Debe ingresar el nombre", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-				txtnombre.Text = String.Empty;
-				txtnombre.Focus();
-			}
-			else if (!Seguridad.Validaciones.esNombreValido(txtnombre.Text))
-			{
-				MessageBox.Show("Debe ingresar el nombre,'Letra'", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-				txtnombre.Text = String.Empty;
-				txtnombre.Focus();
-			}
-			else if (!Seguridad.Validaciones.esTelefonoValido(txttelefono.Text))
-			{
-				MessageBox.Show("Debe ingresar un numero telefono valido", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-				txttelefono.Text = String.Empty;
-				txttelefono.Focus();
-			}
-			else if (dtfecha_nac.Value > DateTime.Now)
-			{
-				MessageBox.Show("Debe ingresa una fecha manor que hoy", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-			}
-			else if (txtcorreo.Text == String.Empty)
-			{
-				MessageBox.Show("Debe ingresar un correo valido", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-				txtcorreo.Text = String.Empty;
-				txtcorreo.Focus();
-			}
-			else if (!Seguridad.Validaciones.esEmailValido(txtcorreo.Text))
-			{
-				MessageBox.Show("Debe ingresar coreo valido con formato<xxx@gmail.com>", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-				txtcorreo.Text = String.Empty;
-				txtcorreo.Focus();
-			}
-			else if (txtusuario.Text == String.Empty)
-			{
-				MessageBox.Show("Debe ingresar el nombre usuario", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-				txtusuario.Text = String.Empty;
-				txtusuario.Focus();
-			}
-			else if (!Seguridad.Validaciones.esUsuarioValido(txtusuario.Text))
-			{
-				MessageBox.Show("Debe ingresar el nombre usuario", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-				txtusuario.Text = String.Empty;
-				txtusuario.Focus();
-			}
-			else if (txtclave.Text == String.Empty)
-			{
-				MessageBox.Show("Debe ingresar la contraseña", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-				txtclave.Text = String.Empty;
-				txtclave.Focus();
-			}
-			else if (!Seguridad.Validaciones.esPasswordValida(txtclave.Text))
-			{
-				MessageBox.Show("Debe ingresar la contraseña mayor de 8 caracteres", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-				txtclave.Text = String.Empty;
-				txtclave.Focus();
-			}
-			else if (chckhabilitado.Checked == false)
-			{
-				MessageBox.Show("Debe habilitar el usuario", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-			}
-			else if (!chckalta.Checked && !chckbaja.Checked && !chckconsulta.Checked && !chckmodificacion.Checked)
-			{
-				MessageBox.Show("Debe dar permiso por lo menos a uno", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-			}
-			else
-			{
-				Int32 idplanfinal = 0;
-				if (role== "Administrador")
-				{
-					idplanfinal = 1;
-				}				
-				else
-				{
-					idplanfinal = Convert.ToInt32(cbplan.SelectedValue);
-				}
-				PersonaDTO dtoupdate = new PersonaDTO()
-				{
-					Id = Convert.ToInt32(txtid.Text),
-					id_plan = idplanfinal,
-					nombre = txtnombre.Text,
-					apellido = txtapellido.Text,
-					direccion = txtdireccion.Text,
-					telefono = txttelefono.Text,
-					fecha_nac = dtfecha_nac.Value,
-					legajo = dtoaction.legajo,
-					tipo_persona = Tipo,
-					estado = (Int32)EstadoPersona.Alta
-				};
-				dtoupdate.Usuarios = new List<UsuarioDTO>()
-					{
-						new UsuarioDTO()
-						{
-							id_usuario=Convert.ToInt32(txtidusuario.Text),
-							id_persona=Convert.ToInt32(txtid.Text),
-							nombre_usuario=txtusuario.Text,
-							clave=txtusuario.Text,
+                if (txtapellido.Text == String.Empty)
+                {
+                    ErrorValidacion.Message.GetInstance().MensajeAdvertencia("Debe ingresar el apellido");
+                    txtapellido.Text = String.Empty;
+                    txtapellido.Focus();
+                }
+                else if (!Seguridad.Validaciones.esNombreValido(txtapellido.Text))
+                {
+                    ErrorValidacion.Message.GetInstance().MensajeAdvertencia("Debe ingresar el apellido,'Letra'");
+                    txtapellido.Text = String.Empty;
+                    txtapellido.Focus();
+                }
+                else if (txtnombre.Text == String.Empty)
+                {
+                    ErrorValidacion.Message.GetInstance().MensajeAdvertencia("Debe ingresar el nombre");
+                    txtnombre.Text = String.Empty;
+                    txtnombre.Focus();
+                }
+                else if (!Seguridad.Validaciones.esNombreValido(txtnombre.Text))
+                {
+                    ErrorValidacion.Message.GetInstance().MensajeAdvertencia("Debe ingresar el nombre,'Letra'");
+                    txtnombre.Text = String.Empty;
+                    txtnombre.Focus();
+                }
+                else if (!Seguridad.Validaciones.esTelefonoValido(txttelefono.Text))
+                {
+                    ErrorValidacion.Message.GetInstance().MensajeAdvertencia("Debe ingresar un numero telefono valido");
+                    txttelefono.Text = String.Empty;
+                    txttelefono.Focus();
+                }
+                else if (dtfecha_nac.Value > DateTime.Now)
+                {
+                    ErrorValidacion.Message.GetInstance().MensajeAdvertencia("Debe ingresa una fecha manor que hoy");
+                }
+                else if (txtcorreo.Text == String.Empty)
+                {
+                    ErrorValidacion.Message.GetInstance().MensajeAdvertencia("Debe ingresar un correo valido");
+                    txtcorreo.Text = String.Empty;
+                    txtcorreo.Focus();
+                }
+                else if (!Seguridad.Validaciones.esEmailValido(txtcorreo.Text))
+                {
+                    ErrorValidacion.Message.GetInstance().MensajeAdvertencia("Debe ingresar coreo valido con formato<xxx@gmail.com>");
+                    txtcorreo.Text = String.Empty;
+                    txtcorreo.Focus();
+                }
+                else if (chckhabilitado.Checked == false)
+                {
+                    ErrorValidacion.Message.GetInstance().MensajeAdvertencia("Debe habilitar el usuario");
+                }
+                else if (!chckalta.Checked && !chckbaja.Checked && !chckconsulta.Checked && !chckmodificacion.Checked)
+                {
+                    ErrorValidacion.Message.GetInstance().MensajeAdvertencia("Debe dar permiso por lo menos a uno");
+                }
+                else
+                {
+                    Int32 idplanfinal = 0;
+                    if (role == "Administrador")
+                    {
+                        idplanfinal = 1;
+                    }
+                    else
+                    {
+                        idplanfinal = Convert.ToInt32(cbplan.SelectedValue);
+                    }
+                    PersonaDTO dtoupdate = new PersonaDTO()
+                    {
+                        Id = Convert.ToInt32(txtid.Text),
+                        id_plan = idplanfinal,
+                        nombre = txtnombre.Text,
+                        apellido = txtapellido.Text,
+                        direccion = txtdireccion.Text,
+                        telefono = txttelefono.Text,
+                        fecha_nac = dtfecha_nac.Value,
+                        legajo = dtoaction.legajo,
+                        tipo_persona = Tipo,
+                        estado = (Int32)EstadoPersona.Alta
+                    };
+                    dtoupdate.Usuarios = new List<UsuarioDTO>()
+                    {
+                        new UsuarioDTO()
+                        {
+                            id_usuario=Convert.ToInt32(txtidusuario.Text),
+                            id_persona=Convert.ToInt32(txtid.Text),
 							habilitado=chckhabilitado.Checked,
-							email=txtcorreo.Text,
-							cambia_clave=false,
-							estado=(Int32)EstadoPersona.Alta,
-							modulo_usuario = new List<Modulos_UsuarioDTO>()
-							{
-								new Modulos_UsuarioDTO()
-								{
-									id_modulo_usuario=Convert.ToInt32(txtidmodulousuario.Text),
-									id_usuario=Convert.ToInt32(txtidusuario.Text),
-									id_modulo= Convert.ToInt32(cbmodulo.SelectedValue),
-									alta=chckalta.Checked,
-									modificacion=chckmodificacion.Checked,
-									baja=chckbaja.Checked,
-									consulta=chckconsulta.Checked,
-									estado=(Int32)EstadoPersona.Alta,
-								}
-							}
-						},
-					};
-				Myproxy().Update(dtoupdate);
-				this.Close();
-			}
+                            email=txtcorreo.Text,
+                            cambia_clave=false,
+                            estado=(Int32)EstadoPersona.Alta,
+                            modulo_usuario = new List<Modulos_UsuarioDTO>()
+                            {
+                                new Modulos_UsuarioDTO()
+                                {
+                                    id_modulo_usuario=Convert.ToInt32(txtidmodulousuario.Text),
+                                    id_usuario=Convert.ToInt32(txtidusuario.Text),
+                                    id_modulo= Convert.ToInt32(cbmodulo.SelectedValue),
+                                    alta=chckalta.Checked,
+                                    modificacion=chckmodificacion.Checked,
+                                    baja=chckbaja.Checked,
+                                    consulta=chckconsulta.Checked,
+                                    estado=(Int32)EstadoPersona.Alta,
+                                }
+                            }
+                        },
+                    };
+                    resp = Myproxy().Update(dtoupdate);
+                    if (resp.Equals("Ok"))
+                    {
+                        ErrorValidacion.Message.GetInstance().exito("El registro ha sido actualizado corectamente.");
+                        this.Close();
+                    }
+                    else
+                    {
+                        ErrorValidacion.Message.GetInstance().MensajeError(resp);
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
 		}
 
 		private void DeletePersona()
 		{
-			PersonaDTO dtodelete = new PersonaDTO()
-			{
-				Id = Convert.ToInt32(txtid.Text)
-			};
-			Myproxy().Delete(dtodelete);
-			this.Close();
+            resp = "";
+            try
+            {
+                PersonaDTO dtodelete = new PersonaDTO()
+                {
+                    Id = Convert.ToInt32(txtid.Text)
+                };
+                resp = Myproxy().Delete(dtodelete);
+                if (resp.Equals("Ok"))
+                {
+                    ErrorValidacion.Message.GetInstance().exito("El registro ha sido eliminado corectamente.");
+                    this.Close();
+                }
+                else
+                {
+                    ErrorValidacion.Message.GetInstance().MensajeError(resp);
+                }
+                this.Close();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+			
 		}
 		#endregion
 		private void txtnombre_TextChanged(object sender, EventArgs e)
 		{
-			Role(role);
+			//Role(role);
 		}
 		#region Usuario
-		private void Role(String role)
-		{
-			var nombre = txtnombre.Text;
-			if (role == "Administrador")
-			{
-				nombre = nombre + "ADMIN";
-				txtusuario.Text = nombre.Substring(0, 5) + "_" + txtlegajo.Text;
-			}
-			else if (role == "Docente")
-			{
-				nombre = nombre + "Docente";
-				txtusuario.Text = nombre.Substring(0, 5) + "_" + txtlegajo.Text;
-			}
-			else if (role == "Alumno")
-			{
-				nombre = nombre + "Alumno";
-				txtusuario.Text = nombre.Substring(0, 5) + "_" + txtlegajo.Text;
-			}
-		}
+		
 		private void UsuarioContrasña()
 		{
 			int state = 0;
@@ -543,9 +555,10 @@ namespace DeskTopSysacad.Formulario.Single
 			int page = 1;
 			string filters = "?state=" + state + "&top=" + top + "&orderby=" + orderby + "&ascending=" + ascending + "&page=" + page;
 			var usr = Myproxy().GetAll(filters).LastOrDefault().Usuarios.LastOrDefault();
-			MessageBox.Show("El Usuario es :" + usr.nombre_usuario + "  Y Sucontraseña es : " + usr.clave + "", "Exitos", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            ErrorValidacion.Message.GetInstance().exito("El registro ha sido creato corectamente. El Usuario es :" + usr.nombre_usuario + "  Y Su contraseña es : " + usr.clave + "");
 		}
 		#endregion
+
 		#endregion
 
 

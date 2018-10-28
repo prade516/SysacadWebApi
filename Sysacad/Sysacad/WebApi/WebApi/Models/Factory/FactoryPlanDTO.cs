@@ -24,7 +24,8 @@ namespace WebApi.Models.Factory
 			{
 				id_plan = be.id_plan,
 				desc_plan = be.desc_plan,
-                Especialidad = be.Especialidad !=null? FactoryEspecialidadDTO.GetInstance().CreateDTO(be.Especialidad):null,
+                id_especialidad = be.id_especialidad,
+                Especialidad = be.especialidades !=null? FactoryEspecialidadDTO.GetInstance().CreateDTO(be.especialidades):null,
                 estado = be.estado
 			};
 			

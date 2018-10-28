@@ -68,8 +68,6 @@
     <Compile Include="Interface\IModuloRepository.cs" />
     <Compile Include="Interface\IModulo_Usuario_repository.cs" />
     <Compile Include="Interface\IPersonaRepository.cs" />
-    <Compile Include="Interface\IPlanComisionesRepository.cs" />
-    <Compile Include="Interface\IPlanMateriaRepository.cs" />
     <Compile Include="Interface\IPlanRepository.cs" />
     <Compile Include="Interface\ISyssacadGenericRepository.cs" />
     <Compile Include="Interface\IUsuarioRepository.cs" />
@@ -77,10 +75,7 @@
     <Compile Include="modulos.cs" />
     <Compile Include="modulos_usuarios.cs" />
     <Compile Include="personas.cs" />
-    <Compile Include="plancomisiones.cs" />
     <Compile Include="planes.cs" />
-    <Compile Include="planespecialidades.cs" />
-    <Compile Include="planmaterias.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\Alumnos_InscripcionesRepository.cs" />
     <Compile Include="Repository\ComisionRepository.cs" />
@@ -91,8 +86,6 @@
     <Compile Include="Repository\ModuloRepository.cs" />
     <Compile Include="Repository\Modulo_Usuario_repository.cs" />
     <Compile Include="Repository\PersonaRepository.cs" />
-    <Compile Include="Repository\PlanComisionRepository.cs" />
-    <Compile Include="Repository\PlanMateriaRepository.cs" />
     <Compile Include="Repository\PlanRepository.cs" />
     <Compile Include="Repository\UsuarioRepository.cs" />
     <Compile Include="SysacadContext.cs" />

@@ -53,18 +53,11 @@ namespace BusinessServices.Services
 			var flag = false;
 			try
 			{
-				Expression<Func<comisiones, Boolean>> predicate = x => x.estado == (Int32)StateEnum.Alta && x.id_comision == Id;
+				Expression<Func<DataModel.comisiones, Boolean>> predicate = x => x.estado == (Int32)StateEnum.Alta && x.id_comision == Id;
 				var entity = _puente.ComisionesRepository.GetOneByFilters(predicate, new string[] { "Plancomision" });
 				if (entity == null)
 					throw new ApiBusinessException(1012, "No se pudo Dar de baja a la comision", System.Net.HttpStatusCode.NotFound, "Http");
-				if (entity.Plancomision != null)
-				{
-					foreach (var item in entity.Plancomision)
-					{
-						item.estado = (Int32)StateEnum.Baja;
-						_puente.PlanComisionesRepository.Delete(item, new List<string>() { "estado" });
-					}
-				}
+				
 				entity.estado = (Int32)StateEnum.Baja;
 				_puente.ComisionesRepository.Delete(entity, new List<string>() { "estado" });
 				_puente.Commit();
@@ -83,7 +76,7 @@ namespace BusinessServices.Services
 		{
 			try
 			{
-				Expression<Func<comisiones, Boolean>> predicate = x => x.estado == state;
+				Expression<Func<DataModel.comisiones, Boolean>> predicate = x => x.estado == state;
 				IQueryable<DataModel.comisiones> entity = _puente.ComisionesRepository.GetAllByFilters(predicate, new string[] { "Plancomision" });
 				count = entity.Count();
 				var skipAmount = 0;
@@ -113,7 +106,7 @@ namespace BusinessServices.Services
 		{
 			try
 			{
-				Expression<Func<comisiones, Boolean>> predicate = x => x.estado == (Int32)StateEnum.Alta && x.id_comision == Id;
+				Expression<Func<DataModel.comisiones, Boolean>> predicate = x => x.estado == (Int32)StateEnum.Alta && x.id_comision == Id;
 				var entity = _puente.ComisionesRepository.GetOneByFilters(predicate, new string[] { "Plancomision" });
 				if (entity != null)
 				{
@@ -137,14 +130,7 @@ namespace BusinessServices.Services
 				if (Be != null)
 				{
 					var entity = Factory.FactoryComision.GetInstance().CreateEntity(Be);
-					if (entity.Plancomision != null)
-					{
-						foreach (var item in entity.Plancomision)
-						{
-							_puente.PlanComisionesRepository.Update(item, new List<string>() { "id_comision", "id_plan" });
-						}
-					}
-					entity.Plancomision = null;
+                    
 					_puente.ComisionesRepository.Update(entity, new List<string>() { "desc_comision", "anio_especialidad" });
 					_puente.Commit();
 

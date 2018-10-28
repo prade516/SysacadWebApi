@@ -29,35 +29,12 @@ namespace WebApi.Models.Factory
 					hs_semanales = be.hs_semanales,
 					hs_totales = be.hs_totales,
 					estado = be.estado
-				};
-				dto.Planmateria = new List<PlanMateriaDTO>();
-				if (be.Planmateria != null)
-				{
-					foreach (var item in be.Planmateria)
-					{
-						dto.Planmateria.Add(CreatePlanMateriaBusiness(item));
-					}
-				}
+				};				
 				return dto;
 			}
 			return dto = new MateriaDTO();
 		}
-		public PlanMateriaDTO CreatePlanMateriaBusiness(PlanMateriaBE be)
-		{
-			PlanMateriaDTO dto;
-			if (be != null)
-			{
-				dto = new PlanMateriaDTO()
-				{
-					idplanmateria = be.idplanmateria,
-					idmateria = be.idmateria,
-					idplan = be.idplan,
-					estado = be.estado
-				};
-				return dto;
-			}
-			return dto = new PlanMateriaDTO();
-		}
+		
 		#endregion
 	}
 }

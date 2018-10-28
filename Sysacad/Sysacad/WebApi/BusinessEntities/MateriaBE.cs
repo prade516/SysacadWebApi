@@ -6,21 +6,22 @@ using System.Threading.Tasks;
 
 namespace BusinessEntities
 {
-	public class MateriaBE
+	public class MateriaBE:BaseBE
 	{
-		private Int32 _id_materia;
-		private String _desc_materia;
-		private Int32 _hs_semanales;
-		private Int32 _hs_totales;
-		private Int32 _estado;
+        #region Properties
+        public int id_materia { get; set; }
+        public int id_plan { get; set; }
+        public string desc_materia { get; set; }
+        public int hs_semanales { get; set; }
+        public int hs_totales { get; set; }
+        #endregion
 
-		private List<PlanMateriaBE> _planmateria;
+        #region Relation
+        public PlanBE planes { get; set; }
+        #endregion
 
-		public int id_materia { get => _id_materia; set => _id_materia = value; }
-		public string desc_materia { get => _desc_materia; set => _desc_materia = value; }
-		public int hs_semanales { get => _hs_semanales; set => _hs_semanales = value; }
-		public int hs_totales { get => _hs_totales; set => _hs_totales = value; }
-		public int estado { get => _estado; set => _estado = value; }
-		public List<PlanMateriaBE> Planmateria { get => _planmateria; set => _planmateria = value; }
-	}
+        #region List
+        public List<CursoBE> cursos { get; set; }
+        #endregion
+    }
 }

@@ -123,6 +123,7 @@
     <Compile Include="Extention\IRegisterComponent.cs" />
     <Compile Include="Extention\QueryableFilterExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Tipo de usuario\TypeUser.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

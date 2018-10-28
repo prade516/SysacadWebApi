@@ -16,6 +16,7 @@ namespace WebApi.Models.Factory
 				_factory = new FactoryModuloDTO();
 			return _factory;
 		}
+
 		#region DTO
 		public ModuloDTO CreateDTO(ModuloBE be)
 		{
@@ -28,7 +29,15 @@ namespace WebApi.Models.Factory
 					desc_modulo = be.desc_modulo,
 					ejecuta = be.ejecuta,
 					estado = be.estado
-				};				
+				};
+                if (be.modulo_usuario != null)
+                {
+                    dto.modulo_usuario = new List<Modulos_UsuarioDTO>();
+                    foreach (var item in be.modulo_usuario)
+                    {
+                        dto.modulo_usuario.Add(Factory.FactoryModulo_UsuarioDTO.GetInstance().CreateDTO(item));
+                    }
+                }
 				return dto;
 			}
 			return dto = new ModuloDTO();

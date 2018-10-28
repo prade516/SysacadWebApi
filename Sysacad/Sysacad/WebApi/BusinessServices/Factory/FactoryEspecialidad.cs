@@ -9,9 +9,9 @@ namespace BusinessServices.Factory
 {
 	public static class FactoryEspecialidad
 	{
-		public static especialidades CreateEntity(EspecialidadBE be)
+		public static DataModel.especialidades CreateEntity(EspecialidadBE be)
 		{
-			return new especialidades()
+			return new DataModel.especialidades()
 			{
 				id_especialidad = be.id_especialidad,
 				desc_especialidad = be.desc_especialidad,
@@ -19,7 +19,7 @@ namespace BusinessServices.Factory
 			};
 		}
 
-		public static EspecialidadBE CreateBusiness(especialidades entity)
+		public static EspecialidadBE CreateBusiness(DataModel.especialidades entity)
 		{
 			EspecialidadBE be;
 			if (entity!=null)

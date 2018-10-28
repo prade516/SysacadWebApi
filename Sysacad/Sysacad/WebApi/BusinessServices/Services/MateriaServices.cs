@@ -53,18 +53,11 @@ namespace BusinessServices.Services
 			var flag = false;
 			try
 			{
-				Expression<Func<materias, Boolean>> predicate = x => x.estado == (Int32)StateEnum.Alta && x.id_materia == Id;
+				Expression<Func<DataModel.materias, Boolean>> predicate = x => x.estado == (Int32)StateEnum.Alta && x.id_materia == Id;
 				var entity = _puente.MateriaRepository.GetOneByFilters(predicate, new string[] { "Planmateria" });
 				if (entity == null)
 					throw new ApiBusinessException(1012, "No se pudo Dar de baja a ese materia", System.Net.HttpStatusCode.NotFound, "Http");
-				if (entity.Planmateria != null)
-				{
-					foreach (var item in entity.Planmateria)
-					{
-						item.estado = (Int32)StateEnum.Baja;
-						_puente.PlanMateriaRepository.Delete(item, new List<string>() { "estado" });
-					}
-				}
+				
 				entity.estado = (Int32)StateEnum.Baja;
 				_puente.MateriaRepository.Delete(entity, new List<string>() { "estado" });
 				_puente.Commit();
@@ -83,7 +76,7 @@ namespace BusinessServices.Services
 		{
 			try
 			{
-				Expression<Func<materias, Boolean>> predicate = x => x.estado == state;
+				Expression<Func<DataModel.materias, Boolean>> predicate = x => x.estado == state;
 				IQueryable<DataModel.materias> entity = _puente.MateriaRepository.GetAllByFilters(predicate, new string[] { "Planmateria" });
 				count = entity.Count();
 				var skipAmount = 0;
@@ -113,7 +106,7 @@ namespace BusinessServices.Services
 		{
 			try
 			{
-				Expression<Func<materias, Boolean>> predicate = x => x.estado == (Int32)StateEnum.Alta && x.id_materia == Id;
+				Expression<Func<DataModel.materias, Boolean>> predicate = x => x.estado == (Int32)StateEnum.Alta && x.id_materia == Id;
 				var entity = _puente.MateriaRepository.GetOneByFilters(predicate, new string[] { "Planmateria" });
 				if (entity != null)
 				{
@@ -137,14 +130,7 @@ namespace BusinessServices.Services
 				if (Be != null)
 				{
 					var entity = Factory.FactoryMateria.GetInstance().CreateEntity(Be);
-					if (entity.Planmateria != null)
-					{
-						foreach (var item in entity.Planmateria)
-						{
-							_puente.PlanMateriaRepository.Update(item, new List<string>() { "idplan", "idmateria" });
-						}
-					}
-					entity.Planmateria = null /*new List<planespecialidades>()*/;
+					
 					_puente.MateriaRepository.Update(entity, new List<string>() { "desc_materia", "hs_semanales","hs_totales" });
 					_puente.Commit();
 

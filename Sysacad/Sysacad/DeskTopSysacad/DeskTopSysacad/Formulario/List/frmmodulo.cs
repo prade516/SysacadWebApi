@@ -48,8 +48,8 @@ namespace DeskTopSysacad.Formulario.List
 							Modula = modulo.desc_modulo,
 							Ejecuta=modulo.ejecuta
 						}).ToList();
-
-			DGVGrilla.DataSource = list;
+            this.DGVGrilla.DefaultCellStyle.ForeColor = Color.Black;
+            DGVGrilla.DataSource = list;
 		}
 
 		private void frmmodulo_Load(object sender, EventArgs e)

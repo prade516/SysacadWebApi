@@ -18,7 +18,7 @@ namespace BusinessServices.Factory
 			return _factory;
 		}
 		#region Business
-		public CursoBE CreateBusiness(cursos entity)
+		public CursoBE CreateBusiness(DataModel.cursos entity)
 		{
 			CursoBE be;
 			if (entity!=null)
@@ -32,12 +32,12 @@ namespace BusinessServices.Factory
 					cupo=entity.cupo,
 					estado=entity.estado
 				};
-				be.Docente_curso = new List<Docente_CursoBE>();
-				if (entity.Docente_curso!=null)
+				be.docentes_cursos = new List<Docente_CursoBE>();
+				if (entity.docentes_cursos!=null)
 				{
-					foreach (var item in entity.Docente_curso)
+					foreach (var item in entity.docentes_cursos)
 					{
-						be.Docente_curso.Add(FactoryDocente_Curso.GetInstance().CreateBusiness(item));
+						be.docentes_cursos.Add(FactoryDocente_Curso.GetInstance().CreateBusiness(item));
 					}
 				}
 				return be;
@@ -46,12 +46,12 @@ namespace BusinessServices.Factory
 		}
 		#endregion
 		#region Entity
-		public cursos CreateEntity(CursoBE be)
+		public DataModel.cursos CreateEntity(CursoBE be)
 		{
-			cursos entity;
+            DataModel.cursos entity;
 			if (be != null)
 			{
-				entity = new cursos()
+				entity = new DataModel.cursos()
 				{
 					id_curso = be.id_curso,
 					id_comision = be.id_comision,
@@ -60,18 +60,18 @@ namespace BusinessServices.Factory
 					cupo = be.cupo,
 					estado = be.estado
 				};
-				entity.Docente_curso = new List<docentes_cursos>();
-				if (be.Docente_curso!=null)
+				entity.docentes_cursos = new List<DataModel.docentes_cursos>();
+				if (be.docentes_cursos!=null)
 				{
-					foreach (var item in be.Docente_curso)
+					foreach (var item in be.docentes_cursos)
 					{
-						entity.Docente_curso.Add(FactoryDocente_Curso.GetInstance().CreateEntity(item));
+						entity.docentes_cursos.Add(FactoryDocente_Curso.GetInstance().CreateEntity(item));
 					}
 				}
 				return entity;
 				
 			}
-			return entity = new cursos();
+			return entity = new DataModel.cursos();
 		}
 		#endregion
 	}

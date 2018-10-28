@@ -13,7 +13,8 @@ namespace DeskTopSysacad.Exceptions
 		public int ErrorCode { get; set; }
 		[JsonProperty]
 		public string ErrorDescription { get; set; }
-		[JsonProperty]
+        public string Message { get; set; }
+        [JsonProperty]
 		public HttpStatusCode HttpStatus { get; set; }
 
 		string reasonPhrase;

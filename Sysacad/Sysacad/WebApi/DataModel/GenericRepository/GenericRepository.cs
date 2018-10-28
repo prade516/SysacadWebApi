@@ -68,7 +68,7 @@ namespace DataModel.GenericRepository
 		#region ReadAll
 		public virtual IQueryable<TEntity> GetAll()
 		{
-			IQueryable<TEntity> query = dbSet;
+			IQueryable<TEntity> query = this.dbSet;
 			return query;
 		}
 

@@ -1,25 +1,31 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace DataModel
 {
-	public class comisiones
-	{
-		private Int32 _id_comision;
-		private String _desc_comision;
-		private Int32 _anio_especialidad;
-		private Int32 _estado;
-		private List<plancomisiones> _plancomision;
+    using System;
+    using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
+    using System.Data.Entity.Spatial;
 
-		[Key]
-		public int id_comision { get => _id_comision; set => _id_comision = value; }
-		public string desc_comision { get => _desc_comision; set => _desc_comision = value; }
-		public int anio_especialidad { get => _anio_especialidad; set => _anio_especialidad = value; }
-		public int estado { get => _estado; set => _estado = value; }
-		public List<plancomisiones> Plancomision { get => _plancomision; set => _plancomision = value; }
-	}
+    public class comisiones:BaseDM
+    {
+        #region Properties
+        [Key]
+        public int id_comision { get; set; }
+
+        public int id_plan { get; set; }
+
+        public string desc_comision { get; set; }
+
+        public int anio_especialidad { get; set; }
+        #endregion
+
+        #region Relation
+        [ForeignKey("id_plan")]
+        public planes planes { get; set; }
+        #endregion
+
+        #region List
+        public List<cursos> cursos { get; set; }
+        #endregion
+    }
 }

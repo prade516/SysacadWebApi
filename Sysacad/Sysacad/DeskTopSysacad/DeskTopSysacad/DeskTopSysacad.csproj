@@ -108,13 +108,14 @@
     <Compile Include="DTO\PersonaDTO.cs" />
     <Compile Include="DTO\PlanComisionDTO.cs" />
     <Compile Include="DTO\PlanDTO.cs" />
-    <Compile Include="DTO\PlanEspecialidadDTO.cs" />
     <Compile Include="DTO\PlanMateriaDTO.cs" />
     <Compile Include="DTO\UsuarioDTO.cs" />
     <Compile Include="EnumeradorPublic\CondicionAlumno.cs" />
     <Compile Include="EnumeradorPublic\EnumDocente.cs" />
     <Compile Include="EnumeradorPublic\EstadoPersona.cs" />
     <Compile Include="EnumeradorPublic\Role.cs" />
+    <Compile Include="ErrorValidacion\ErrorMessage.cs" />
+    <Compile Include="ErrorValidacion\Message.cs" />
     <Compile Include="Formulario\Busqueda\fmbuscarnotaparcial.cs">
       <SubType>Form</SubType>
     </Compile>

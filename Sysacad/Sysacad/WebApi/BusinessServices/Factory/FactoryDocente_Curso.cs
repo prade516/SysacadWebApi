@@ -18,14 +18,14 @@ namespace BusinessServices.Factory
 			return _factory;
 		}
 		#region Business
-		public Docente_CursoBE CreateBusiness(docentes_cursos entity)
+		public Docente_CursoBE CreateBusiness(DataModel.docentes_cursos entity)
 		{
 			Docente_CursoBE be;
 			if (entity!=null)
 			{
 				be = new Docente_CursoBE()
 				{
-					id_cursos=entity.id_curso,
+					id_curso=entity.id_curso,
 					id_dictado=entity.id_dictado,
 					id_docente=entity.id_docente,
 					cargo=entity.cargo,
@@ -38,14 +38,14 @@ namespace BusinessServices.Factory
 		}
 		#endregion
 		#region Entity
-		public docentes_cursos CreateEntity(Docente_CursoBE be)
+		public DataModel.docentes_cursos CreateEntity(Docente_CursoBE be)
 		{
-			docentes_cursos entity;
+            DataModel.docentes_cursos entity;
 			if (be!=null)
 			{
-				entity = new docentes_cursos()
+				entity = new DataModel.docentes_cursos()
 				{
-					id_curso=be.id_cursos,
+					id_curso=be.id_curso,
 					id_dictado=be.id_dictado,
 					id_docente=be.id_docente,
 					cargo=be.cargo,
@@ -53,7 +53,7 @@ namespace BusinessServices.Factory
 				};
 				return entity;
 			}
-			return entity = new docentes_cursos();
+			return entity = new DataModel.docentes_cursos();
 		}
 		#endregion
 	}

@@ -18,7 +18,7 @@ namespace BusinessServices.Factory
 			return _factory;
 		}
 		#region Business
-		public PersonaBE CreateBusiness(personas entity)
+		public PersonaBE CreateBusiness(DataModel.personas entity)
 		{
 			PersonaBE be;
 			if (entity!=null)
@@ -37,9 +37,9 @@ namespace BusinessServices.Factory
 					estado=entity.estado
 				};
 				be.Usuarios = new List<UsuarioBE>();
-				if (entity.Usuarios!=null)
+				if (entity.usuarios!=null)
 				{
-					foreach (var item in entity.Usuarios)
+					foreach (var item in entity.usuarios)
 					{
 						be.Usuarios.Add(FactoryUsuario.GetInstance().CreateBusiness(item));
 					}
@@ -51,12 +51,12 @@ namespace BusinessServices.Factory
 		#endregion
 
 		#region Entity
-		public personas CreateEntity(PersonaBE be)
+		public DataModel.personas CreateEntity(PersonaBE be)
 		{
-			personas entity;
+            DataModel.personas entity;
 			if (be != null)
 			{
-				entity = new personas()
+				entity = new DataModel.personas()
 				{
 					id_persona = be.id_persona,
 					id_plan = be.id_plan,
@@ -69,17 +69,17 @@ namespace BusinessServices.Factory
 					tipo_persona = be.tipo_persona,
 					estado = be.estado
 				};
-				entity.Usuarios = new List<usuarios>();
-				if (entity.Usuarios != null)
+				entity.usuarios = new List<DataModel.usuarios>();
+				if (entity.usuarios != null)
 				{
 					foreach (var item in be.Usuarios)
 					{
-						entity.Usuarios.Add(FactoryUsuario.GetInstance().CreateEntity(item));
+						entity.usuarios.Add(FactoryUsuario.GetInstance().CreateEntity(item));
 					}
 				}
 				return entity;
 			}
-			return entity = new personas();
+			return entity = new DataModel.personas();
 		}
 		#endregion
 	}

@@ -16,12 +16,12 @@ namespace BusinessServices.Services
 	public class EspecialidadService : IEspecialidadServices
 	{
 		#region Member
-		private readonly UnitOfWork _puente;
+		private readonly UnitOfWork _unitofWork;
 		#endregion
 		#region Constructor
 		public EspecialidadService(UnitOfWork punte)
 		{
-			_puente = punte;
+			_unitofWork = punte;
 		}
 		#endregion
 		public long Create(EspecialidadBE Be, string username)
@@ -31,8 +31,8 @@ namespace BusinessServices.Services
 				if (Be != null)
 				{
 					DataModel.especialidades entity = Factory.FactoryEspecialidad.CreateEntity(Be);
-					_puente.EspecialidadRepository.Insert(entity);
-					_puente.Commit();
+					_unitofWork.EspecialidadRepository.Insert(entity);
+					_unitofWork.Commit();
 
 					return entity.id_especialidad;
 				}
@@ -52,13 +52,13 @@ namespace BusinessServices.Services
 			var flag = false;
 			try
 			{
-					var especialidad = _puente.EspecialidadRepository.GetById(Id);
+					var especialidad = _unitofWork.EspecialidadRepository.GetById(Id);
 					if (especialidad == null)
 						throw new ApiBusinessException(1012, "No se pudo Dar de baja a esa especialidad", System.Net.HttpStatusCode.NotFound, "Http");
 					
 					 especialidad.estado = (Int32)StateEnum.Baja;
-					_puente.EspecialidadRepository.Delete(especialidad, new List<string>() { "estado" });
-					_puente.Commit();
+					_unitofWork.EspecialidadRepository.Delete(especialidad, new List<string>() { "estado" });
+					_unitofWork.Commit();
 
 					flag = true;
 					return flag;
@@ -74,9 +74,10 @@ namespace BusinessServices.Services
 		{
 			try
 			{
-				Expression<Func<especialidades, Boolean>> predicate = x => x.estado == estado;
-				IQueryable<especialidades> especialidadentity = _puente.EspecialidadRepository.GetAllByFilters(predicate, null);
-				count = especialidadentity.Count();
+				Expression<Func<DataModel.especialidades, Boolean>> predicate = x => x.estado == estado && x.desc_especialidad !="none";
+                IQueryable<DataModel.especialidades> especialidadentity = _unitofWork.EspecialidadRepository.GetAllByFilters(predicate, new String[] { "planes" });
+
+                count = especialidadentity.Count();
 				var skipAmount = 0;
 
 				if (page > 0)
@@ -103,8 +104,8 @@ namespace BusinessServices.Services
 		{
 			try
 			{
-				Expression<Func<especialidades, Boolean>> predicate = x => x.estado == (Int32)StateEnum.Alta && x.id_especialidad == Id;
-				var especialidadentity = _puente.EspecialidadRepository.GetOneByFilters(predicate, null);
+				Expression<Func<DataModel.especialidades, Boolean>> predicate = x => x.estado == (Int32)StateEnum.Alta && x.id_especialidad == Id;
+				var especialidadentity = _unitofWork.EspecialidadRepository.GetOneByFilters(predicate, null);
 				if (especialidadentity != null)
 				{
 					return Factory.FactoryEspecialidad.CreateBusiness(especialidadentity);
@@ -127,8 +128,8 @@ namespace BusinessServices.Services
 				if (Be != null)
 				{
 					var especialidadentity = Factory.FactoryEspecialidad.CreateEntity(Be);
-					_puente.EspecialidadRepository.Update(especialidadentity, new List<string>() { "desc_especialidad" });
-					_puente.Commit();
+					_unitofWork.EspecialidadRepository.Update(especialidadentity, new List<string>() { "desc_especialidad" });
+					_unitofWork.Commit();
 
 					flag = true;
 					return flag;

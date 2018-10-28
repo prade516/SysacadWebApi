@@ -6,63 +6,19 @@ using System.Threading.Tasks;
 
 namespace BusinessEntities
 {
-	public class Docente_CursoBE
+	public class Docente_CursoBE:BaseBE
 	{
-		private Int32 _id_dictado;
-		private int _id_curso;
-		private int _id_docente;
-		private int _cargo;
-		private int _estado;
+        #region Properties
+    
+        public int id_dictado { get; set; }
+        public int cargo { get; set; }
+        public int id_docente { get; set; }
+        public int id_curso { get; set; }
+        #endregion
 
-		private List<PersonaBE> _persona;
-		private List<CursoBE> _curso;
-
-		public List<CursoBE> Curso
-		{
-			get { return _curso; }
-			set { _curso = value; }
-		}
-
-
-		public List<PersonaBE> Persona
-		{
-			get { return _persona; }
-			set { _persona = value; }
-		}
-
-
-		public int estado
-		{
-			get { return _estado; }
-			set { _estado = value; }
-		}
-
-
-		public int cargo
-		{
-			get { return _cargo; }
-			set { _cargo = value; }
-		}
-
-
-		public int id_docente
-		{
-			get { return _id_docente; }
-			set { _id_docente = value; }
-		}
-
-
-		public int id_cursos
-		{
-			get { return _id_curso; }
-			set { _id_curso = value; }
-		}
-
-		public int id_dictado
-		{
-			get { return _id_dictado; }
-			set { _id_dictado = value; }
-
-		}
-	}
-	}
+        #region Relation
+        public CursoBE cursos { get; set; }
+        public PersonaBE personas { get; set; }
+        #endregion
+    }
+}

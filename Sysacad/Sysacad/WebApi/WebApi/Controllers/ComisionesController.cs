@@ -52,7 +52,7 @@ namespace WebApi.Controllers
 			{
 				return BadRequest(ModelState);
 			}
-			comision.idcomision = id;
+			comision.id_comision = id;
 			_services.Update(id, comision);
 			return Ok();
 		}

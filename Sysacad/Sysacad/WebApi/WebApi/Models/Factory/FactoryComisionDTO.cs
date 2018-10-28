@@ -24,37 +24,17 @@ namespace WebApi.Models.Factory
 			{
 				dto = new ComisionDTO()
 				{
-					id_comision = be.idcomision,
+					id_comision = be.id_comision,
 					desc_comision = be.desc_comision,
 					anio_especialidad = be.anio_especialidad,
 					estado = be.estado
 				};
-				dto.Plancomision = new List<PlanComisionDTO>();
-				foreach (var item in be.Plancomision)
-				{
-					dto.Plancomision.Add(CreatePlanComisionDTO(item));
-				}
+				
 				return dto;
 			}
-
 			return dto = new ComisionDTO();
 		}
-		public PlanComisionDTO CreatePlanComisionDTO(PlanComisionBE be)
-		{
-			PlanComisionDTO dto;
-			if (be != null)
-			{
-				dto = new PlanComisionDTO()
-				{
-					idplancomision = be.idplancomision,
-					idcomision = be.idcomision,
-					idplan = be.idplan,
-					estado = be.estado
-				};
-				return dto;
-			}
-			return dto = new PlanComisionDTO();
-		}
+		
 		#endregion
 	}
 }

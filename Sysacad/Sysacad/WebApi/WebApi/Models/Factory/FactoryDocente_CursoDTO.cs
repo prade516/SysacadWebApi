@@ -24,7 +24,7 @@ namespace WebApi.Models.Factory
 			{
 				dto = new Docente_CursoDTO()
 				{
-					id_cursos = be.id_cursos,
+					id_cursos = be.id_curso,
 					id_dictado = be.id_dictado,
 					id_docente = be.id_docente,
 					cargo = be.cargo,

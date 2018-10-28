@@ -80,6 +80,7 @@ namespace DeskTopSysacad.Formulario.Single
 					txtmodulo.Text = String.Empty;
 					txtmodulo.Focus();
 				}
+                else
 				if (txtejecuta.Text == String.Empty)
 				{
 					MessageBox.Show("Debe ingresar el lugar del modulo", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);

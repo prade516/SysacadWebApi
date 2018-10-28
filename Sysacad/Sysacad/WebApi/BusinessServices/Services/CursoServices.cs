@@ -53,14 +53,14 @@ namespace BusinessServices.Services
 			var flag = false;
 			try
 			{
-				Expression<Func<cursos, Boolean>> predicate = x =>x.id_comision == Id;
+				Expression<Func<DataModel.cursos, Boolean>> predicate = x =>x.id_comision == Id;
 				var entity = _puente.CursoRepository.GetOneByFilters(predicate, new string[] { "Docente_curso" });
 			
 				if (entity == null)
 					throw new ApiBusinessException(1012, "No se pudo Dar de baja a ese curso", System.Net.HttpStatusCode.NotFound, "Http");
-				if (entity.Docente_curso!=null)
+				if (entity.docentes_cursos!=null)
 				{
-					foreach (var item in entity.Docente_curso)
+					foreach (var item in entity.docentes_cursos)
 					{
 						item.estado= (Int32)StateEnum.Baja;
 						_puente.Docentes_CursosRepository.Delete(item, new List<string>() { "estado" });
@@ -84,7 +84,7 @@ namespace BusinessServices.Services
 		{
 			try
 			{
-				Expression<Func<cursos, Boolean>> predicate = x => x.estado == state;
+				Expression<Func<DataModel.cursos, Boolean>> predicate = x => x.estado == state;
 				IQueryable<DataModel.cursos> entity = _puente.CursoRepository.GetAllByFilters(predicate, new string[] { "Docente_curso" });
 				count = entity.Count();
 				var skipAmount = 0;
@@ -114,7 +114,7 @@ namespace BusinessServices.Services
 		{
 			try
 			{
-				Expression<Func<cursos, Boolean>> predicate = x => x.estado == (Int32)StateEnum.Alta && x.id_curso == Id;
+				Expression<Func<DataModel.cursos, Boolean>> predicate = x => x.estado == (Int32)StateEnum.Alta && x.id_curso == Id;
 				var entity = _puente.CursoRepository.GetOneByFilters(predicate, new string[] { "Docente_curso" });
 				if (entity != null)
 				{
@@ -138,14 +138,14 @@ namespace BusinessServices.Services
 				if (Be != null)
 				{
 					var entity = Factory.FactoryCurso.GetInstance().CreateEntity(Be);
-					if (entity.Docente_curso!=null)
+					if (entity.docentes_cursos != null)
 					{
-						foreach (var item in entity.Docente_curso)
+						foreach (var item in entity.docentes_cursos)
 						{
 							_puente.Docentes_CursosRepository.Update(item, new List<string>() { "id_docente","id_curso", "cargo"});
 						}
 					}
-					entity.Docente_curso = null;
+					entity.docentes_cursos = null;
 					_puente.CursoRepository.Update(entity, new List<string>() { "id_materia", "id_comision", "anio_calendario", "cupo" });
 					_puente.Commit();
 

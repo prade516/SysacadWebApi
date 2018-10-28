@@ -76,9 +76,9 @@ namespace DataModel.UnitOfWork
 		private Interface.IModuloRepository _moduloRepository;
 		private Interface.IPersonaRepository _personaRepository;
 		private Interface.IUsuarioRepository _usuarioRepository;
-		private Interface.IPlanComisionesRepository _planComisionesRepository;
-		private Interface.IComisionesRepository _comisionesRepository;
-		private Interface.IPlanMateriaRepository _planMateriaRepository;
+		//private Interface.IPlanComisionesRepository _planComisionesRepository;
+		private IComisionesRepository _comisionesRepository;
+		//private Interface.IPlanMateriaRepository _planMateriaRepository;
 		private Interface.IMateriaRepository _materiaRepository;
 		private Interface.ICursoRepository _cursoRepository;
 		private Interface.IDocentes_CursosRepository _docentes_CursosRepository;
@@ -202,18 +202,18 @@ namespace DataModel.UnitOfWork
 			}
 		}
 
-		public IPlanComisionesRepository PlanComisionesRepository
-		{
-			get
-			{
-				if (_planComisionesRepository==null)
-				{
-					return _planComisionesRepository = new PlanComisionRepository(context);
-				}
-				return _planComisionesRepository;
-			}
-			set => _planComisionesRepository = value;
-		}
+		//public IPlanComisionesRepository PlanComisionesRepository
+		//{
+		//	get
+		//	{
+		//		if (_planComisionesRepository==null)
+		//		{
+		//			return _planComisionesRepository = new PlanComisionRepository(context);
+		//		}
+		//		return _planComisionesRepository;
+		//	}
+		//	set => _planComisionesRepository = value;
+		//}
 		public IComisionesRepository ComisionesRepository
 		{
 			get
@@ -227,18 +227,18 @@ namespace DataModel.UnitOfWork
 			set => _comisionesRepository = value;
 		}
 
-		public IPlanMateriaRepository PlanMateriaRepository
-		{
-			get
-			{
-				if (_planMateriaRepository==null)
-				{
-					_planMateriaRepository = new PlanMateriaRepository(context);
-				}
-				return _planMateriaRepository;
-			}
-			set => _planMateriaRepository = value;
-		}
+		//public IPlanMateriaRepository PlanMateriaRepository
+		//{
+		//	get
+		//	{
+		//		if (_planMateriaRepository==null)
+		//		{
+		//			_planMateriaRepository = new PlanMateriaRepository(context);
+		//		}
+		//		return _planMateriaRepository;
+		//	}
+		//	set => _planMateriaRepository = value;
+		//}
 		public IMateriaRepository MateriaRepository
 		{
 			get

@@ -14,7 +14,8 @@ namespace DeskTopSysacad.Exceptions
 		public int ErrorCode { get; set; }
 		[JsonProperty]
 		public string ErrorDescription { get; set; }
-		[JsonProperty]
+        public string Message { get; set; }
+        [JsonProperty]
 		public HttpStatusCode HttpStatus { get; set; }
 
 		string reasonPhrase;
@@ -54,19 +55,27 @@ namespace DeskTopSysacad.Exceptions
 		}
 
 		public static void HandleError(HttpResponseMessage response)
-		{
-			JsonError ap = JsonConvert.DeserializeObject<JsonError>(response.Content.ReadAsStringAsync().Result);
-			throw new JsonHalExceptionClientHandler
-			()
-			{
-				ErrorCode = ap.ErrorCode,
-				ReferenceLink = ap.ReferenceLink,
-				ErrorDescription = ap.ErrorDescription,
-				HttpStatus = ap.HttpStatus
-			};
+		{            
+            JsonError ap = JsonConvert.DeserializeObject<JsonError>(response.Content.ReadAsStringAsync().Result);
+            throw new JsonHalExceptionClientHandler
+            ()
+            {               
+                Message = ap.Message,
+                ErrorDescription = ap.Message,
+            };
 		}
-
-		static JsonHalExceptionClientHandler _instance;
+        public String Error(HttpResponseMessage response)
+        {
+            JsonError ap = JsonConvert.DeserializeObject<JsonError>(response.Content.ReadAsStringAsync().Result);
+            throw new JsonHalExceptionClientHandler
+            ()
+            {
+                Message = ap.Message,
+                ErrorDescription = ap.Message,
+            };
+        }
+        
+        static JsonHalExceptionClientHandler _instance;
 		private JsonHalExceptionClientHandler() { }
 		public static JsonHalExceptionClientHandler GetInstance()
 		{

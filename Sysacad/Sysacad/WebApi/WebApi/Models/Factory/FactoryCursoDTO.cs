@@ -32,9 +32,9 @@ namespace WebApi.Models.Factory
 					estado = be.estado
 				};
 				dto.Docente_curso = new List<Docente_CursoDTO>();
-				if (be.Docente_curso!=null)
+				if (be.docentes_cursos!=null)
 				{
-					foreach (var item in be.Docente_curso)
+					foreach (var item in be.docentes_cursos)
 					{
 						dto.Docente_curso.Add(FactoryDocente_CursoDTO.GetInstance().CreateDTO(item));
 					}

@@ -17,12 +17,12 @@ namespace BusinessServices.Services
 	public class ModuloServices : IModuloServices
 	{
 		#region Member
-		private readonly UnitOfWork _puente;
+		private readonly UnitOfWork _unitOfWork;
 		#endregion
 		#region Constructor
 		public ModuloServices(UnitOfWork punte)
 		{
-			_puente = punte;
+			_unitOfWork = punte;
 		}
 		#endregion
 		public long Create(ModuloBE Be)
@@ -32,8 +32,8 @@ namespace BusinessServices.Services
 				if (Be != null)
 				{
 					DataModel.modulos entity = Factory.FactoryModulo.GetInstance().CreateEntity(Be);
-					_puente.ModuloRepository.Insert(entity);
-					_puente.Commit();
+					_unitOfWork.ModuloRepository.Insert(entity);
+					_unitOfWork.Commit();
 
 					return entity.id_modulo;
 				}
@@ -53,14 +53,14 @@ namespace BusinessServices.Services
 			var flag = false;
 			try
 			{
-				Expression<Func<modulos, Boolean>> predicate = x => x.estado == (Int32)StateEnum.Alta && x.id_modulo == Id;
-				var entity = _puente.ModuloRepository.GetOneByFilters(predicate,null);
+				Expression<Func<DataModel.modulos, Boolean>> predicate = x => x.estado == (Int32)StateEnum.Alta && x.id_modulo == Id;
+				var entity = _unitOfWork.ModuloRepository.GetOneByFilters(predicate,null);
 				if (entity == null)
 					throw new ApiBusinessException(1012, "No se pudo Dar de baja a ese modulo", System.Net.HttpStatusCode.NotFound, "Http");
 
 				entity.estado = (Int32)StateEnum.Baja;
-				_puente.ModuloRepository.Delete(entity, new List<string>() { "estado" });
-				_puente.Commit();
+				_unitOfWork.ModuloRepository.Delete(entity, new List<string>() { "estado" });
+				_unitOfWork.Commit();
 
 				flag = true;
 				return flag;
@@ -76,8 +76,8 @@ namespace BusinessServices.Services
 		{
 			try
 			{
-				Expression<Func<modulos, Boolean>> predicate = x => x.estado == state;
-				IQueryable<DataModel.modulos> entity = _puente.ModuloRepository.GetAllByFilters(predicate, new string[] { "modulo_usuario" });
+				Expression<Func<DataModel.modulos, Boolean>> predicate = x => x.estado == state;
+				IQueryable<DataModel.modulos> entity = _unitOfWork.ModuloRepository.GetAllByFilters(predicate, new string[] { "modulos_usuarios" });
 				count = entity.Count();
 				var skipAmount = 0;
 
@@ -106,8 +106,8 @@ namespace BusinessServices.Services
 		{
 			try
 			{
-				Expression<Func<modulos, Boolean>> predicate = x => x.estado == (Int32)StateEnum.Alta && x.id_modulo == Id;
-				var entity = _puente.ModuloRepository.GetOneByFilters(predicate, new string[] { "modulo_usuario" });
+				Expression<Func<DataModel.modulos, Boolean>> predicate = x => x.estado == (Int32)StateEnum.Alta && x.id_modulo == Id;
+				var entity = _unitOfWork.ModuloRepository.GetOneByFilters(predicate, new string[] { "modulos_usuarios" });
 				if (entity != null)
 				{
 					return Factory.FactoryModulo.GetInstance().CreateBusiness(entity);
@@ -131,9 +131,9 @@ namespace BusinessServices.Services
 				{
 					var entity = Factory.FactoryModulo.GetInstance().CreateEntity(Be);
 					
-					entity.modulo_usuario = null;
-					_puente.ModuloRepository.Update(entity, new List<string>() { "desc_modulo", "ejecuta" });
-					_puente.Commit();
+					entity.modulos_usuarios = null;
+					_unitOfWork.ModuloRepository.Update(entity, new List<string>() { "desc_modulo", "ejecuta" });
+					_unitOfWork.Commit();
 
 					flag = true;
 					return flag;

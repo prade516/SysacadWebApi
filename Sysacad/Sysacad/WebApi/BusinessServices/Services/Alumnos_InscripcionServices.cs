@@ -17,21 +17,23 @@ namespace BusinessServices.Services
 	public class Alumnos_InscripcionServices : IAlumnos_InscripcionServices
 	{
 		#region Member
-		private readonly UnitOfWork _puente;
+		private readonly UnitOfWork _unitOfWork;
 		#endregion
+
 		#region Constructor
 		public Alumnos_InscripcionServices(UnitOfWork punte)
 		{
-			_puente = punte;
+			_unitOfWork = punte;
 		}
 		#endregion
+
 		public long Create(Alumnos_InscripcionBE Be)
 		{
 			if (Be != null)
 			{
-				DataModel.alumnos_inscripciones entity = Factory.FactoryAlumnos_Inscripcion.GetInstance().CreateEntity(Be);
-				_puente.Alumnos_InscripcionesRepository.Insert(entity);
-				_puente.Commit();
+                DataModel.alumnos_inscripciones entity = Factory.FactoryAlumnos_Inscripcion.GetInstance().CreateEntity(Be);
+				_unitOfWork.Alumnos_InscripcionesRepository.Insert(entity);
+				_unitOfWork.Commit();
 
 				return entity.id_inscripcion;
 			}
@@ -46,14 +48,14 @@ namespace BusinessServices.Services
 			var flag = false;
 			try
 			{
-				Expression<Func<alumnos_inscripciones, Boolean>> predicate = x => x.estado == (Int32)StateEnum.Alta && x.id_inscripcion == Id;
-				var entity = _puente.Alumnos_InscripcionesRepository.GetOneByFilters(predicate, null);
+				Expression<Func<DataModel.alumnos_inscripciones, Boolean>> predicate = x => x.estado == (Int32)StateEnum.Alta && x.id_inscripcion == Id;
+				var entity = _unitOfWork.Alumnos_InscripcionesRepository.GetOneByFilters(predicate, null);
 				if (entity == null)
 					throw new ApiBusinessException(1012, "No se pudo Dar de baja a la inscripcion", System.Net.HttpStatusCode.NotFound, "Http");
 
 				entity.estado = (Int32)StateEnum.Baja;
-				_puente.Alumnos_InscripcionesRepository.Delete(entity, new List<string>() { "estado" });
-				_puente.Commit();
+				_unitOfWork.Alumnos_InscripcionesRepository.Delete(entity, new List<string>() { "estado" });
+				_unitOfWork.Commit();
 
 				flag = true;
 				return flag;
@@ -69,11 +71,11 @@ namespace BusinessServices.Services
 		{
 			try
 			{
-				Expression<Func<alumnos_inscripciones, Boolean>> predicate = x => x.estado == state 
+				Expression<Func<DataModel.alumnos_inscripciones, Boolean>> predicate = x => x.estado == state 
 				&&((x.id_alumno==idalumno)||(idalumno==0))
 				&&((x.id_curso==id_curso)||(id_curso==0))
 				&& ((x.id_alumno == idalumno && x.id_curso == id_curso) || (idalumno == 0 || id_curso == 0));
-				IQueryable<DataModel.alumnos_inscripciones> entity = _puente.Alumnos_InscripcionesRepository.GetAllByFilters(predicate, new string[] { "curso","persona" });
+				IQueryable<DataModel.alumnos_inscripciones> entity = _unitOfWork.Alumnos_InscripcionesRepository.GetAllByFilters(predicate, new string[] { "curso","persona" });
 				count = entity.Count();
 				var skipAmount = 0;
 
@@ -102,8 +104,8 @@ namespace BusinessServices.Services
 		{
 			try
 			{
-				Expression<Func<alumnos_inscripciones, Boolean>> predicate = x => x.estado == (Int32)StateEnum.Alta && x.id_inscripcion == Id;
-				var entity = _puente.Alumnos_InscripcionesRepository.GetOneByFilters(predicate,null);
+				Expression<Func<DataModel.alumnos_inscripciones, Boolean>> predicate = x => x.estado == (Int32)StateEnum.Alta && x.id_inscripcion == Id;
+				var entity = _unitOfWork.Alumnos_InscripcionesRepository.GetOneByFilters(predicate,null);
 				if (entity != null)
 				{
 					return Factory.FactoryAlumnos_Inscripcion.GetInstance().CreateBusiness(entity);
@@ -127,8 +129,8 @@ namespace BusinessServices.Services
 				{
 					var entity = Factory.FactoryAlumnos_Inscripcion.GetInstance().CreateEntity(Be);
 										
-					_puente.Alumnos_InscripcionesRepository.Update(entity, new List<string>() { "id_alumno", "id_curso", "condicion", "nota" });
-					_puente.Commit();
+					_unitOfWork.Alumnos_InscripcionesRepository.Update(entity, new List<string>() { "id_alumno", "id_curso", "condicion", "nota" });
+					_unitOfWork.Commit();
 
 					flag = true;
 					return flag;

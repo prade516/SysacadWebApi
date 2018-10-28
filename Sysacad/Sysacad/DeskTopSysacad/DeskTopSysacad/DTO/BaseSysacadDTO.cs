@@ -9,5 +9,6 @@ namespace DeskTopSysacad.DTO
 	public class BaseSysacadDTO
 	{
 		public Int32 Id { get; set; }
-	}
+        public Int32 estado { get; set; }
+    }
 }

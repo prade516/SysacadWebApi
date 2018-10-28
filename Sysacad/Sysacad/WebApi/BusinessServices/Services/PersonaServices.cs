@@ -11,29 +11,48 @@ using System.Linq.Expressions;
 using SolveApi.Enum;
 using DataModel;
 using SolveApi.Extention;
+using SolveApi.Tipo_de_usuario;
 
 namespace BusinessServices.Services
 {
 	public class PersonaServices : IPersonaServices
 	{
 		#region Member
-		private readonly UnitOfWork _puente;
+		private readonly UnitOfWork _unitOfWork;
 		#endregion
 		#region Constructor
 		public PersonaServices(UnitOfWork punte)
 		{
-			_puente = punte;
+			_unitOfWork = punte;
 		}
 		#endregion
+
 		public long Create(PersonaBE Be)
 		{
 			try
 			{
 				if (Be != null)
 				{
-					DataModel.personas entity = Factory.FactoryPersona.GetInstance().CreateEntity(Be);
-					_puente.PersonaRepository.Insert(entity);
-					_puente.Commit();
+                    Be.legajo = GetLastLegajo();
+                    Be.Usuarios[0].nombre_usuario = GetLastLegajo().ToString();
+                    if (TypeUser.GetInstance().GetTyperUser(Be.tipo_persona)== 1 || TypeUser.GetInstance().GetTyperUser(Be.tipo_persona) == 2) 
+                          Be.id_plan = 20;    
+                 
+                    DataModel.personas entity = Factory.FactoryPersona.GetInstance().CreateEntity(Be);
+
+                    Expression<Func<DataModel.personas, Boolean>> predicate = x => (x.telefono == entity.telefono);
+                    DataModel.personas verify = _unitOfWork.PersonaRepository.GetOneByFilters(predicate, new string[] { "usuarios.modulos_usuarios" });
+                    if (verify!=null)
+                        throw new ApiBusinessException(1012, "Ya existe un usuario con ese numero de telefono", System.Net.HttpStatusCode.Forbidden, "Http");
+
+                    var email = entity.usuarios.FirstOrDefault().email.ToString();
+                    Expression<Func<DataModel.usuarios, Boolean>> predicateuser = x => (x.email == email);
+                    DataModel.usuarios usur = _unitOfWork.UsuarioRepository.GetOneByFilters(predicateuser, new string[] { "modulos_usuarios" });
+                    if (usur != null)
+                        throw new ApiBusinessException(1012, "Ya existe un usuario con ese email", System.Net.HttpStatusCode.Forbidden, "Http");
+
+                    _unitOfWork.PersonaRepository.Insert(entity);
+					_unitOfWork.Commit();
 					return entity.id_persona;
 				}
 				else
@@ -52,26 +71,26 @@ namespace BusinessServices.Services
 			var flag = false;
 			try
 			{
-				Expression<Func<personas, Boolean>> predicate = x => x.estado == (Int32)StateEnum.Alta && x.id_persona == Id;
-				var entity = _puente.PersonaRepository.GetOneByFilters(predicate, new string[] { "Usuarios.modulo_usuario" });
+				Expression<Func<DataModel.personas, Boolean>> predicate = x => x.estado == (Int32)StateEnum.Alta && x.id_persona == Id;
+				var entity = _unitOfWork.PersonaRepository.GetOneByFilters(predicate, new string[] { "usuarios.modulos_usuarios" });
 				if (entity == null)
 					throw new ApiBusinessException(1012, "No se pudo Dar de baja a ese persona", System.Net.HttpStatusCode.NotFound, "Http");
-				if (entity.Usuarios != null)
+				if (entity.usuarios != null)
 				{
-					foreach (var item in entity.Usuarios)
+					foreach (var item in entity.usuarios)
 					{
-						foreach (var modusuario in item.modulo_usuario)
+						foreach (var modusuario in item.modulos_usuarios)
 						{							
 							 modusuario.estado= (Int32)StateEnum.Baja;
-							_puente.Modulo_Usuario_repository.Delete(modusuario, new List<string>() { "estado" });
+							_unitOfWork.Modulo_Usuario_repository.Delete(modusuario, new List<string>() { "estado" });
 						}
 						item.estado = (Int32)StateEnum.Baja;
-						_puente.UsuarioRepository.Delete(item, new List<string>() {"estado"});
+						_unitOfWork.UsuarioRepository.Delete(item, new List<string>() {"estado"});
 					}
 				}
 				 entity.estado = (Int32)StateEnum.Baja;
-				_puente.PersonaRepository.Delete(entity, new List<string>() {"estado"});
-				_puente.Commit();
+				_unitOfWork.PersonaRepository.Delete(entity, new List<string>() {"estado"});
+				_unitOfWork.Commit();
 
 				flag = true;
 				return flag;
@@ -87,8 +106,8 @@ namespace BusinessServices.Services
 		{
 			try
 			{
-				Expression<Func<personas, Boolean>> predicate = x => (x.estado == state||state==0) && (x.id_persona==idconectado|| idconectado==0) && (x.tipo_persona==tipo_persona || tipo_persona==0);
-				IQueryable<DataModel.personas> entity = _puente.PersonaRepository.GetAllByFilters(predicate, null /*new string[] { "Usuarios.modulo_usuario" }*/);
+				Expression<Func<DataModel.personas, Boolean>> predicate = x => (x.estado == state||state==0) && (x.id_persona==idconectado|| idconectado==0) && (x.tipo_persona==tipo_persona || tipo_persona==0);
+				IQueryable<DataModel.personas> entity = _unitOfWork.PersonaRepository.GetAllByFilters(predicate, new string[] { "usuarios.modulos_usuarios" });
 				count = entity.Count();
 				var skipAmount = 0;
 
@@ -117,8 +136,8 @@ namespace BusinessServices.Services
 		{
 			try
 			{
-				Expression<Func<personas, Boolean>> predicate = x => x.estado == (Int32)StateEnum.Alta && x.id_persona == Id;
-				var entity = _puente.PersonaRepository.GetOneByFilters(predicate, new string[] { "Usuarios.modulo_usuario" });
+				Expression<Func<DataModel.personas, Boolean>> predicate = x => x.estado == (Int32)StateEnum.Alta && x.id_persona == Id;
+				var entity = _unitOfWork.PersonaRepository.GetOneByFilters(predicate, new string[] { "usuarios.modulos_usuarios" });
 				if (entity != null)
 				{
 					return Factory.FactoryPersona.GetInstance().CreateBusiness(entity);
@@ -137,8 +156,8 @@ namespace BusinessServices.Services
 			try
 			{
 				var encrypt = SolveApi.Encriptacion.Encriptacion.GetInstance().EncryptKey(password);
-				Expression<Func<personas, Boolean>> predicate = x => x.Usuarios.FirstOrDefault().estado == (Int32)StateEnum.Alta && x.Usuarios.FirstOrDefault().nombre_usuario==usermane && x.Usuarios.FirstOrDefault().clave== encrypt;
-				IQueryable<DataModel.personas> entity = _puente.PersonaRepository.GetAllByFilters(predicate, new string[] { "Usuarios.modulo_usuario" });
+				Expression<Func<DataModel.personas, Boolean>> predicate = x => x.usuarios.FirstOrDefault().estado == (Int32)StateEnum.Alta && x.usuarios.FirstOrDefault().nombre_usuario==usermane && x.usuarios.FirstOrDefault().clave== encrypt;
+				IQueryable<DataModel.personas> entity = _unitOfWork.PersonaRepository.GetAllByFilters(predicate, new string[] { "usuarios.modulos_usuarios" });
 				List<PersonaBE> be = new List<PersonaBE>();
 
 				foreach (var item in entity)
@@ -161,27 +180,29 @@ namespace BusinessServices.Services
 
 				if (Be != null)
 				{
-					var entity = Factory.FactoryPersona.GetInstance().CreateEntity(Be);
-					if (entity.Usuarios != null)
+                    if (TypeUser.GetInstance().GetTyperUser(Be.tipo_persona) == 1 || TypeUser.GetInstance().GetTyperUser(Be.tipo_persona) == 2)
+                        Be.id_plan = 20;
+                    var entity = Factory.FactoryPersona.GetInstance().CreateEntity(Be);
+					if (entity.usuarios != null)
 					{
-						foreach (var item in entity.Usuarios)
+						foreach (var item in entity.usuarios)
 						{
-							if (item.modulo_usuario!=null)
+							if (item.modulos_usuarios!=null)
 							{
-								foreach (var mod in item.modulo_usuario)
+								foreach (var mod in item.modulos_usuarios)
 								{
-									_puente.Modulo_Usuario_repository.Update(mod, new List<string>() { "id_modulo", "id_usuario","alta","baja","modificacion","consulta"});
+									_unitOfWork.Modulo_Usuario_repository.Update(mod, new List<string>() { "id_modulo", "id_usuario","alta","baja","modificacion","consulta"});
 
 								}
 							}
-							item.modulo_usuario = null;
-							_puente.UsuarioRepository.Update(item, new List<string>() { "nombre_usuario", "clave","habilitado","email","cambia_clave" });
+							item.modulos_usuarios = null;
+							//_unitOfWork.UsuarioRepository.Update(item, new List<string>() { "nombre_usuario", "clave","habilitado","email","cambia_clave" });
 							
 						}
 					}
-					entity.Usuarios = null;
-					_puente.PersonaRepository.Update(entity, new List<string>() { "id_plan","nombre","apellido","direccion","telefono","fecha_nac","legajo","tipo_persona"});
-					_puente.Commit();
+					entity.usuarios = null;
+					_unitOfWork.PersonaRepository.Update(entity, new List<string>() { "id_plan","nombre","apellido","direccion","telefono","fecha_nac","legajo","tipo_persona"});
+					_unitOfWork.Commit();
 
 					flag = true;
 					return flag;
@@ -205,8 +226,8 @@ namespace BusinessServices.Services
 				if (Be != null)
 				{
 					var usr = Factory.FactoryUsuario.GetInstance().CreateEntity(Be);
-					_puente.UsuarioRepository.Update(usr, new List<string>() { "clave", "cambia_clave" });
-					_puente.Commit();
+					_unitOfWork.UsuarioRepository.Update(usr, new List<string>() { "clave", "cambia_clave" });
+					_unitOfWork.Commit();
 
 					flag = true;
 					return flag;
@@ -220,5 +241,22 @@ namespace BusinessServices.Services
 				throw HandlerErrorExceptions.GetInstance().RunCustomExceptions(ex);
 			}
 		}
-	}
+
+        #region LastLegajo
+        private Int32 GetLastLegajo()
+        {
+            int state = 0;
+            var lastlegajo = 0;
+
+            Expression<Func<DataModel.personas, Boolean>> predicate = x => (x.estado == state || state == 0);
+
+            List<DataModel.personas> resultado = _unitOfWork.PersonaRepository.GetAllByFilters(predicate).ToList();
+            if (resultado.Count() != 0)
+                lastlegajo = resultado.LastOrDefault().legajo + 1;
+            else
+                lastlegajo = 100;
+            return lastlegajo;
+        }
+        #endregion
+    }
 }

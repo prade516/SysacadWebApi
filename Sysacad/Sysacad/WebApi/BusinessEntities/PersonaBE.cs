@@ -8,6 +8,8 @@ namespace BusinessEntities
 {
 	public class PersonaBE: BaseBE
     {
+        #region Properties
+
         public Int32 id_persona { get; set; }
         public Int32 id_plan { get; set; }
         public String nombre { get; set; }
@@ -18,9 +20,12 @@ namespace BusinessEntities
         public Int32 legajo { get; set; }
         public Int32 tipo_persona { get; set; }
 
+        #endregion
+
         #region Relation
         public PlanBE plan { get; set; }
         #endregion
+
         #region List
         public List<UsuarioBE> Usuarios { get; set; }
         #endregion

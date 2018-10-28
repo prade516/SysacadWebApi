@@ -6,18 +6,21 @@ using System.Threading.Tasks;
 
 namespace BusinessEntities
 {
-	public class ComisionBE
+	public class ComisionBE:BaseBE
 	{
-		private Int32 _idcomision;
-		private String _desc_comision;
-		private Int32 _anio_especialidad;
-		private Int32 _estado;
-		private List<PlanComisionBE> _plancomision;
+        #region Properties
+        public int id_comision { get; set; }
+        public int id_plan { get; set; }
+        public string desc_comision { get; set; }
+        public int anio_especialidad { get; set; }
+        #endregion
 
-		public int idcomision { get => _idcomision; set => _idcomision = value; }
-		public string desc_comision { get => _desc_comision; set => _desc_comision = value; }
-		public int anio_especialidad { get => _anio_especialidad; set => _anio_especialidad = value; }
-		public int estado { get => _estado; set => _estado = value; }
-		public List<PlanComisionBE> Plancomision { get => _plancomision; set => _plancomision = value; }
-	}
+        #region Relation
+        public virtual PlanBE planes { get; set; }
+        #endregion
+
+        #region List
+        public List<CursoBE> cursos { get; set; }
+        #endregion
+    }
 }

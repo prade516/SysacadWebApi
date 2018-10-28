@@ -50,6 +50,8 @@
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Transactions" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -68,6 +70,11 @@
     <Compile Include="adjunct\System\ComponentModel\Composition\XapPackage.cs" />
     <Compile Include="adjunct\System\ComponentModel\Composition\XElementExportProvider.cs" />
     <Compile Include="adjunct\System\Threading\Lock.cs" />
+    <Compile Include="alumnos_inscripciones.cs" />
+    <Compile Include="comisiones.cs" />
+    <Compile Include="cursos.cs" />
+    <Compile Include="docentes_cursos.cs" />
+    <Compile Include="especialidades.cs" />
     <Compile Include="Factory\FactoryAlumnos_Inscripcion.cs" />
     <Compile Include="Factory\FactoryComision.cs" />
     <Compile Include="Factory\FactoryCurso.cs" />
@@ -75,6 +82,7 @@
     <Compile Include="Factory\FactoryEspecialidad.cs" />
     <Compile Include="Factory\FactoryMateria.cs" />
     <Compile Include="Factory\FactoryModulo.cs" />
+    <Compile Include="Factory\FactoryModulo_Usuario.cs" />
     <Compile Include="Factory\FactoryPersona.cs" />
     <Compile Include="Factory\FactoryPlan.cs" />
     <Compile Include="Factory\FactoryUsuario.cs" />
@@ -86,6 +94,11 @@
     <Compile Include="Interface\IModuloServices.cs" />
     <Compile Include="Interface\IPersonaServices.cs" />
     <Compile Include="Interface\IPlanServices.cs" />
+    <Compile Include="materias.cs" />
+    <Compile Include="modulos.cs" />
+    <Compile Include="modulos_usuarios.cs" />
+    <Compile Include="personas.cs" />
+    <Compile Include="planes.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Seguridad\ISeguridad.cs" />
     <Compile Include="Seguridad\SeguridadDependencia.cs" />
@@ -98,6 +111,7 @@
     <Compile Include="Services\ModuloServices.cs" />
     <Compile Include="Services\PersonaServices.cs" />
     <Compile Include="Services\PlanServices.cs" />
+    <Compile Include="usuarios.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BusinessEntities\BusinessEntities.csproj">

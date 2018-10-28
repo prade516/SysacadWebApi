@@ -55,9 +55,6 @@
     <Compile Include="Modulos_UsuarioBE.cs" />
     <Compile Include="PersonaBE.cs" />
     <Compile Include="PlanBE.cs" />
-    <Compile Include="PlanComisionBE.cs" />
-    <Compile Include="PlanEspecialidadBE.cs" />
-    <Compile Include="PlanMateriaBE.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UsuarioBE.cs" />
   </ItemGroup>

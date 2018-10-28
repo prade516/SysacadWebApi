@@ -18,7 +18,7 @@ namespace BusinessServices.Factory
 			return _factory; 
 		}
 		#region Business
-		public UsuarioBE CreateBusiness(usuarios entity)
+		public UsuarioBE CreateBusiness(DataModel.usuarios entity)
 		{
 			UsuarioBE be;
 			if (entity!=null)
@@ -35,9 +35,9 @@ namespace BusinessServices.Factory
 					estado=entity.estado
 				};
 				be.modulo_usuario = new List<Modulos_UsuarioBE>();
-				if (entity.modulo_usuario!=null)
+				if (entity.modulos_usuarios!=null)
 				{
-					foreach (var item in entity.modulo_usuario)
+					foreach (var item in entity.modulos_usuarios)
 					{
 						be.modulo_usuario.Add(CreateModuloUsuarioBusiness(item));
 					}
@@ -46,7 +46,7 @@ namespace BusinessServices.Factory
 			}
 			return be = new UsuarioBE();
 		}
-		public Modulos_UsuarioBE CreateModuloUsuarioBusiness(modulos_usuarios entity)
+		public Modulos_UsuarioBE CreateModuloUsuarioBusiness(DataModel.modulos_usuarios entity)
 		{
 			Modulos_UsuarioBE be;
 			if (entity!=null)
@@ -69,40 +69,40 @@ namespace BusinessServices.Factory
 		#endregion
 
 		#region Entity
-		public usuarios CreateEntity(UsuarioBE be)
+		public DataModel.usuarios CreateEntity(UsuarioBE be)
 		{
-			usuarios entity;
+            DataModel.usuarios entity;
 			if (be != null)
 			{
-				entity = new usuarios()
+				entity = new DataModel.usuarios()
 				{
 					id_usuario = be.id_usuario,
 					id_persona = be.id_persona,
-					clave = SolveApi.Encriptacion.Encriptacion.GetInstance().EncryptKey(be.clave),
+					clave = be.clave != null ? SolveApi.Encriptacion.Encriptacion.GetInstance().EncryptKey(be.clave): "",
 					nombre_usuario = be.nombre_usuario,
 					cambia_clave = be.cambia_clave,
 					email = be.email,
 					habilitado = be.habilitado,
 					estado = be.estado
 				};
-				entity.modulo_usuario = new List<modulos_usuarios>();
+				entity.modulos_usuarios = new List<DataModel.modulos_usuarios>();
 				if (be.modulo_usuario != null)
 				{
 					foreach (var item in be.modulo_usuario)
 					{
-						entity.modulo_usuario.Add(CreateModuloUsuarioEntity(item));
+						entity.modulos_usuarios.Add(CreateModuloUsuarioEntity(item));
 					}
 				}
 				return entity;
 			}
-			return entity = new usuarios();
+			return entity = new DataModel.usuarios();
 		}
-		public modulos_usuarios  CreateModuloUsuarioEntity(Modulos_UsuarioBE be)
+		public DataModel.modulos_usuarios  CreateModuloUsuarioEntity(Modulos_UsuarioBE be)
 		{
-			modulos_usuarios entity;
+            DataModel.modulos_usuarios entity;
 			if (be != null)
 			{
-				entity = new modulos_usuarios()
+				entity = new DataModel.modulos_usuarios()
 				{
 					id_modulo_usuario = be.id_modulo_usuario,
 					id_modulo = be.id_modulo,
@@ -115,7 +115,7 @@ namespace BusinessServices.Factory
 				};
 				return entity;
 			}
-			return entity = new modulos_usuarios();
+			return entity = new DataModel.modulos_usuarios();
 		}
 		#endregion
 	}

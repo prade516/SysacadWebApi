@@ -18,7 +18,7 @@ namespace BusinessServices.Factory
 			return _factory;
 		}
 		#region Business
-		public Alumnos_InscripcionBE CreateBusiness(alumnos_inscripciones entity)
+		public Alumnos_InscripcionBE CreateBusiness(DataModel.alumnos_inscripciones entity)
 		{
 			Alumnos_InscripcionBE be;
 			if (entity!=null)
@@ -32,15 +32,15 @@ namespace BusinessServices.Factory
 					nota=entity.nota,
 					estado=entity.estado
 				};
-				be.curso = new CursoBE();
-				if (entity.curso!=null)
+				be.cursos = new CursoBE();
+				if (entity.cursos!=null)
 				{
-					be.curso = FactoryCurso.GetInstance().CreateBusiness(entity.curso);
+					be.cursos = FactoryCurso.GetInstance().CreateBusiness(entity.cursos);
 				}
-				be.persona = new PersonaBE();
-				if (entity.persona!=null)
+				be.personas = new PersonaBE();
+				if (entity.personas!=null)
 				{
-					be.persona = FactoryPersona.GetInstance().CreateBusiness(entity.persona);
+					be.personas = FactoryPersona.GetInstance().CreateBusiness(entity.personas);
 				}
 				return be;
 			}
@@ -48,12 +48,12 @@ namespace BusinessServices.Factory
 		}
 		#endregion
 		#region Entity
-		public alumnos_inscripciones  CreateEntity(Alumnos_InscripcionBE be)
+		public DataModel.alumnos_inscripciones  CreateEntity(Alumnos_InscripcionBE be)
 		{
-			alumnos_inscripciones entity;
+            DataModel.alumnos_inscripciones entity;
 			if (be != null)
 			{
-				entity = new alumnos_inscripciones()
+				entity = new DataModel.alumnos_inscripciones()
 				{
 					id_inscripcion = be.id_inscripcion,
 					id_curso = be.id_curso,
@@ -64,7 +64,7 @@ namespace BusinessServices.Factory
 				};
 				return entity;
 			}
-			return entity = new alumnos_inscripciones();
+			return entity = new DataModel.alumnos_inscripciones();
 		}
 		#endregion
 	}
