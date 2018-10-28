@@ -107,7 +107,7 @@ namespace BusinessServices.Services
 			try
 			{
                 if (Id == 0)
-                    throw new ApiBusinessException(1012, "No se encuentra disponible el plan", System.Net.HttpStatusCode.NotFound, "Http");
+                    throw new ApiBusinessException(1012, "No se encuentra disponible el plan.", System.Net.HttpStatusCode.NotFound, "Http");
 
                 Expression<Func<DataModel.planes, Boolean>> predicate = x => x.estado == (Int32)StateEnum.Alta && x.id_plan == Id;
 				var entity = _puente.Planrepository.GetOneByFilters(predicate, new string[] { "especialidades" });
@@ -116,7 +116,7 @@ namespace BusinessServices.Services
 					return Factory.FactoryPlan.GetInstance().CreateBusiness(entity);
 				}
 				else
-					throw new ApiBusinessException(1012, "No se encuentra disponible el plan", System.Net.HttpStatusCode.NotFound, "Http");
+					throw new ApiBusinessException(1012, "No se encuentra disponible el plan.", System.Net.HttpStatusCode.NotFound, "Http");
 			}
 			catch (Exception ex)
 			{
