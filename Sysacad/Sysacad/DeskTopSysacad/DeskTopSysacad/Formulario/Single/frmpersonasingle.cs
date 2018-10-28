@@ -144,17 +144,11 @@ namespace DeskTopSysacad.Formulario.Single
 		private void button1_Click(object sender, EventArgs e)
 		{
 			if (Operation == "A")
-			{
 				InsertPersona();
-			}
 			else if (Operation == "M")
-			{
 				UpdatePersona();
-			}
 			else if (Operation == "D")
-			{
 				DeletePersona();
-			}
 		}
 		private void frmpersonasingle_Load(object sender, EventArgs e)
 		{
