@@ -83,11 +83,8 @@ namespace DeskTopSysacad.Formulario.Single
 				txtlegajo.ReadOnly = true;
 
 				txtidusuario.Text = dto.Usuarios.FirstOrDefault().id_usuario.ToString();
-				//txtusuario.Text = dto.Usuarios.FirstOrDefault().nombre_usuario;
-				//txtclave.Text = dto.Usuarios.FirstOrDefault().clave;
 				txtcorreo.Text = dto.Usuarios.FirstOrDefault().email;
 				chckhabilitado.Checked = dto.Usuarios.FirstOrDefault().habilitado;
-				//txtclave.ReadOnly = true;
 
 				txtidmodulousuario.Text = dto.Usuarios.FirstOrDefault().modulo_usuario.FirstOrDefault().id_modulo_usuario.ToString();
 				chckalta.Checked = dto.Usuarios.FirstOrDefault().modulo_usuario.FirstOrDefault().alta;
