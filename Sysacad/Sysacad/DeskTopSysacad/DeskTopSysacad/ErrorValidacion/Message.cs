@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DeskTopSysacad.Variable;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -158,6 +159,19 @@ namespace DeskTopSysacad.ErrorValidacion
             nom = replace_u_Accents.Replace(nom, "u");
 
             return nom;
+        }
+
+        public void FinalMessage(string resp, Form actual, string message)
+        {
+            if (resp.Equals("Ok"))
+            {
+                ErrorValidacion.Message.GetInstance().exito(message);
+                actual.Close();
+            }
+            else
+            {
+                ErrorValidacion.Message.GetInstance().MensajeError(VariableGlobalySession.resp);
+            }
         }
     }
 }

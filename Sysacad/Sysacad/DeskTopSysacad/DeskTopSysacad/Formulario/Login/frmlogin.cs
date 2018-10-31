@@ -42,14 +42,14 @@ namespace DeskTopSysacad.Formulario.Login
 			var clave = txtclave.Text;
 			if (usuario == String.Empty)
 			{
-				MessageBox.Show("Tiene que ingresar el usuario");
-				txtusuario.Text = String.Empty;
+                ErrorValidacion.Message.GetInstance().MensajeAdvertencia("Tiene que ingresar el usuario");
+                txtusuario.Text = String.Empty;
 				txtusuario.Focus();
 			}
 			else if (clave == String.Empty)
 			{
-				MessageBox.Show("Tiene que ingresar el clave");
-				txtclave.Text = String.Empty;
+                ErrorValidacion.Message.GetInstance().MensajeAdvertencia("Tiene que ingresar el clave");
+                txtclave.Text = String.Empty;
 				txtclave.Focus();
 			}
 			else
@@ -57,8 +57,8 @@ namespace DeskTopSysacad.Formulario.Login
 				var concectado = Myproxy().GetAll("?username=" + usuario + "&password=" + clave).FirstOrDefault();
 				if (concectado == null)
 				{
-					MessageBox.Show("Usuario y/o clave es incorrecto");
-					txtusuario.Text = String.Empty;
+                    ErrorValidacion.Message.GetInstance().MensajeAdvertencia("Usuario y/o clave es incorrecto");
+                    txtusuario.Text = String.Empty;
 					txtusuario.Focus();
 				}
 				else

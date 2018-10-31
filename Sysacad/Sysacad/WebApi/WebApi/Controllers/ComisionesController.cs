@@ -1,5 +1,6 @@
 ﻿using BusinessEntities;
 using BusinessServices.Interface;
+using SolveApi.Error;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -39,27 +40,58 @@ namespace WebApi.Controllers
 		}
 		public async Task<IHttpActionResult> PostComision(ComisionBE comision)
 		{
-			if (!ModelState.IsValid)
-			{
-				return BadRequest(ModelState);
-			}
-			_services.Create(comision);
-			return Created(new Uri(Url.Link("DefaultApi", new { Id = comision })), comision);
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+                _services.Create(comision);
+                return Created(new Uri(Url.Link("DefaultApi", new { Id = comision })), comision);
+            }
+            catch (Exception ex)
+            {
+                var except = (ApiBusinessException)HandlerErrorExceptions.GetInstance().RunCustomExceptions(ex);
+                var resp = BadRequest(Convert.ToString(except.ErrorDescription));
+                return resp;
+            }
+			
 		}
 		public async Task<IHttpActionResult> PutComision(Int32 id, ComisionBE comision)
 		{
-			if (!ModelState.IsValid)
-			{
-				return BadRequest(ModelState);
-			}
-			comision.id_comision = id;
-			_services.Update(id, comision);
-			return Ok();
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+                comision.id_comision = id;
+                _services.Update(id, comision);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                var except = (ApiBusinessException)HandlerErrorExceptions.GetInstance().RunCustomExceptions(ex);
+                var resp = BadRequest(Convert.ToString(except.ErrorDescription));
+                return resp;
+            }
+			
+			
 		}
 		public async Task<IHttpActionResult> DeleteComision(int id)
 		{
-			this._services.Delete(id);
-			return Ok();
+            try
+            {
+                this._services.Delete(id);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                var except = (ApiBusinessException)HandlerErrorExceptions.GetInstance().RunCustomExceptions(ex);
+                var resp = BadRequest(Convert.ToString(except.ErrorDescription));
+                return resp;
+            }
+			
 		}
 	}
 }

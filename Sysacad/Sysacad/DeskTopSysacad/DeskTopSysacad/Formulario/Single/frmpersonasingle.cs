@@ -2,6 +2,7 @@
 using DeskTopSysacad.EnumeradorPublic;
 using DeskTopSysacad.Exceptions;
 using DeskTopSysacad.Proxy;
+using DeskTopSysacad.Variable;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -22,7 +23,7 @@ namespace DeskTopSysacad.Formulario.Single
 		//Int32 ultimolegajo = 0;
 		String role;
 		Int32 Tipo;
-        String resp = "";
+        //String resp = "";
         public BaseSysacadProxy<PersonaDTO> Myproxy()
 		{
 			return new PersonaProxy();
@@ -252,7 +253,7 @@ namespace DeskTopSysacad.Formulario.Single
 			DateTime fechaDeNacimiento = new DateTime();
 			fechaDeNacimiento = dtfecha_nac.Value;
 			Int32 edad = (DateTime.Now.Subtract(fechaDeNacimiento).Days / 365);
-            resp = "";
+            VariableGlobalySession.resp = "";
             try
             {
                 if (txtapellido.Text == String.Empty)
@@ -355,15 +356,15 @@ namespace DeskTopSysacad.Formulario.Single
                             }
                         },
                     };
-                    resp = Myproxy().Create(dtoinsert);
-                     if (resp.Equals("Ok"))
+                    VariableGlobalySession.resp = Myproxy().Create(dtoinsert);
+                     if (VariableGlobalySession.resp.Equals("Ok"))
                      {
                         UsuarioContrasña();
                         this.Close();
                      }
                     else
                     {
-                        ErrorValidacion.Message.GetInstance().MensajeError(resp);
+                        ErrorValidacion.Message.GetInstance().MensajeError(VariableGlobalySession.resp);
                     }
                 }
             }
@@ -376,7 +377,7 @@ namespace DeskTopSysacad.Formulario.Single
 
 		private void UpdatePersona()
 		{
-            resp = "";
+            VariableGlobalySession.resp = "";
             try
             {
 
@@ -484,16 +485,7 @@ namespace DeskTopSysacad.Formulario.Single
                             }
                         },
                     };
-                    resp = Myproxy().Update(dtoupdate);
-                    if (resp.Equals("Ok"))
-                    {
-                        ErrorValidacion.Message.GetInstance().exito("El registro ha sido actualizado corectamente.");
-                        this.Close();
-                    }
-                    else
-                    {
-                        ErrorValidacion.Message.GetInstance().MensajeError(resp);
-                    }
+                    ErrorValidacion.Message.GetInstance().FinalMessage(VariableGlobalySession.resp = Myproxy().Update(dtoupdate),this, "El registro ha sido actualizado corectamente.");                    
                 }
             }
             catch (Exception)
@@ -505,24 +497,14 @@ namespace DeskTopSysacad.Formulario.Single
 
 		private void DeletePersona()
 		{
-            resp = "";
+            VariableGlobalySession.resp = "";
             try
             {
                 PersonaDTO dtodelete = new PersonaDTO()
                 {
                     Id = Convert.ToInt32(txtid.Text)
                 };
-                resp = Myproxy().Delete(dtodelete);
-                if (resp.Equals("Ok"))
-                {
-                    ErrorValidacion.Message.GetInstance().exito("El registro ha sido eliminado corectamente.");
-                    this.Close();
-                }
-                else
-                {
-                    ErrorValidacion.Message.GetInstance().MensajeError(resp);
-                }
-                this.Close();
+                ErrorValidacion.Message.GetInstance().FinalMessage(Myproxy().Delete(dtodelete), this, "El registro ha sido eliminado corectamente.");               
             }
             catch (Exception)
             {
@@ -546,7 +528,7 @@ namespace DeskTopSysacad.Formulario.Single
 			int page = 1;
 			string filters = "?state=" + state + "&top=" + top + "&orderby=" + orderby + "&ascending=" + ascending + "&page=" + page;
 			var usr = Myproxy().GetAll(filters).LastOrDefault().Usuarios.LastOrDefault();
-            ErrorValidacion.Message.GetInstance().exito("El registro ha sido creato corectamente. El Usuario es :" + usr.nombre_usuario + "  Y Su contraseña es : " + usr.clave + "");
+            ErrorValidacion.Message.GetInstance().exito("El registro ha sido creado corectamente. El Usuario es :" + usr.nombre_usuario + "  Y Su contraseña es : " + usr.clave + "");
 		}
 		#endregion
 

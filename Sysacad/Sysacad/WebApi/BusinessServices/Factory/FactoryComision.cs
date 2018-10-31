@@ -26,6 +26,7 @@ namespace BusinessServices.Factory
 				be = new ComisionBE()
 				{
 					id_comision=entity.id_comision,
+                    id_plan = entity.id_plan,
 					desc_comision=entity.desc_comision,
 					anio_especialidad=entity.anio_especialidad,
 					estado= entity.estado
@@ -46,6 +47,7 @@ namespace BusinessServices.Factory
 				entity = new DataModel.comisiones()
 				{
 					id_comision = be.id_comision,
+                    id_plan = be.id_plan,
 					desc_comision = be.desc_comision,
 					anio_especialidad = be.anio_especialidad,
 					estado = be.estado

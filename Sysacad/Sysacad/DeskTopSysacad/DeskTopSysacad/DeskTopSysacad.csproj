@@ -355,6 +355,7 @@
     <Compile Include="Proxy\PlanProxy.cs" />
     <Compile Include="Proxy\UsuarioProxy.cs" />
     <Compile Include="Seguridad\Validaciones.cs" />
+    <Compile Include="Variable\VariableGlobalySession.cs" />
     <EmbeddedResource Include="Formulario\Busqueda\fmbuscarnotaparcial.resx">
       <DependentUpon>fmbuscarnotaparcial.cs</DependentUpon>
     </EmbeddedResource>

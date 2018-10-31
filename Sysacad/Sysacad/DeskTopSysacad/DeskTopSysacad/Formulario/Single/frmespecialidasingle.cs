@@ -2,6 +2,7 @@
 using DeskTopSysacad.EnumeradorPublic;
 using DeskTopSysacad.Properties;
 using DeskTopSysacad.Proxy;
+using DeskTopSysacad.Variable;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -53,7 +54,9 @@ namespace DeskTopSysacad.Formulario.Single
 
 		private void button1_Click(object sender, EventArgs e)
 		{
-			if (Operation=="A")
+            VariableGlobalySession.resp = "";
+
+            if (Operation=="A")
 			{
 				if (txtespecialidad.Text==String.Empty)
 				{
@@ -75,13 +78,14 @@ namespace DeskTopSysacad.Formulario.Single
 						desc_especialidad = txtespecialidad.Text,
 						estado = (Int32)EstadoPersona.Alta
 					};
-					Myproxy().Create(dtoinsert);
-					this.Close();
-				}						
+                    ErrorValidacion.Message.GetInstance().FinalMessage(VariableGlobalySession.resp = Myproxy().Create(dtoinsert), this, "El registro ha sido registrado corectamente.");                   
+                }						
 			}
 			else if (Operation=="M")
 			{
-				if (txtespecialidad.Text == String.Empty)
+                VariableGlobalySession.resp = "";
+
+                if (txtespecialidad.Text == String.Empty)
 				{
 					MessageBox.Show("Debe ingresar la especialidad", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 					txtespecialidad.Text = String.Empty;
@@ -95,28 +99,26 @@ namespace DeskTopSysacad.Formulario.Single
 				}
 				else
 				{
-					EspecialidadDTO dtoinsert = new EspecialidadDTO()
+					EspecialidadDTO dtoupdate = new EspecialidadDTO()
 					{
 						id_especialidad = Convert.ToInt32(txtIdespecialidad.Text),
 						desc_especialidad = txtespecialidad.Text,
 						estado =(Int32)EstadoPersona.Alta,
 						Id = Convert.ToInt32(txtIdespecialidad.Text),
 					};
-					Myproxy().Update(dtoinsert);
-					this.Close();
+                    ErrorValidacion.Message.GetInstance().FinalMessage(VariableGlobalySession.resp = Myproxy().Update(dtoupdate), this, "El registro ha sido actualizado corectamente.");  
 				}
 			}
 			else if(Operation == "D")
 			{
-				EspecialidadDTO dtoinsert = new EspecialidadDTO()
+				EspecialidadDTO dtodelate = new EspecialidadDTO()
 				{
 					id_especialidad = Convert.ToInt32(txtIdespecialidad.Text),
 					desc_especialidad = txtespecialidad.Text,
 					estado = (Int32)EstadoPersona.Alta,
 					Id = Convert.ToInt32(txtIdespecialidad.Text),
 				};
-				Myproxy().Delete(dtoinsert);
-				this.Close();
+                ErrorValidacion.Message.GetInstance().FinalMessage(Myproxy().Delete(dtodelate), this, "El registro ha sido eliminado corectamente.");
 			}
 
 		}

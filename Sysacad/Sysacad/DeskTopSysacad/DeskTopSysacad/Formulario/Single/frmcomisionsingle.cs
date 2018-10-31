@@ -44,7 +44,7 @@ namespace DeskTopSysacad.Formulario.Single
 				txtdesccomision.Text = dto.desc_comision;
 				txtanioespecialidad.Text = dto.anio_especialidad.ToString();			
 
-				FillComboPlan(dto.Plancomision.FirstOrDefault().idplan);
+				FillComboPlan(dto.id_plan);
 			}
 			else if (OP=="D")
 			{
@@ -56,7 +56,7 @@ namespace DeskTopSysacad.Formulario.Single
 				txtdesccomision.Text = dto.desc_comision;
 				txtanioespecialidad.Text = dto.anio_especialidad.ToString();
 
-				FillComboPlan(dto.Plancomision.FirstOrDefault().idplan);
+				FillComboPlan(dto.id_plan);
 
 				txtdesccomision.ReadOnly = true;
 				txtanioespecialidad.ReadOnly = true;
@@ -133,15 +133,7 @@ namespace DeskTopSysacad.Formulario.Single
 					desc_comision = txtdesccomision.Text,
 					anio_especialidad = Convert.ToInt32(txtanioespecialidad.Text),
 					estado = Convert.ToInt32(EstadoPersona.Alta),
-					Plancomision = new List<PlanComisionDTO>()
-					{
-						new PlanComisionDTO()
-						{
-							idplan= Convert.ToInt32(cbplan.SelectedValue),
-							estado=Convert.ToInt32(EstadoPersona.Alta)
-						},
-					},
-				
+                    id_plan = Convert.ToInt32(cbplan.SelectedValue),    
 				};
 				Myproxy().Create(dtoinsert);
 				this.Close();
@@ -171,18 +163,8 @@ namespace DeskTopSysacad.Formulario.Single
 					desc_comision = txtdesccomision.Text,
 					anio_especialidad = Convert.ToInt32(txtanioespecialidad.Text),
 					estado = dtoaction.estado,
-					Plancomision = new List<PlanComisionDTO>()
-					{
-						new PlanComisionDTO()
-						{
-							Id= Convert.ToInt32(txtIdcomision.Text),
-							idcomision= Convert.ToInt32(txtIdcomision.Text),
-							idplancomision= dtoaction.Plancomision.FirstOrDefault().idplancomision,
-							idplan= Convert.ToInt32(cbplan.SelectedValue),
-							estado=dtoaction.Plancomision.FirstOrDefault().estado,
-						},
-					},
-
+                    id_plan = Convert.ToInt32(cbplan.SelectedValue),
+                    
 				};
 				Myproxy().Update(dtoupdate);
 				this.Close();

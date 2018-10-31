@@ -86,8 +86,7 @@ namespace DeskTopSysacad.Formulario.Single
                         id_especialidad = Convert.ToInt32(cbBespecialidad.SelectedValue),
                         estado = (Int32)EstadoPersona.Alta						
 					};
-					Myproxy().Create(dtoinsert);
-					this.Close();
+                    ErrorValidacion.Message.GetInstance().FinalMessage(Myproxy().Create(dtoinsert), this, "El registro ha sido registrado corectamente.");
 				}
 			}
 			else if (Operation == "M")
@@ -116,8 +115,7 @@ namespace DeskTopSysacad.Formulario.Single
 						estado = (Int32)EstadoPersona.Alta,
                         id_especialidad = Convert.ToInt32(cbBespecialidad.SelectedValue),
 					};
-					Myproxy().Update(dtoupdate);
-					this.Close();
+                    ErrorValidacion.Message.GetInstance().FinalMessage(Myproxy().Update(dtoupdate), this, "El registro ha sido registrado corectamente.");
 				}
 			}
 			else if (Operation == "D")
@@ -130,9 +128,8 @@ namespace DeskTopSysacad.Formulario.Single
 					estado = (Int32)EstadoPersona.Alta,
                     id_especialidad = Convert.ToInt32(cbBespecialidad.SelectedValue),
                 };
-				Myproxy().Delete(dtodelate);
-				this.Close();
-			}
+                ErrorValidacion.Message.GetInstance().FinalMessage(Myproxy().Delete(dtodelate), this, "El registro ha sido eliminado corectamente.");
+            }
 		}
 		private void FillComboESpecialidad(Int32 codigo=0)
 		{

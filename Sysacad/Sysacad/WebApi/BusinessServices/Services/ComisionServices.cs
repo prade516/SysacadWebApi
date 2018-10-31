@@ -77,7 +77,7 @@ namespace BusinessServices.Services
 			try
 			{
 				Expression<Func<DataModel.comisiones, Boolean>> predicate = x => x.estado == state;
-				IQueryable<DataModel.comisiones> entity = _puente.ComisionesRepository.GetAllByFilters(predicate, new string[] { "Plancomision" });
+				IQueryable<DataModel.comisiones> entity = _puente.ComisionesRepository.GetAllByFilters(predicate, new string[] { "cursos", "planes" });
 				count = entity.Count();
 				var skipAmount = 0;
 
@@ -107,7 +107,7 @@ namespace BusinessServices.Services
 			try
 			{
 				Expression<Func<DataModel.comisiones, Boolean>> predicate = x => x.estado == (Int32)StateEnum.Alta && x.id_comision == Id;
-				var entity = _puente.ComisionesRepository.GetOneByFilters(predicate, new string[] { "Plancomision" });
+				var entity = _puente.ComisionesRepository.GetOneByFilters(predicate, new string[] { "cursos", "planes" });
 				if (entity != null)
 				{
 					return Factory.FactoryComision.GetInstance().CreateBusiness(entity);

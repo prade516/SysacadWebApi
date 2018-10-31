@@ -1,5 +1,6 @@
 ﻿using BusinessEntities;
 using BusinessServices.Interface;
+using SolveApi.Error;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -50,37 +51,61 @@ namespace WebApi.Controllers
 						   estado = query.estado
 					   };
 
-			//HybridDictionary myfilters = new HybridDictionary();
-			//myfilters.Add("state", state);
-			//EspecialidadDTOCollection dt = new EspecialidadDTOCollection(dtos.ToList(),
-			//  FilterHelper.GenerateFilter(myfilters, top, orderby, ascending), page, count, top);
-
 			return dtos;
 		}
 		public async Task<IHttpActionResult> PostEspecialidad(EspecialidadBE especialidad)
 		{
-			if (!ModelState.IsValid)
-			{
-				return BadRequest(ModelState);
-			}
-			_services.Create(especialidad,"");
-			return Created(new Uri(Url.Link("DefaultApi", new { Id = especialidad })), especialidad);
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+                _services.Create(especialidad, "");
+                return Created(new Uri(Url.Link("DefaultApi", new { Id = especialidad })), especialidad);
+            }
+            catch (Exception ex)
+            {
+                var except = (ApiBusinessException)HandlerErrorExceptions.GetInstance().RunCustomExceptions(ex);
+                var resp = BadRequest(Convert.ToString(except.ErrorDescription));
+                return resp;
+            }
+			
 		}
 		public async Task<IHttpActionResult> PutEspecialidad(Int32 id,EspecialidadBE especialidad)
 		{
-			if (!ModelState.IsValid)
-			{
-				return BadRequest(ModelState);
-			}
-			especialidad.id_especialidad = id;
-			string username = User.Identity.Name;
-			_services.Update(id, especialidad);
-			return Ok();
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+                especialidad.id_especialidad = id;
+                string username = User.Identity.Name;
+                _services.Update(id, especialidad);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                var except = (ApiBusinessException)HandlerErrorExceptions.GetInstance().RunCustomExceptions(ex);
+                var resp = BadRequest(Convert.ToString(except.ErrorDescription));
+                return resp;
+            }
+			
 		}
 		public async Task<IHttpActionResult> DeleteEspecialidad(int id)
 		{
-			this._services.Delete(id);
-			return Ok();
+            try
+            {
+                this._services.Delete(id);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                var except = (ApiBusinessException)HandlerErrorExceptions.GetInstance().RunCustomExceptions(ex);
+                var resp = BadRequest(Convert.ToString(except.ErrorDescription));
+                return resp;
+            }			
 		}
 	}
 }
