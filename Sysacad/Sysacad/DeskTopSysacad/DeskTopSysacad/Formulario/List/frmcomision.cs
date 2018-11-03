@@ -125,5 +125,10 @@ namespace DeskTopSysacad.Formulario.List
 		{
 			Search();
 		}
-	}
+
+        private void btnactDGV_Click(object sender, EventArgs e)
+        {
+            this.LoadForm();
+        }
+    }
 }

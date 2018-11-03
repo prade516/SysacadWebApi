@@ -44,7 +44,7 @@ namespace DeskTopSysacad.Formulario.Single
 				txths_semanales.Text = dto.hs_semanales.ToString();
 				txths_total.Text = dto.hs_totales.ToString();
 
-				FillComboPlan(dto.Planmateria.FirstOrDefault().idplan);
+				FillComboPlan(dto.id_plan);
 			}
 			else if (OP == "D")
 			{
@@ -57,7 +57,7 @@ namespace DeskTopSysacad.Formulario.Single
 				txths_semanales.Text = dto.hs_semanales.ToString();
 				txths_total.Text = dto.hs_totales.ToString();
 
-				FillComboPlan(dto.Planmateria.FirstOrDefault().idplan);
+				FillComboPlan(dto.id_plan);
 
 				txtdescmateria.ReadOnly = true;
 				txths_semanales.ReadOnly = true;
@@ -151,15 +151,7 @@ namespace DeskTopSysacad.Formulario.Single
 					hs_semanales = Convert.ToInt32(txths_semanales.Text),
 					hs_totales = Convert.ToInt32(txths_total.Text),
 					estado = Convert.ToInt32(EstadoPersona.Alta),
-					Planmateria = new List<PlanMateriaDTO>()
-					{
-						new PlanMateriaDTO()
-						{
-							idplan= Convert.ToInt32(cbplan.SelectedValue),
-							estado=Convert.ToInt32(EstadoPersona.Alta)
-						},
-					},
-
+                    id_plan = Convert.ToInt32(cbplan.SelectedValue)   
 				};
 				Myproxy().Create(dtoinsert);
 				this.Close();
@@ -196,18 +188,8 @@ namespace DeskTopSysacad.Formulario.Single
 					hs_semanales = Convert.ToInt32(txths_semanales.Text),
 					hs_totales = Convert.ToInt32(txths_total.Text),
 					estado = dtoaction.estado,
-					Planmateria = new List<PlanMateriaDTO>()
-					{
-						new PlanMateriaDTO()
-						{
-							idplanmateria=dtoaction.Planmateria.FirstOrDefault().idplanmateria,
-							idmateria=dtoaction.Planmateria.FirstOrDefault().idmateria,
-							idplan= Convert.ToInt32(cbplan.SelectedValue),
-							estado=dtoaction.estado
-						},
-					},
-
-				};
+                    id_plan = Convert.ToInt32(cbplan.SelectedValue)
+                };
 				Myproxy().Update(dtoupdate);
 				this.Close();
 			}

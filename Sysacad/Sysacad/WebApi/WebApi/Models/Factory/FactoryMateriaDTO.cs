@@ -25,6 +25,7 @@ namespace WebApi.Models.Factory
 				dto = new MateriaDTO()
 				{
 					id_materia = be.id_materia,
+                    id_plan = be.id_plan,
 					desc_materia = be.desc_materia,
 					hs_semanales = be.hs_semanales,
 					hs_totales = be.hs_totales,

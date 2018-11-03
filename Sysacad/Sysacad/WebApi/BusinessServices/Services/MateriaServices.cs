@@ -19,6 +19,7 @@ namespace BusinessServices.Services
 		#region Member
 		private readonly UnitOfWork _puente;
 		#endregion
+
 		#region Constructor
 		public MateriaServices(UnitOfWork punte)
 		{
@@ -54,7 +55,7 @@ namespace BusinessServices.Services
 			try
 			{
 				Expression<Func<DataModel.materias, Boolean>> predicate = x => x.estado == (Int32)StateEnum.Alta && x.id_materia == Id;
-				var entity = _puente.MateriaRepository.GetOneByFilters(predicate, new string[] { "Planmateria" });
+				var entity = _puente.MateriaRepository.GetOneByFilters(predicate, new string[] { "cursos" });
 				if (entity == null)
 					throw new ApiBusinessException(1012, "No se pudo Dar de baja a ese materia", System.Net.HttpStatusCode.NotFound, "Http");
 				
@@ -77,7 +78,7 @@ namespace BusinessServices.Services
 			try
 			{
 				Expression<Func<DataModel.materias, Boolean>> predicate = x => x.estado == state;
-				IQueryable<DataModel.materias> entity = _puente.MateriaRepository.GetAllByFilters(predicate, new string[] { "Planmateria" });
+				IQueryable<DataModel.materias> entity = _puente.MateriaRepository.GetAllByFilters(predicate, new string[] { "cursos" });
 				count = entity.Count();
 				var skipAmount = 0;
 
@@ -107,7 +108,7 @@ namespace BusinessServices.Services
 			try
 			{
 				Expression<Func<DataModel.materias, Boolean>> predicate = x => x.estado == (Int32)StateEnum.Alta && x.id_materia == Id;
-				var entity = _puente.MateriaRepository.GetOneByFilters(predicate, new string[] { "Planmateria" });
+				var entity = _puente.MateriaRepository.GetOneByFilters(predicate, new string[] { "cursos" });
 				if (entity != null)
 				{
 					return Factory.FactoryMateria.GetInstance().CreateBusiness(entity);

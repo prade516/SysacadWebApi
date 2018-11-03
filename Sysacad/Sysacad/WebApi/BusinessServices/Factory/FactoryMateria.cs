@@ -26,6 +26,7 @@ namespace BusinessServices.Factory
 				be = new MateriaBE()
 				{
 					id_materia=entity.id_materia,
+                    id_plan = entity.id_plan,
 					desc_materia=entity.desc_materia,
 					hs_semanales=entity.hs_semanales,
 					hs_totales=entity.hs_totales,
@@ -46,6 +47,7 @@ namespace BusinessServices.Factory
 				entity = new DataModel.materias()
 				{
 					id_materia = be.id_materia,
+                    id_plan = be.id_plan,
 					desc_materia = be.desc_materia,
 					hs_semanales = be.hs_semanales,
 					hs_totales = be.hs_totales,

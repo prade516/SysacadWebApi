@@ -135,8 +135,7 @@ namespace DeskTopSysacad.Formulario.Single
 					estado = Convert.ToInt32(EstadoPersona.Alta),
                     id_plan = Convert.ToInt32(cbplan.SelectedValue),    
 				};
-				Myproxy().Create(dtoinsert);
-				this.Close();
+                ErrorValidacion.Message.GetInstance().FinalMessage(Myproxy().Create(dtoinsert), this, "El registro ha sido registrado corectamente.");
 			}
 			
 		}
@@ -166,8 +165,7 @@ namespace DeskTopSysacad.Formulario.Single
                     id_plan = Convert.ToInt32(cbplan.SelectedValue),
                     
 				};
-				Myproxy().Update(dtoupdate);
-				this.Close();
+                ErrorValidacion.Message.GetInstance().FinalMessage(Myproxy().Update(dtoupdate), this, "El registro ha sido actualizado corectamente.");
 			}			
 		}
 
@@ -177,8 +175,7 @@ namespace DeskTopSysacad.Formulario.Single
 			{
 				Id = Convert.ToInt32(txtIdcomision.Text),
 			};
-			Myproxy().Delete(dtodelate);
-			this.Close();
+            ErrorValidacion.Message.GetInstance().FinalMessage(Myproxy().Delete(dtodelate), this, "El registro ha sido eliminado corectamente.");
 		}
 		#endregion
 

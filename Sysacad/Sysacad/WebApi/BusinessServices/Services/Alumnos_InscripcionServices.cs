@@ -75,7 +75,7 @@ namespace BusinessServices.Services
 				&&((x.id_alumno==idalumno)||(idalumno==0))
 				&&((x.id_curso==id_curso)||(id_curso==0))
 				&& ((x.id_alumno == idalumno && x.id_curso == id_curso) || (idalumno == 0 || id_curso == 0));
-				IQueryable<DataModel.alumnos_inscripciones> entity = _unitOfWork.Alumnos_InscripcionesRepository.GetAllByFilters(predicate, new string[] { "curso","persona" });
+				IQueryable<DataModel.alumnos_inscripciones> entity = _unitOfWork.Alumnos_InscripcionesRepository.GetAllByFilters(predicate, new string[] { "cursos","personas" });
 				count = entity.Count();
 				var skipAmount = 0;
 

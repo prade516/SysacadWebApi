@@ -312,8 +312,6 @@
     <Compile Include="Models\DTOCollection\Alumnos_InscripcionDTOCollection.cs" />
     <Compile Include="Models\DTOCollection\CursoDTOCollection.cs" />
     <Compile Include="Models\DTOCollection\Docente_CursoDTOCollection.cs" />
-    <Compile Include="Models\DTOCollection\MateriaDTOCollection.cs" />
-    <Compile Include="Models\DTOCollection\PlanComisionDTOCollection.cs" />
     <Compile Include="Models\DTOCollection\PlanMateriaDTOCollection.cs" />
     <Compile Include="Models\DTOs\Alumnos_InscripcionDTO.cs" />
     <Compile Include="Models\DTOs\BaseDto.cs" />

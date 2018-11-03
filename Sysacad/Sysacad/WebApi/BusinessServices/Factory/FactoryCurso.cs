@@ -30,8 +30,10 @@ namespace BusinessServices.Factory
 					id_materia=entity.id_materia,
 					anio_calendario=entity.anio_calendario,
 					cupo=entity.cupo,
-					estado=entity.estado
-				};
+					estado=entity.estado,
+                    comisiones = entity.comisiones !=null ? FactoryComision.GetInstance().CreateBusiness(entity.comisiones) : null,
+                    materias = entity.materias != null ? FactoryMateria.GetInstance().CreateBusiness(entity.materias):null
+                };
 				be.docentes_cursos = new List<Docente_CursoBE>();
 				if (entity.docentes_cursos!=null)
 				{
@@ -40,6 +42,15 @@ namespace BusinessServices.Factory
 						be.docentes_cursos.Add(FactoryDocente_Curso.GetInstance().CreateBusiness(item));
 					}
 				}
+
+                be.alumnos_inscripciones = new List<Alumnos_InscripcionBE>();
+                if (entity.alumnos_inscripciones != null)
+                {
+                    foreach (var item in entity.alumnos_inscripciones)
+                    {
+                        be.alumnos_inscripciones.Add(FactoryAlumnos_Inscripcion.GetInstance().CreateBusiness(item));
+                    }
+                }
 				return be;
 			}
 			return be = new CursoBE();

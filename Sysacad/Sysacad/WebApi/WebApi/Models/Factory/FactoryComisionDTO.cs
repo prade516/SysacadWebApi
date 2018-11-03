@@ -25,6 +25,7 @@ namespace WebApi.Models.Factory
 				dto = new ComisionDTO()
 				{
 					id_comision = be.id_comision,
+                    id_plan = be.id_plan,
 					desc_comision = be.desc_comision,
 					anio_especialidad = be.anio_especialidad,
 					estado = be.estado

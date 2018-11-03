@@ -54,7 +54,7 @@ namespace BusinessServices.Services
 			try
 			{
 				Expression<Func<DataModel.cursos, Boolean>> predicate = x =>x.id_comision == Id;
-				var entity = _puente.CursoRepository.GetOneByFilters(predicate, new string[] { "Docente_curso" });
+				var entity = _puente.CursoRepository.GetOneByFilters(predicate, new string[] { "docentes_cursos"});
 			
 				if (entity == null)
 					throw new ApiBusinessException(1012, "No se pudo Dar de baja a ese curso", System.Net.HttpStatusCode.NotFound, "Http");
@@ -85,7 +85,7 @@ namespace BusinessServices.Services
 			try
 			{
 				Expression<Func<DataModel.cursos, Boolean>> predicate = x => x.estado == state;
-				IQueryable<DataModel.cursos> entity = _puente.CursoRepository.GetAllByFilters(predicate, new string[] { "Docente_curso" });
+				IQueryable<DataModel.cursos> entity = _puente.CursoRepository.GetAllByFilters(predicate, new string[] { "comisiones", "docentes_cursos", "alumnos_inscripciones", "materias" });
 				count = entity.Count();
 				var skipAmount = 0;
 
@@ -115,7 +115,7 @@ namespace BusinessServices.Services
 			try
 			{
 				Expression<Func<DataModel.cursos, Boolean>> predicate = x => x.estado == (Int32)StateEnum.Alta && x.id_curso == Id;
-				var entity = _puente.CursoRepository.GetOneByFilters(predicate, new string[] { "Docente_curso" });
+				var entity = _puente.CursoRepository.GetOneByFilters(predicate, new string[] { "comisiones", "docentes_cursos", "alumnos_inscripciones", "materias" });
 				if (entity != null)
 				{
 					return Factory.FactoryCurso.GetInstance().CreateBusiness(entity);

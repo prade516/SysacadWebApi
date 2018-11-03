@@ -1,5 +1,6 @@
 ﻿using BusinessEntities;
 using BusinessServices.Interface;
+using SolveApi.Error;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,50 +27,67 @@ namespace WebApi.Controllers
 			var count = 0;
 			var query = _services.GetAll(state, page, top, orderby, ascending, ref count).AsQueryable();
 			var dtos = from curso in query
-					   select Models.Factory.FactoryCursoDTO.GetInstance().CreateDTO(curso);
-
-			//HybridDictionary myfilters = new HybridDictionary();
-			//myfilters.Add("state", state);
-			//EspecialidadDTOCollection dt = new EspecialidadDTOCollection(dtos.ToList(),
-			//  FilterHelper.GenerateFilter(myfilters, top, orderby, ascending), page, count, top);
-
+					   select Models.Factory.FactoryCursoDTO.GetInstance().CreateDTO(curso);	
 			return dtos.ToList();
 		}
 		public CursoDTO Get(int id)
 		{
 			var query = _services.GetById(id);
 			CursoDTO dtos = Models.Factory.FactoryCursoDTO.GetInstance().CreateDTO(query);
-
-			//HybridDictionary myfilters = new HybridDictionary();
-			//myfilters.Add("state", state);
-			//EspecialidadDTOCollection dt = new EspecialidadDTOCollection(dtos.ToList(),
-			//  FilterHelper.GenerateFilter(myfilters, top, orderby, ascending), page, count, top);
-
 			return dtos;
 		}
 		public async Task<IHttpActionResult> PostCursos(CursoBE curso)
 		{
-			if (!ModelState.IsValid)
-			{
-				return BadRequest(ModelState);
-			}
-			_services.Create(curso);
-			return Created(new Uri(Url.Link("DefaultApi", new { Id = curso })), curso);
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+                _services.Create(curso);
+                return Created(new Uri(Url.Link("DefaultApi", new { Id = curso })), curso);
+            }
+            catch (Exception ex)
+            {
+                var except = (ApiBusinessException)HandlerErrorExceptions.GetInstance().RunCustomExceptions(ex);
+                var resp = BadRequest(Convert.ToString(except.ErrorDescription));
+                return resp;
+            }			
 		}
 		public async Task<IHttpActionResult> PutCursos(Int32 id, CursoBE curso)
 		{
-			if (!ModelState.IsValid)
-			{
-				return BadRequest(ModelState);
-			}
-			curso.id_curso = id;
-			_services.Update(id, curso);
-			return Ok();
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+                curso.id_curso = id;
+                _services.Update(id, curso);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                var except = (ApiBusinessException)HandlerErrorExceptions.GetInstance().RunCustomExceptions(ex);
+                var resp = BadRequest(Convert.ToString(except.ErrorDescription));
+                return resp;
+            }
+			
 		}
 		public async Task<IHttpActionResult> DeleteCursos(int id)
 		{
-			this._services.Delete(id);
-			return Ok();
+            try
+            {
+                this._services.Delete(id);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                var except = (ApiBusinessException)HandlerErrorExceptions.GetInstance().RunCustomExceptions(ex);
+                var resp = BadRequest(Convert.ToString(except.ErrorDescription));
+                return resp;
+            }
+			
 		}
 	}
 }

@@ -54,7 +54,7 @@ namespace BusinessServices.Services
 			try
 			{
 				Expression<Func<DataModel.comisiones, Boolean>> predicate = x => x.estado == (Int32)StateEnum.Alta && x.id_comision == Id;
-				var entity = _puente.ComisionesRepository.GetOneByFilters(predicate, new string[] { "Plancomision" });
+				var entity = _puente.ComisionesRepository.GetOneByFilters(predicate,null);
 				if (entity == null)
 					throw new ApiBusinessException(1012, "No se pudo Dar de baja a la comision", System.Net.HttpStatusCode.NotFound, "Http");
 				
@@ -131,7 +131,7 @@ namespace BusinessServices.Services
 				{
 					var entity = Factory.FactoryComision.GetInstance().CreateEntity(Be);
                     
-					_puente.ComisionesRepository.Update(entity, new List<string>() { "desc_comision", "anio_especialidad" });
+					_puente.ComisionesRepository.Update(entity, new List<string>() { "desc_comision", "anio_especialidad","id_plan" });
 					_puente.Commit();
 
 					flag = true;
