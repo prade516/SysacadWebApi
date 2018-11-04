@@ -22,10 +22,10 @@ namespace WebApi.Controllers
 		}
 		#endregion
 		public IEnumerable<CursoDTO> GetCursos(int state = 1, int page = 1,
-	   int top = 5, string orderby = nameof(CursoDTO.id_curso), string ascending = "asc")
+	   int top = 5, string orderby = nameof(CursoDTO.id_curso), string ascending = "asc", Int32 tipo=3, Int32 idconectado = 0, bool iscripcion = false)
 		{
 			var count = 0;
-			var query = _services.GetAll(state, page, top, orderby, ascending, ref count).AsQueryable();
+			var query = _services.GetAll(state, page, top, orderby, ascending,tipo,idconectado,iscripcion, ref count).AsQueryable();
 			var dtos = from curso in query
 					   select Models.Factory.FactoryCursoDTO.GetInstance().CreateDTO(curso);	
 			return dtos.ToList();

@@ -46,7 +46,7 @@ namespace DeskTopSysacad.Formulario.Single
 				txtcomision.Text = new ComisionProxy().Get(dto.id_comision).desc_comision;
 				txtcalendario.Text = dto.anio_calendario.ToString();
 				txtcupo.Text = dto.cupo.ToString();
-				foreach (var item in dto.Docente_curso)
+				foreach (var item in dto.docentes_cursos)
 				{
 					if (item.cargo==(Int32)EnumDocente.Titula)
 					{
@@ -127,9 +127,14 @@ namespace DeskTopSysacad.Formulario.Single
 		#region Private Method
 		private void InsertCurso()
 		{
-			//var Materia = Myproxy().GetAll("?state=1").Where(x => x.anio_calendario == txtcalendario);
-			//var comision = Myproxy().GetAll("?state=1").Where(x => x.id_comision == dtoaction.id_comision);
-			if (txtdescmateria.Text == String.Empty)
+            int state = 1;
+            int top = 100;
+            string orderby = "id_curso";
+            string ascending = "asc";
+            int page = 1;
+            string filters = "?state=" + state + "&top=" + top + "&orderby=" + orderby + "&ascending=" + ascending + "&page=" + page;
+            var Materia = Myproxy().GetAll(filters).Where(x => x.id_comision== dtoaction.id_comision && x.id_materia == dtoaction.id_materia);
+            if (txtdescmateria.Text == String.Empty)
 			{
 				MessageBox.Show("Debe ingresar la materia", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 				txtdescmateria.Text = String.Empty;
@@ -140,8 +145,14 @@ namespace DeskTopSysacad.Formulario.Single
 				MessageBox.Show("Debe ingresar la comision", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 				txtcomision.Text = String.Empty;
 				txtcomision.Focus();
-			}			
-			else if (txtcalendario.Text == String.Empty)
+			}
+            else if (Materia.Count() > 0)
+            {
+                MessageBox.Show("No se puede repetir un curso con las misma materia y la misma comision", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtcomision.Text = String.Empty;
+                txtcomision.Focus();
+            }
+            else if (txtcalendario.Text == String.Empty)
 			{
 				MessageBox.Show("Debe ingresar el año calendario", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 				txtcalendario.Text = String.Empty;
@@ -193,7 +204,7 @@ namespace DeskTopSysacad.Formulario.Single
 					cupo= Convert.ToInt32(txtcupo.Text),
 					estado = Convert.ToInt32(EstadoPersona.Alta)	
 				};
-				dtoinsert.Docente_curso = new List<Docente_CursoDTO>()
+				dtoinsert.docentes_cursos = new List<Docente_CursoDTO>()
 				{
 					new Docente_CursoDTO()
 					{
@@ -257,7 +268,7 @@ namespace DeskTopSysacad.Formulario.Single
 					cupo = Convert.ToInt32(txtcupo.Text),
 					estado = dtoaction.estado
 				};
-				dtoupdate.Docente_curso = new List<Docente_CursoDTO>()
+				dtoupdate.docentes_cursos = new List<Docente_CursoDTO>()
 				{
 					new Docente_CursoDTO()
 					{

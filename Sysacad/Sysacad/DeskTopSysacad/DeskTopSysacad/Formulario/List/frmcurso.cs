@@ -37,7 +37,8 @@ namespace DeskTopSysacad.Formulario.List
 			string orderby = "id_curso";
 			string ascending = "asc";
 			int page = 1;
-			string filters = "?state=" + state + "&top=" + top + "&orderby=" + orderby + "&ascending=" + ascending + "&page=" + page;
+
+			string filters = "?state=" + state + "&top=" + top + "&orderby=" + orderby + "&ascending=" + ascending + "&page=" + page + "&tipo=1";
 
 			DGVGrilla.DataSource = null;
 			List<CursoDTO> resultado = Myproxy().GetAll(filters);
@@ -45,8 +46,8 @@ namespace DeskTopSysacad.Formulario.List
 						select new
 						{
 							Codigo = curso.id_curso,
-							Materia = new MateriaProxy().Get(curso.id_materia).desc_materia,
-							Comision = new ComisionProxy().Get(curso.id_comision).desc_comision,
+							Materia = curso.materias.desc_materia,
+							Comision = curso.comisiones.desc_comision,
 							Cupo = curso.cupo,
 							Calendario = curso.anio_calendario
 						}).ToList();

@@ -19,10 +19,11 @@ namespace BusinessEntities
         public int anio_calendario { get; set; }
 
         public int cupo { get; set; }
+        public string accion { get; set; }
         #endregion
 
         #region Relation
-      
+
         public ComisionBE comisiones { get; set; }
         public MateriaBE materias { get; set; }
         #endregion

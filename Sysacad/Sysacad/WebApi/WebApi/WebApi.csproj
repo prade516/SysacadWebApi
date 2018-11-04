@@ -309,10 +309,6 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\FilterHelper.cs" />
-    <Compile Include="Models\DTOCollection\Alumnos_InscripcionDTOCollection.cs" />
-    <Compile Include="Models\DTOCollection\CursoDTOCollection.cs" />
-    <Compile Include="Models\DTOCollection\Docente_CursoDTOCollection.cs" />
-    <Compile Include="Models\DTOCollection\PlanMateriaDTOCollection.cs" />
     <Compile Include="Models\DTOs\Alumnos_InscripcionDTO.cs" />
     <Compile Include="Models\DTOs\BaseDto.cs" />
     <Compile Include="Models\DTOs\ComisionDTO.cs" />
@@ -323,10 +319,7 @@
     <Compile Include="Models\DTOs\ModuloDTO.cs" />
     <Compile Include="Models\DTOs\Modulos_UsuarioDTO.cs" />
     <Compile Include="Models\DTOs\PersonaDTO.cs" />
-    <Compile Include="Models\DTOs\PlanComisionDTO.cs" />
     <Compile Include="Models\DTOs\PlanDTO.cs" />
-    <Compile Include="Models\DTOs\PlanEspecialidadTOD.cs" />
-    <Compile Include="Models\DTOs\PlanMateriaDTO.cs" />
     <Compile Include="Models\DTOs\UsuarioDTO.cs" />
     <Compile Include="Models\Factory\FactoryAlumnos_InscripcionDTO.cs" />
     <Compile Include="Models\Factory\FactoryComisionDTO.cs" />
@@ -339,22 +332,6 @@
     <Compile Include="Models\Factory\FactoryPersonaDTO.cs" />
     <Compile Include="Models\Factory\FactoryPlanDTO.cs" />
     <Compile Include="Models\Factory\FactoryUsuarioDTO.cs" />
-    <Compile Include="Models\Hypermedia\Alumnos_InscripcionHypermedia.cs" />
-    <Compile Include="Models\Hypermedia\BaseHypermedia.cs" />
-    <Compile Include="Models\Hypermedia\ComisionHypermedia.cs" />
-    <Compile Include="Models\Hypermedia\CursoHypermedia.cs" />
-    <Compile Include="Models\Hypermedia\Docente_CursoHypermedia.cs" />
-    <Compile Include="Models\Hypermedia\EspecialidadHypermedia.cs" />
-    <Compile Include="Models\Hypermedia\MateriaHypermedia.cs" />
-    <Compile Include="Models\Hypermedia\ModuloHypermedia.cs" />
-    <Compile Include="Models\Hypermedia\ModuloUsuariodHypermedia.cs" />
-    <Compile Include="Models\Hypermedia\PersonaHypermedia.cs" />
-    <Compile Include="Models\Hypermedia\PlanComisionHypermedia.cs" />
-    <Compile Include="Models\Hypermedia\PlanHypermedia.cs" />
-    <Compile Include="Models\Hypermedia\PlanmateriaHypermedia.cs" />
-    <Compile Include="Models\Hypermedia\UsuariodHypermedia.cs" />
-    <Compile Include="Models\Representacion\BaseCollectionRepresentation.cs" />
-    <Compile Include="Models\Representacion\BaseRepresentation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Provider\CustomJwtFormat.cs" />
     <Compile Include="Provider\CustomOAuthProvider.cs" />

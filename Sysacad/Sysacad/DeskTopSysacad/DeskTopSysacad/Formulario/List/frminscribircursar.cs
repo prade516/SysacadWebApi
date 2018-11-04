@@ -64,12 +64,12 @@ namespace DeskTopSysacad.Formulario.List
 							Alumnos_InscripcionDTO dtoeliminar = new Alumnos_InscripcionDTO()
 							{
 								Id = inscripto.First().id_inscripcion
-							};
-							new Alumnos_InscripcionProxy().Delete(dtoeliminar);
+							};                           
+                            ErrorValidacion.Message.GetInstance().FinalMessage(new Alumnos_InscripcionProxy().Delete(dtoeliminar), this, "El alumno ha sido eliminado con exitos.");
 						}
 						else
 						{
-							MessageBox.Show("No se pudo dar de baja a ese inscripcion", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            ErrorValidacion.Message.GetInstance().MensajeError("No se pudo dar de baja a ese inscripcion");
 						}
 					}
 				}
@@ -167,29 +167,20 @@ namespace DeskTopSysacad.Formulario.List
 			string orderby = "id_curso";
 			string ascending = "asc";
 			int page = 1;
-			string filters = "?state=" + state + "&top=" + top + "&orderby=" + orderby + "&ascending=" + ascending + "&page=" + page;
+			string filters = "?state=" + state + "&top=" + top + "&orderby=" + orderby + "&ascending=" + ascending + "&page=" + page + "&tipo="+ Role + "&iscripcion=true";
 
 			DGVGrilla.DataSource = null;
-			List<CursoDTO> list = new List<CursoDTO>();
-			List<MateriaDTO> materia = new List<MateriaDTO>();			
+			List<CursoDTO> list = new List<CursoDTO>();			
 			List<CursoDTO> resultado = new CursoProxy().GetAll(filters);
-			string filtersmateria = "?state=" + state + "&top=" + top + "&orderby=id_materia"+ "&ascending=" + ascending + "&page=" + page;
-			List<MateriaDTO> lista = new MateriaProxy().GetAll(filtersmateria);
-			var Listcursos = resultado.GroupBy(a => a.id_materia).Select(grp => grp.First());
-
-			foreach (var item in Listcursos)
-			{					
-				item.accion = "Inscribir";
-				list.Add(item);	
-			}
-			var listfinal = (from curso in list
-							 select new
-							 {
-								 Codigo = curso.id_curso,
-								 Materia = new MateriaProxy().Get(curso.id_materia).desc_materia,
-								 Acccion = curso.accion
-							 }).ToList();
-			DGVGrilla.DataSource = listfinal;
+     
+            var listfinal = (from curso in resultado
+                             select new
+                             {
+                                 Codigo = curso.id_curso,
+                                 Materia = curso.materias.desc_materia,
+                                 Acccion = curso.accion
+                             }).ToList();
+            DGVGrilla.DataSource = listfinal;
 		}
 		private void Alumno()
 		{
@@ -198,45 +189,19 @@ namespace DeskTopSysacad.Formulario.List
 			string orderby = "id_curso";
 			string ascending = "asc";
 			int page = 1;
-			string filters = "?state=" + state + "&top=" + top + "&orderby=" + orderby + "&ascending=" + ascending + "&page=" + page;
+			string filters = "?state=" + state + "&top=" + top + "&orderby=" + orderby + "&ascending=" + ascending + "&page=" + page + "&tipo=" + Role + "&idconectado=" + IdConectado + "&iscripcion=true";			
 			
-			List<CursoDTO> list = new List<CursoDTO>();
-			List<MateriaDTO> materia = new List<MateriaDTO>();
-			List<CursoDTO> resultado = new CursoProxy().GetAll(filters);
-			string filtersmateria = "?state=" + state + "&top=" + top + "&orderby=id_materia" + "&ascending=" + ascending + "&page=" + page;
-			List<MateriaDTO> lista = new MateriaProxy().GetAll(filtersmateria);
-			var Listcursos = resultado.GroupBy(a => a.id_materia).Select(grp => grp.First());
+			List<CursoDTO> resultado = new CursoProxy().GetAll(filters);          
 
-			List<Alumnos_InscripcionDTO> inscripto = new Alumnos_InscripcionProxy().GetAll("?state=1" + "&top=100");
+            var listfinal = (from curso in resultado
+                             select new
+                             {
+                                 Codigo = curso.id_curso,
+                                 Materia = new MateriaProxy().Get(curso.id_materia).desc_materia,
+                                 Acccion = curso.accion
+                             }).ToList();
 
-			foreach (var item in Listcursos)
-			{
-				if (inscripto.Where(x => x.id_curso == item.id_curso).Count() <= 30)
-				{					
-					var resul = inscripto.Where(t => t.condicion == "Inscripto" && t.id_curso == item.id_curso && t.id_alumno == IdConectado).Count();
-					if (resul > 0)
-					{
-						item.accion = "Eliminar";
-						list.Add(item);
-					}
-					else
-					{
-						item.accion = "Inscribir";
-						list.Add(item);
-					}
-					
-				}
-			}
-
-			var listfinal = (from curso in list
-							 select new
-							 {
-								 Codigo = curso.id_curso,
-								 Materia = new MateriaProxy().Get(curso.id_materia).desc_materia,
-								 Acccion = curso.accion
-							 }).ToList();
-
-			DGVGrilla.DataSource = listfinal;
+            DGVGrilla.DataSource = listfinal;
 		}
 		#endregion
 	}

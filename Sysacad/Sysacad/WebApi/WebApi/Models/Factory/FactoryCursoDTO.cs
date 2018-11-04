@@ -29,17 +29,29 @@ namespace WebApi.Models.Factory
 					id_materia = be.id_materia,
 					anio_calendario = be.anio_calendario,
 					cupo = be.cupo,
-					estado = be.estado
+                    accion = be.accion,
+                    materias = be.materias != null ? FactoryMateriaDTO.GetInstance().CreateDTO(be.materias) : null,
+                    comisiones = be.comisiones != null ? FactoryComisionDTO.GetInstance().CreateDTO(be.comisiones) : null,
+                    estado = be.estado
 				};
-				dto.Docente_curso = new List<Docente_CursoDTO>();
+				dto.docentes_cursos = new List<Docente_CursoDTO>();
 				if (be.docentes_cursos!=null)
 				{
 					foreach (var item in be.docentes_cursos)
 					{
-						dto.Docente_curso.Add(FactoryDocente_CursoDTO.GetInstance().CreateDTO(item));
+						dto.docentes_cursos.Add(FactoryDocente_CursoDTO.GetInstance().CreateDTO(item));
 					}
 				}
-				return dto;
+
+                dto.alumnos_inscripciones = new List<Alumnos_InscripcionDTO>();
+                if (be.alumnos_inscripciones != null)
+                {
+                    foreach (var item in be.alumnos_inscripciones)
+                    {
+                        dto.alumnos_inscripciones.Add(FactoryAlumnos_InscripcionDTO.GetInstance().CreateDTO(item));
+                    }
+                }
+                return dto;
 			}
 			return dto = new CursoDTO();
 		}

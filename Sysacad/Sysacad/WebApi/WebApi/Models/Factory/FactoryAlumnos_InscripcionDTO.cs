@@ -31,15 +31,15 @@ namespace WebApi.Models.Factory
 					nota = be.nota,
 					estado = be.estado
 				};
-				dto.curso = new CursoDTO();
+				dto.cursos = new CursoDTO();
 				if (be.cursos != null)
 				{
-					dto.curso = FactoryCursoDTO.GetInstance().CreateDTO(be.cursos);
+					dto.cursos = FactoryCursoDTO.GetInstance().CreateDTO(be.cursos);
 				}
-				dto.persona = new PersonaDTO();
+				dto.personas = new PersonaDTO();
 				if (be.personas != null)
 				{
-					dto.persona = FactoryPersonaDTO.GetInstance().CreateDTO(be.personas);
+					dto.personas = FactoryPersonaDTO.GetInstance().CreateDTO(be.personas);
 				}
 				return dto;
 			}

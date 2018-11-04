@@ -32,11 +32,11 @@ namespace BusinessServices.Factory
 					nota=entity.nota,
 					estado=entity.estado
 				};
-				be.cursos = new CursoBE();
-				if (entity.cursos!=null)
-				{
-					be.cursos = FactoryCurso.GetInstance().CreateBusiness(entity.cursos);
-				}
+				//be.cursos = new CursoBE();
+				//if (entity.cursos!=null)
+				//{
+				//	be.cursos = FactoryCurso.GetInstance().CreateBusiness(entity.cursos);
+				//}
 				be.personas = new PersonaBE();
 				if (entity.personas!=null)
 				{

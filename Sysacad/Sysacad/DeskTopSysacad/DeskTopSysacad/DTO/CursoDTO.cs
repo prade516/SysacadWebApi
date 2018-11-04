@@ -8,28 +8,32 @@ namespace DeskTopSysacad.DTO
 {
 	public class CursoDTO : BaseSysacadDTO
 	{
-		private Int32 _id_curso;
-		private Int32 _id_materia;
-		private Int32 _id_comision;
-		private Int32 _anio_calendario;
-		private Int32 _cupo;
-		private String _accion;
-		private Int32 _estado;
+        #region Properties
 
-		private MateriaDTO _materia;
-		private ComisionDTO _comision;
-		private List<Docente_CursoDTO> _docente_curso;
+        public int id_curso { get; set; }
 
-		public int id_curso { get => _id_curso; set => _id_curso = value; }
-		public int id_materia { get => _id_materia; set => _id_materia = value; }
-		public int id_comision { get => _id_comision; set => _id_comision = value; }
-		public int anio_calendario { get => _anio_calendario; set => _anio_calendario = value; }
-		public int cupo { get => _cupo; set => _cupo = value; }
-		public int estado { get => _estado; set => _estado = value; }
+        public int id_materia { get; set; }
 
-		public MateriaDTO materia { get => _materia; set => _materia = value; }
-		public ComisionDTO comision { get => _comision; set => _comision = value; }
-		public List<Docente_CursoDTO> Docente_curso { get => _docente_curso; set => _docente_curso = value; }
-		public string accion { get => _accion; set => _accion = value; }
-	}
+        public int id_comision { get; set; }
+
+        public int anio_calendario { get; set; }
+
+        public int cupo { get; set; }
+
+        public string accion { get; set; }
+        public string materia { get; set; }
+        #endregion
+
+        #region Relation
+
+        public ComisionDTO comisiones { get; set; }
+        public MateriaDTO materias { get; set; }
+        #endregion
+
+        #region List
+        public List<Alumnos_InscripcionDTO> alumnos_inscripciones { get; set; }
+        public List<Docente_CursoDTO> docentes_cursos { get; set; }
+        #endregion
+
+    }
 }

@@ -112,10 +112,10 @@ namespace DeskTopSysacad.Formulario.List
 
 
 			List<Alumnos_InscripcionDTO> inscripto = new Alumnos_InscripcionProxy().GetAll("?state=1" + "&top=100");
-			var docente = resultado.Where(t => t.Docente_curso.Any(xt => xt.id_docente == iddocente));
+			var docente = resultado.Where(t => t.docentes_cursos.Any(xt => xt.id_docente == iddocente));
 			foreach (var item in resultado)
 			{
-				foreach (var item2 in item.Docente_curso)
+				foreach (var item2 in item.docentes_cursos)
 				{
 					var resul = inscripto.Where(t => t.condicion == "Inscripto" && t.id_curso == item2.id_cursos);
 					if (resul.Count() > 0)
@@ -158,10 +158,10 @@ namespace DeskTopSysacad.Formulario.List
 
 
 			List<Alumnos_InscripcionDTO> inscripto = new Alumnos_InscripcionProxy().GetAll("?state=1" + "&top=100");
-			var docente = resultado.Where(t => t.Docente_curso.Any(xt => xt.id_docente == iddocente));
+			var docente = resultado.Where(t => t.docentes_cursos.Any(xt => xt.id_docente == iddocente));
 			foreach (var item in resultado)
 			{
-				foreach (var item2 in item.Docente_curso)
+				foreach (var item2 in item.docentes_cursos)
 				{
 					var resul = inscripto.Where(t => t.condicion == "Inscripto" && t.id_curso == item2.id_cursos);
 					if (resul.Count() > 0)
